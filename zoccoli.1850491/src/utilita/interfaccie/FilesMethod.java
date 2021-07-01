@@ -1,4 +1,4 @@
-package utilita;
+package utilita.interfaccie;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -7,35 +7,37 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
- * Classe di soli metodi statici, utili per la lettura e scrittura su File
+ * Interfaccia di soli metodi statici, utili per la lettura e scrittura su File
  * @author gioele
  */
-public class FilesMethod {
+public interface FilesMethod {
 	
 	//METODI DI LETTURA DA FILE
 	/**
 	 * Metodo che prende una stringa in input che corrisponde al percorso del file, lo trasforma in un oggetto {@link Path} e chiama il metodo lettura
 	 * che prende in input un path.
-	 * Letto il file restituisce un Optional contenente l'array di stringhe del file
+	 * Letto il file restituisce un Optional contenente la lista di stringhe del file
 	 * @param fileName = percorso del file
 	 * @return {@link Optional}
 	 */
-	public static Optional<String[]> lettura(String fileName) {
+	public static Optional<ArrayList<String>> lettura(String fileName) {
 		return lettura(Paths.get(fileName));
 	}
 	
 	/**
-	 * Metodo che prende in input un Path di un file e restitusce un Optional contenente l'array di String del file
+	 * Metodo che prende in input un Path di un file e restitusce un Optional contenente la lista di String del file
 	 * @param fileName = {@link Path}
 	 * @return {@link Optional}
 	 */
-	public static Optional<String[]> lettura(Path fileName) {
+	public static Optional<ArrayList<String>> lettura(Path fileName) {
 		
 		try(BufferedReader br = Files.newBufferedReader(fileName)){
-			return Optional.of(br.lines().toArray(String[]::new));
+			return Optional.of(br.lines().collect(Collectors.toCollection(ArrayList::new)));
 		}
 		catch(IOException e) {
 			e.printStackTrace();
@@ -55,6 +57,14 @@ public class FilesMethod {
 		salva(fileName, StandardOpenOption.WRITE, daSalvare);
 	}
 	
+	/**
+	 * Overloading del metodo 'salva' che apre di default in WRITE il file in Scrittura
+	 * @param fileName = Path
+	 * @param daSalvare = Array di String
+	 */
+	public static void salva(Path fileName, String... daSalvare) {
+		salva(fileName, StandardOpenOption.WRITE, daSalvare);
+	}
 	
 	/**
 	 * Overloading del metodo 'salva' che trasforma lo String del file ricevuto e lo trasforma in {@link Path}

@@ -1,4 +1,4 @@
-package utilita;
+package utilita.tokenizzatori;
 
 public class AnalizzaFile {
 

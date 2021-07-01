@@ -1,6 +1,5 @@
 package entita;
 
-import interfaccieEdEccezioni.SalvataggioOggetto;
 
 /**
  * Classe: <pre>Da fare</pre> farà qualcosa sicuro che dovò decidere <p>  
