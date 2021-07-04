@@ -4,7 +4,7 @@ package entita;
 /**
  * Classe: <pre>Da fare</pre> farà qualcosa sicuro che dovò decidere <p>  
  * @author gioele
- * @see #SalvataggioOggetto
+ * @see #SalvaStato
  * @see #mondo 
  */
 public class Mondo {

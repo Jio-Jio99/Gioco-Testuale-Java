@@ -9,7 +9,7 @@ import java.nio.file.Path;
  * l'oggetto nel file con {@link Path} passato come parametro
  * @author gioele
  */
-public interface SalvataggioOggetto extends Serializable{
+public interface SalvaStato extends Serializable{
 	/**
 	 * Metodo che salva l'oggetto nel file
 	 * @param fileName {@link Path}
