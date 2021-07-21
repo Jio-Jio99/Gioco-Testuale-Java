@@ -2,6 +2,7 @@ package entita.stanza;
 
 import java.util.Set;
 
+import entita.link.Link;
 import entita.oggetto.Oggetto;
 import entita.personaggio.Personaggio;
 
@@ -20,7 +21,7 @@ public class Stanza {
 	private final String DESCRIZIONE_STANZA;
 	private Set<Oggetto> oggetti;
 	private Set<Personaggio> personaggi;
-//	private Set<Link> accessi;
+	private Set<Link> accessi;
 	
 	public Stanza(String nome, String descrizioneStanza) {
 		this.NOME = nome;

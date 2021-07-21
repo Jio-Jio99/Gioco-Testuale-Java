@@ -4,9 +4,9 @@ package utilita.eccezioni;
  * Classe astratta Eccezione per gestire evenutali errori dal caricamento del Mondo dal file .game.
  * Tipologia di eccezione gestite dalle classi concrete:
  * <pre>
- * - Errori di formattazione file;
- * - Errori di collegamenti nel file,
- * - Errore del posizionamento di un entità del gioco (un stesso oggetto in più posti)
+ * - Errori di formattazione file, {@link FormattazioneFileException}
+ * - Errori di collegamenti nel file, {@link LinkFileException}
+ * - Errore del posizionamento di un entità del gioco (un stesso oggetto in più posti), {@link PosizioneFileException}
  * </pre>
  * @author gioele
  *
