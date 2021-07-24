@@ -53,6 +53,6 @@ public class Stanza {
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(NOME, DESCRIZIONE_STANZA, oggetti, personaggi, accessi);
+		return Objects.hash(NOME, DESCRIZIONE_STANZA);
 	}
 }

@@ -1,15 +1,27 @@
 package entita.personaggio;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import entita.oggetto.Oggetto;
 
+/**
+ * Ogni personaggio ha un nome. Un personaggio che dispone di un inventario di oggetti. Il
+personaggio dispone di una serie di metodi che gli permettono di interagire con la stanza in
+cui si trova e con gli altri personaggi presenti nella stanza.
+ * @author gioele
+ *
+ */
 public class Personaggio {
+	protected final String NOME;
+	private Set<Oggetto> inventario;
 
-	
-	
-	
-	
-	
+	public Personaggio(String nome, Set<Oggetto> inventario) {
+		this.NOME = nome;
+		this.inventario = new HashSet<>();
+		this.inventario.addAll(inventario);
+	}
 	
 	
 	
@@ -25,12 +37,13 @@ public class Personaggio {
 		
 		Personaggio s = (Personaggio) o;
 		
-		return true; //da fare
+		return NOME.equals(s.NOME) &&
+			   inventario.equals(s.inventario);
 	}
 	
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(0);
+		return Objects.hash(NOME);
 	}
 }
