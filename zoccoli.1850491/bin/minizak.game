@@ -4,16 +4,16 @@ start	stanza di Zak
 
 [room:stanza di Zak]
 description	la camera da letto di Zak
-objects	scrivania, vite
+objects	scrivania,chiave, vite
 links	E:salone di Zak,S:botola
 
 [room:salone di Zak]
 description	il salone di Zak
 objects	salvadanaio
 characters	bob
-links	O:stanza di Zak,S:porta ingresso,N:porta ripostiglio
+links	O:stanza di Zak,E:porta ingresso,N:porta ripostiglio
 
-[room:ripostiglio]
+[room: ripostiglio]
 description	ripostiglio nella casa di Zak
 objects	martello,cacciavite
 links	S:porta ripostiglio
@@ -21,7 +21,7 @@ links	S:porta ripostiglio
 [room:fuori casa]
 description	spazio fuori casa di Zak dove si trova la fermata del bus
 objects	pozzo
-links	N:porta ingresso,O:navetta
+links	N:salone di Zak,O:navetta
 
 [room:negozietto]
 description	negozio di ferramenta
@@ -31,8 +31,8 @@ links	E:navetta
 
 [room:stanza segreta]
 description	stanza super segreta sotto la casa di Zak	
-objects	armadio luccicante
-links	N:botola,O:grande porta,E:teletrasporto
+objects	armadio luccicante, teletrasporto
+links	O:grande porta,E:teletrasporto
 
 [room:stanza cobalto]
 description	stanza che contiene una gemma blu 
@@ -41,16 +41,17 @@ links	E:grande porta
 
 [room:piccola stanza misteriosa]
 description	una piccola stanza vuota e misteriosa
-objects	camino
+objects	camino,gemma rossa
 links	N:stanza rosso fuoco,O:teletrasporto
 
 [room:stanza rosso fuoco]
 description	stanza di colore rosso fuoco
-objects	cassetto
+objects	secchio
 links	E:porta rossa,S:piccola stanza misteriosa
 
 [room:stanza blu verde]
 description	stanza in cui ci sono tre porte e uno strano gatto
+objects	cassetto
 characters	neo
 links	N:porta blu,S:porta verde,O:porta rossa
 
@@ -64,13 +65,13 @@ links	S:porta blu
 description	stanza in cui si trova finalmente il grande tesoro
 objects	tesoro
 characters	guardiano del tesoro
-links	N:porta verde
+links	N:stanza blu verde 
 
 
 [links]
 botola	Botola	stanza di Zak	stanza segreta
 porta ingresso	Porta	salone di Zak	fuori casa
-porta ripostiglio	Porta	salone di Zak	ripostiglio
+porta ripostiglio	salone di Zak	ripostiglio
 navetta	Bus	fuori casa	negozietto
 teletrasporto	Teletrasporto	stanza segreta	piccola stanza misteriosa
 grande porta	Porta	stanza segreta	stanza cobalto
@@ -83,27 +84,26 @@ scrivania	Scrivania	chiave
 vite	Vite	botola
 chiave	Chiave	porta ripostiglio
 salvadanaio	Salvadanaio	soldi
-soldi	Soldi
+soldi	Soldi	20 euro
 martello	Martello
 cacciavite	Cacciavite
 tronchesi	Tronchesi	armadio luccicante
 armadio luccicante	Armadio	chiave teletrasporto
-chiave teletrasporto	Chiave	teletrasporto
 pozzo	Pozzo
-secchio	Secchio // inizialmente vuoto
+secchio	Secchio	// inizialmente vuoto
 gemma blu	Chiave	porta blu
 gemma rossa	Chiave	porta rossa
 gemma verde	Chiave	porta verde
 grande chiave	Chiave	grande porta
-camino	Camino	gemma rossa // inizialmente acceso
+camino	Camino	// inizialmente acceso
 cassetto	Cassetto	grande chiave
 tesoro	Tesoro
 
 [characters]
 bob	Cane
-Tom	Venditore	secchio	tronchesi
+Tom	Personaggio
 neo	Gatto
-guardiano del tesoro	Guardiano	tesoro	neo
+guardiano del tesoro	Personaggio
 
 [player]
 Zak	Giocatore
