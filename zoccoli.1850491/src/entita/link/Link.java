@@ -11,20 +11,17 @@ import entita.stanza.Stanza;
  * Classe astratta dei link di collegamento delle varie stanze, contente:
  * <pre>
  *  - Nome
- *  - {@link TipoLink}
  *  - un set delle due stanze collegate da questo link
  * 
  * @author gioele
  */
 public abstract class Link {
 	private final String NOME;
-	private final TipoLink TIPO;
+	private boolean aperto;
 	private Set<Stanza> collegamento;
 	
-	
-	public Link(String nome, TipoLink tipo, Stanza stanza1, Stanza stanza2) {
+	public Link(String nome, Stanza stanza1, Stanza stanza2) {
 		this.NOME = nome;
-		this.TIPO = tipo;
 		collegamento = new HashSet<>();
 		collegamento.addAll(Arrays.asList(stanza1, stanza2));
 	}
@@ -32,7 +29,7 @@ public abstract class Link {
 	
 	/**
 	 * Metodo che restituisce il Set delle stanze
-	 * @return {@link Set<{@linkStanza}>}
+	 * @return {@link Set<{@link Stanza}>}
 	 */
 	public Set<Stanza> getStanze() {
 		return collegamento;
@@ -58,11 +55,11 @@ public abstract class Link {
 	}
 	
 	/**
-	 * Metodo che restituisce il {@link TipoLink}
+	 * Metodo che ritorna se il collegamento è aperto o meno
 	 * @return {@link TipoLink}
 	 */
-	public TipoLink getTipo() {
-		return TIPO;
+	public boolean getStato() {
+		return aperto;
 	}
 	
 	/**
@@ -84,13 +81,12 @@ public abstract class Link {
 		Link s = (Link) o;
 		
 		return 	NOME.equals(s.NOME) &&
-				TIPO.equals(s.TIPO) &&
 				collegamento.equals(s.collegamento);
 	}
 	
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(NOME, TIPO, collegamento);
+		return Objects.hash(NOME, collegamento);
 	}
 }
