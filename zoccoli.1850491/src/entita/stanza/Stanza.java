@@ -3,6 +3,7 @@ package entita.stanza;
 import java.util.Objects;
 import java.util.Set;
 
+import entita.Entita;
 import entita.link.Link;
 import entita.oggetto.Oggetto;
 import entita.personaggio.Personaggio;
@@ -17,15 +18,14 @@ import entita.personaggio.Personaggio;
  * </pre>
  * @author gioele
  */
-public class Stanza {
-	private final String NOME;
+public class Stanza extends Entita{
 	private final String DESCRIZIONE_STANZA;
 	private Set<Oggetto> oggetti;
 	private Set<Personaggio> personaggi;
 	private Set<Link> accessi;
 	
 	public Stanza(String nome, String descrizioneStanza) {
-		this.NOME = nome;
+		super(nome);
 		this.DESCRIZIONE_STANZA = descrizioneStanza;
 	}
 	

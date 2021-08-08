@@ -2,9 +2,13 @@ package entita.oggetto;
 
 import java.util.Objects;
 
-abstract public class Oggetto {
+import entita.Entita;
 
-	
+public abstract class Oggetto extends Entita{
+
+	public Oggetto(String nome) {
+		super(nome);
+	}
 	
 	
 	

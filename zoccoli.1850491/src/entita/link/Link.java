@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import entita.Entita;
 import entita.stanza.Stanza;
 
 /**
@@ -15,13 +16,12 @@ import entita.stanza.Stanza;
  * 
  * @author gioele
  */
-public abstract class Link {
-	private final String NOME;
+public abstract class Link extends Entita{
 	private boolean aperto;
 	private Set<Stanza> collegamento;
 	
 	public Link(String nome, Stanza stanza1, Stanza stanza2) {
-		this.NOME = nome;
+		super(nome);
 		collegamento = new HashSet<>();
 		collegamento.addAll(Arrays.asList(stanza1, stanza2));
 	}

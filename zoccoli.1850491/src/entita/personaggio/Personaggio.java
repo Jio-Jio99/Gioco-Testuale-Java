@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import entita.Entita;
 import entita.oggetto.Oggetto;
 
 /**
@@ -13,12 +14,11 @@ cui si trova e con gli altri personaggi presenti nella stanza.
  * @author gioele
  *
  */
-public class Personaggio {
-	protected final String NOME;
+public abstract class Personaggio extends Entita {
 	private Set<Oggetto> inventario;
 
 	public Personaggio(String nome, Set<Oggetto> inventario) {
-		this.NOME = nome;
+		super(nome);
 		this.inventario = new HashSet<>();
 		this.inventario.addAll(inventario);
 	}
