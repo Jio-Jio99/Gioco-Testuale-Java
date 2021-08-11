@@ -1,5 +1,7 @@
 package utilita.interfaccie;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,27 +19,22 @@ import entita.stanza.Stanza;
 import utilita.eccezioni.GiocatoreException;
 
 public interface AnalizzaFile {
-//	final Map<String, Function<List<String>, Entita>> dizionario_funzioni = Stream.of(new Object[][]
-//			{
-//		
-//				{"room", x -> creaStanza(x)},
-//				{"objects", x -> creaOggetto(x)},
-//				{"links", x -> creaLink(x)},
-//				{"player", x -> creaGiocatore(x.get(0))},
-//				{"characters", x -> creaPersonaggio(x)}
-//	
-//			}).collect(Collectors.toMap(k -> (String) k[0], v -> (Function<List<String>, Entita>) v[1]));
+	String PATH_OGGETTI = "";
+	String PATH_PERSONAGGIO = "";
+	String PATH_LINK = "";
+	String PATH_STANZA = "";
 	
 
+	Map<String, Function<List<String>, Entita>> dizionario_funzioni =
+												Map.of(	"room", AnalizzaFile::creaStanza,
+														"objects", AnalizzaFile::creaOggetto,
+														"links", AnalizzaFile::creaLink ,
+														"player", x -> creaGiocatore(x.get(0)),
+														"characters", AnalizzaFile::creaPersonaggio);
+			
 	public static void analizzaLista(List<String> lista) {
-		Map<String, Function<List<String>, Entita>> dizionario_creazione = new HashMap<>();
-					dizionario_creazione.put("room", x -> creaStanza(x));
-					dizionario_creazione.put("objects", x -> creaOggetto(x));
-					dizionario_creazione.put("links", x -> creaLink(x));
-					dizionario_creazione.put("player", x -> creaGiocatore(x.get(0)));
-					dizionario_creazione.put("characters", x -> creaPersonaggio(x));
+
 	}
-	
 	
 	private static Oggetto creaOggetto(List<String> testo) {
 
