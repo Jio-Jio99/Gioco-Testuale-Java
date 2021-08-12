@@ -4,7 +4,6 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -18,6 +17,7 @@ import utilita.eccezioni.EntitaException;
 import utilita.eccezioni.FormattazioneFileException;
 import utilita.eccezioni.GiocatoreException;
 import utilita.eccezioni.MondoFileException;
+import utilita.interfaccie.funzionali.CreationFunction;
 
 public interface AnalizzaFile {
 	String PATH_OGGETTI = "entita.oggetto.concreto.";
@@ -25,11 +25,11 @@ public interface AnalizzaFile {
 	String PATH_LINK = "entita.link.concreto.";
 	String PATH_STANZA = "entita.stanza.";
 
-	Map<String, Function<List<String>, Entita>> dizionario_funzioni =
+	Map<String, CreationFunction> dizionario_funzioni =
 												Map.of(	"room", AnalizzaFile::creaStanza,
 														"objects", AnalizzaFile::creaOggetto,
 														"links", AnalizzaFile::creaLink ,
-														"player", x -> creaGiocatore(x.get(0)),
+														"player", AnalizzaFile::creaGiocatore,
 														"characters", AnalizzaFile::creaPersonaggio,
 														"world", AnalizzaFile::creaMondo);
 	
@@ -59,56 +59,69 @@ public interface AnalizzaFile {
 		String[] entita = new String[2];
 		
 		for(List<String> parte : partizione) {
-			if(!parte.get(0).endsWith("]")) throw new FormattazioneFileException();
+			if(!parte.get(0).endsWith("]")) throw new FormattazioneFileException("/nel pattern non rispettato");
 
 			tipologia = parte.get(0).replace("]", "");
 			entita = tipologia.split(":",2);
 			
 			if(!dizionario_funzioni.containsKey(entita[0])) throw new EntitaException();
 			
-			dizionario_funzioni.get(entita[0]).apply(parte.subList(1, parte.size()));
+			dizionario_funzioni.get(entita[0]).apply(parte);
 		}
 			
 		
 		
 	}
 	
-	private static Oggetto creaOggetto(List<String> testo) {
+	private static Oggetto creaOggetto(List<String> pattern) throws MondoFileException {
 
 		
 		return null;
 	}
 
-	private static Oggetto creaMondo(List<String> testo) {
+	private static Oggetto creaMondo(List<String> pattern) throws MondoFileException {
 
 		
 		return null;
 	}
 	
-	private static Stanza creaStanza(List<String> testo) {
+	private static Stanza creaStanza(List<String> pattern) throws MondoFileException {
 		
 		
 		return null;
 	}
 	
-	private static Giocatore creaGiocatore(String nome) {
+	private static Giocatore creaGiocatore(List<String> pattern) throws MondoFileException {
+		
+		if(pattern.size() > 2 || pattern.size() <= 0) throw new FormattazioneFileException("player");
+		
+		String nomeGiocatore = pattern.get(1).split("\\s")[0];
 		
 		try {
-			return  Giocatore.getInstance(nome);
+			return  Giocatore.getInstance(nomeGiocatore);
 		} catch (GiocatoreException e) {
 			e.printStackTrace();
 		}
+
 		return null;
 	}
 	
-	private static Personaggio creaPersonaggio(List<String> testo) {
+	private static Personaggio creaPersonaggio(List<String> pattern) throws MondoFileException {
 
 		
 		return null;
 	}
 	
 	
-	private static Link creaLink(List<String> testo) {
+	private static Link creaLink(List<String> pattern) throws MondoFileException {
+		
+		
+		return null;
+	}
+	
+	private static Entita creazione(String pathEntita) {
+		
+		
 		
 		
 		return null;

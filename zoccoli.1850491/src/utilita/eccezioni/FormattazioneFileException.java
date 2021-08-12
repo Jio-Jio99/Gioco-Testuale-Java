@@ -7,10 +7,10 @@ package utilita.eccezioni;
  *
  */
 public class FormattazioneFileException extends MondoFileException{
-	public static final String ERRORE = "Attenzione! È presente un errore di formattazione nel file per il caricamento del mondo";
+	public static final String ERRORE = "Attenzione! È presente un errore di formattazione nel file per il caricamento del mondo nella parte in ";
 	
 	
-	public FormattazioneFileException() {
-		super(ERRORE);
+	public FormattazioneFileException(String errore) {
+		super(ERRORE + errore);
 	}
 }
