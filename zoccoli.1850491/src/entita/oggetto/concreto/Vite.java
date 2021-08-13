@@ -1,5 +1,11 @@
 package entita.oggetto.concreto;
 
-public class Vite {
+import entita.oggetto.Oggetto;
+
+public class Vite extends Oggetto{
+
+	public Vite(String nome) {
+		super(nome);
+	}
 
 }

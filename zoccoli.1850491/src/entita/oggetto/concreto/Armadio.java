@@ -1,5 +1,11 @@
 package entita.oggetto.concreto;
 
-public class Armadio {
+import entita.oggetto.Oggetto;
+
+public class Armadio extends Oggetto {
+
+	public Armadio(String nome) {
+		super(nome);
+	}
 
 }

@@ -1,5 +1,11 @@
 package entita.oggetto.concreto;
 
-public class Soldi {
+import entita.oggetto.Oggetto;
+
+public class Soldi extends Oggetto {
+
+	public Soldi(String nome) {
+		super(nome);
+	}
 
 }

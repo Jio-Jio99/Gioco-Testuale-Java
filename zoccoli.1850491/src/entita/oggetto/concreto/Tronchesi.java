@@ -1,5 +1,11 @@
 package entita.oggetto.concreto;
 
-public class Tronchesi {
+import entita.oggetto.Oggetto;
+
+public class Tronchesi extends Oggetto{
+
+	public Tronchesi(String nome) {
+		super(nome);
+	}
 
 }

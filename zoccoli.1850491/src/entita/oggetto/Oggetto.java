@@ -5,7 +5,7 @@ import java.util.Objects;
 import entita.Entita;
 
 public abstract class Oggetto extends Entita{
-
+	
 	public Oggetto(String nome) {
 		super(nome);
 	}
@@ -26,12 +26,12 @@ public abstract class Oggetto extends Entita{
 		
 		Oggetto s = (Oggetto) o;
 		
-		return true; //da fare
+		return NOME.equals(s.NOME);
 	}
 	
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(0);
+		return Objects.hash(NOME);
 	}
 }

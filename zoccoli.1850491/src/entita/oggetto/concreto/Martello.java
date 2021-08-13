@@ -1,5 +1,11 @@
 package entita.oggetto.concreto;
 
-public class Martello {
+import entita.oggetto.Oggetto;
+
+public class Martello extends Oggetto{
+
+	public Martello(String nome) {
+		super(nome);
+	}
 
 }

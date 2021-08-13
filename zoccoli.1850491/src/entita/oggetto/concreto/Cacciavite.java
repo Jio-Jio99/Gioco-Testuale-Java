@@ -1,5 +1,11 @@
 package entita.oggetto.concreto;
 
-public class Cacciavite {
+import entita.oggetto.Oggetto;
+
+public class Cacciavite extends Oggetto{
+
+	public Cacciavite(String nome) {
+		super(nome);
+	}
 
 }

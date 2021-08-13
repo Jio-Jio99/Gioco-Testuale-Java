@@ -1,5 +1,11 @@
 package entita.oggetto.concreto;
 
-public class Chiave {
+import entita.oggetto.Oggetto;
 
+public class Chiave extends Oggetto{
+
+	public Chiave(String nome) {
+		super(nome);
+	}
+	
 }

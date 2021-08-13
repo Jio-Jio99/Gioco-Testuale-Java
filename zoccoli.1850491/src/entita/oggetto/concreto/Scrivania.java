@@ -1,5 +1,11 @@
 package entita.oggetto.concreto;
 
-public class Scrivania {
+import entita.oggetto.Oggetto;
+
+public class Scrivania extends Oggetto{
+
+	public Scrivania(String nome) {
+		super(nome);
+	}
 
 }

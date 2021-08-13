@@ -1,5 +1,11 @@
 package entita.oggetto.concreto;
 
-public class Pozzo {
+import entita.oggetto.Oggetto;
+
+public class Pozzo extends Oggetto{
+
+	public Pozzo(String nome) {
+		super(nome);
+	}
 
 }
