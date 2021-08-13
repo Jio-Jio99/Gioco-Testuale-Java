@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import entita.Entita;
+import entita.oggetto.Oggetto;
 import entita.stanza.Stanza;
 
 /**
@@ -17,7 +18,7 @@ import entita.stanza.Stanza;
  * @author gioele
  */
 public abstract class Link extends Entita{
-	private boolean aperto;
+	protected boolean aperto;
 	private Set<Stanza> collegamento;
 	
 	public Link(String nome, Stanza stanza1, Stanza stanza2) {
@@ -61,6 +62,8 @@ public abstract class Link extends Entita{
 	public boolean getStato() {
 		return aperto;
 	}
+	
+	public abstract void setStato(Oggetto oggetto);
 	
 	/**
 	 * Metodo che ritorna il nome del link

@@ -1,8 +1,7 @@
-package entita.personaggio.concreto;
+package entita.personaggio;
 
 import java.util.HashSet;
 
-import entita.personaggio.Personaggio;
 import utilita.eccezioni.GiocatoreException;
 import utilita.eccezioni.GiocatoreNomeDiversoException;
 import utilita.eccezioni.GiocatoreNonInstanziatoException;

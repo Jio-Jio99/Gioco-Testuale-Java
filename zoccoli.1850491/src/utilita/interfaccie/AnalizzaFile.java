@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 import entita.Entita;
 import entita.link.Link;
 import entita.oggetto.Oggetto;
+import entita.personaggio.Giocatore;
 import entita.personaggio.Personaggio;
-import entita.personaggio.concreto.Giocatore;
 import entita.stanza.Stanza;
 import utilita.eccezioni.EntitaException;
 import utilita.eccezioni.FormattazioneFileException;
@@ -21,7 +21,7 @@ import utilita.interfaccie.funzionali.CreationFunction;
 
 public interface AnalizzaFile {
 	String PATH_OGGETTI = "entita.oggetto.concreto.";
-	String PATH_PERSONAGGIO = "entita.personaggio.concreto.";
+	String PATH_PERSONAGGIO = "entita.personaggio.";
 	String PATH_LINK = "entita.link.concreto.";
 	String PATH_STANZA = "entita.stanza.";
 
