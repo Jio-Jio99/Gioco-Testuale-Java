@@ -1,5 +1,9 @@
 package utilita.eccezioni;
 
+import utilita.eccezioni.concreto.FormattazioneFileException;
+import utilita.eccezioni.concreto.LinkFileException;
+import utilita.eccezioni.concreto.PosizioneFileException;
+
 /**
  * Classe astratta Eccezione per gestire evenutali errori dal caricamento del Mondo dal file .game.
  * Tipologia di eccezione gestite dalle classi concrete:

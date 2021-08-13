@@ -14,7 +14,7 @@ cui si trova e con gli altri personaggi presenti nella stanza.
  * @author gioele
  *
  */
-public abstract class Personaggio extends Entita {
+public class Personaggio extends Entita {
 	private Set<Oggetto> inventario;
 
 	public Personaggio(String nome, Set<Oggetto> inventario) {

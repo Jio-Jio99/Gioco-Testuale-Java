@@ -13,10 +13,10 @@ import entita.oggetto.Oggetto;
 import entita.personaggio.Giocatore;
 import entita.personaggio.Personaggio;
 import entita.stanza.Stanza;
-import utilita.eccezioni.EntitaException;
-import utilita.eccezioni.FormattazioneFileException;
 import utilita.eccezioni.GiocatoreException;
 import utilita.eccezioni.MondoFileException;
+import utilita.eccezioni.concreto.EntitaException;
+import utilita.eccezioni.concreto.FormattazioneFileException;
 import utilita.interfaccie.funzionali.CreationFunction;
 
 public interface AnalizzaFile {

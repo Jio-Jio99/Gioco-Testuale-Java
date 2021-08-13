@@ -3,8 +3,8 @@ package entita.personaggio;
 import java.util.HashSet;
 
 import utilita.eccezioni.GiocatoreException;
-import utilita.eccezioni.GiocatoreNomeDiversoException;
-import utilita.eccezioni.GiocatoreNonInstanziatoException;
+import utilita.eccezioni.concreto.GiocatoreNomeDiversoException;
+import utilita.eccezioni.concreto.GiocatoreNonInstanziatoException;
 
 public class Giocatore extends Personaggio{
 	private static Giocatore instanza;

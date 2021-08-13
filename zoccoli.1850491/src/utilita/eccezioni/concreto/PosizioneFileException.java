@@ -1,4 +1,6 @@
-package utilita.eccezioni;
+package utilita.eccezioni.concreto;
+
+import utilita.eccezioni.MondoFileException;
 
 /**
  * Eccezione lanciata quando è presente un errore di posizione di un entita nel file di caricamento del Mondo <p>
