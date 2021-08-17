@@ -28,10 +28,10 @@ vai S // entra nella stanza segreta, per ora non posso fare niente
 guarda
 vai N // sei di nuovo nella stanza di Zak
 vai E // salone
-vai E // me lo impedira': la porta e' chiusa
+vai S // me lo impedira': la porta e' chiusa
 guarda
 apri porta ingresso
-vai E // siamo fuori casa
+vai S // siamo fuori casa
 guarda 
 prendi navetta // oppure vai O
 guarda	// si trova nel negozietto, c'e' Tom, ci sono un secchio e tronchesi in esposizione
@@ -40,8 +40,9 @@ prendi tronchesi // devi pagarle
 dai soldi a Tom // Tom ci da' il secchio d'acqua e le tronchesi
 prendi navetta // oppure vai E
 usa secchio su pozzo // si riempie d'acqua
-vai O // rientri in casa, nel salone
+vai N // rientri in casa, nel salone
 vai O // sono di nuovo nella stanza di Zak
+vai S // entra nella stanza segreta
 apri armadio luccicante con tronchesi
 guarda armadio luccicante // l'armadio contiene la chiave di un teletrasporto
 prendi chiave teletrasporto
@@ -51,7 +52,7 @@ guarda
 entra nella stanza rosso fuoco
 guarda
 apri porta rossa // non si apre
-entra nella stanza misteriosa
+entra nella piccola stanza misteriosa
 prendi gemma rossa // non e' possibile prenderla perché è nel camino acceso
 usa secchio su camino // spegne il fuoco nel camino
 prendi gemma rossa // ora e' possibile prenderla
@@ -59,6 +60,8 @@ entra nella stanza rosso fuoco
 apri cassetto
 guarda cassetto // il cassetto contiene una grande chiave
 prendi grande chiave da cassetto
+vai S // torna nella piccola stanza misteriosa
+vai O // torna nella stanza segreta
 apri grande porta con grande chiave
 entra in grande porta
 guarda
@@ -66,6 +69,7 @@ prendi gemma blu
 vai E
 usa teletrasporto
 vai N
+apri porta rossa con gemma rossa
 vai E
 apri porta blu con gemma blu
 entra in porta blu
