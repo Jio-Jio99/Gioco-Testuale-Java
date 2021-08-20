@@ -16,12 +16,15 @@ public class Mondo {
 	private final String NOME_MONDO;
 	private final String DESCRIZIONE_TESTUALE;
 	private Set<Stanza> stanze;
+	private Stanza start;
 	
-	public Mondo(String nomeMondo, String descrizioneTestuale) {
+	public Mondo(String nomeMondo, String descrizioneTestuale, Set<Stanza> stanze, Stanza start) {
 		NOME_MONDO = nomeMondo;
 		DESCRIZIONE_TESTUALE = descrizioneTestuale;
-		stanze = new HashSet<>();
+		this.stanze = stanze;
+		this.start = start;
 	}
+	
 	
 	
 	/**

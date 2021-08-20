@@ -6,4 +6,13 @@ public abstract class Entita {
 	public Entita(String nome) {
 		this.NOME = nome;
 	}
+	
+	public String getNome() {
+		return NOME;
+	}
+	
+	@Override 
+	public String toString() {
+		return getNome();
+	}
 }
