@@ -1,5 +1,7 @@
 package entita;
 
+import java.util.Set;
+
 public abstract class Entita {
 	protected final String NOME;
 	

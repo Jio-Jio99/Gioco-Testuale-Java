@@ -3,17 +3,13 @@ package entita.oggetto;
 import java.util.Objects;
 
 import entita.Entita;
+import utilita.interfaccie.Inventario;
 
-public abstract class Oggetto extends Entita{
+public abstract class Oggetto extends Entita implements Inventario{
 	
 	public Oggetto(String nome) {
 		super(nome);
 	}
-	
-	
-	
-	
-	
 	
 	
 	@Override

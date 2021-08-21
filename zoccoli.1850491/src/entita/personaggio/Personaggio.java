@@ -6,6 +6,7 @@ import java.util.Set;
 
 import entita.Entita;
 import entita.oggetto.Oggetto;
+import utilita.interfaccie.Inventario;
 
 /**
  * Ogni personaggio ha un nome. Un personaggio che dispone di un inventario di oggetti. Il
@@ -15,9 +16,9 @@ cui si trova e con gli altri personaggi presenti nella stanza.
  *
  */
 public class Personaggio extends Entita {
-	private Set<Oggetto> inventario;
+	private Set<Inventario> inventario;
 
-	public Personaggio(String nome, Set<Oggetto> inventario) {
+	public Personaggio(String nome, Set<Inventario> inventario) {
 		super(nome);
 		this.inventario = new HashSet<>();
 		this.inventario.addAll(inventario);
@@ -46,4 +47,5 @@ public class Personaggio extends Entita {
 	public int hashCode() {
 		return Objects.hash(NOME);
 	}
+
 }

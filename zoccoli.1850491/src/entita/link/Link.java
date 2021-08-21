@@ -1,7 +1,9 @@
 package entita.link;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -19,11 +21,11 @@ import entita.stanza.Stanza;
  */
 public abstract class Link extends Entita{
 	protected boolean aperto;
-	private Set<Stanza> collegamento;
+	private List<Stanza> collegamento;
 	
 	public Link(String nome, Stanza stanza1, Stanza stanza2) {
 		super(nome);
-		collegamento = new HashSet<>();
+		collegamento = new ArrayList<>();
 		collegamento.addAll(Arrays.asList(stanza1, stanza2));
 	}
 	
@@ -32,12 +34,12 @@ public abstract class Link extends Entita{
 	 * Metodo che restituisce il Set delle stanze
 	 * @return {@link Set<{@link Stanza}>}
 	 */
-	public Set<Stanza> getStanze() {
+	public List<Stanza> getStanze() {
 		return collegamento;
 	}
 	
 	/**
-	 * Metodo che verifica se la stanza è effettivamente collegata da questo link
+	 * Metodo che verifica se la stanza ï¿½ effettivamente collegata da questo link
 	 * @param stanza
 	 * @return boolean
 	 */
@@ -46,7 +48,7 @@ public abstract class Link extends Entita{
 	}
 	
 	/**
-	 * Metodo per verificare se il link è tra la stanza1 e la stanza2
+	 * Metodo per verificare se il link ï¿½ tra la stanza1 e la stanza2
 	 * @param stanza1
 	 * @param stanza2
 	 * @return boolean
@@ -56,7 +58,7 @@ public abstract class Link extends Entita{
 	}
 	
 	/**
-	 * Metodo che ritorna se il collegamento è aperto o meno
+	 * Metodo che ritorna se il collegamento ï¿½ aperto o meno
 	 * @return {@link TipoLink}
 	 */
 	public boolean getStato() {
