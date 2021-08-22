@@ -3,7 +3,7 @@ package entita.oggetto;
 import java.util.Objects;
 
 import entita.Entita;
-import utilita.interfaccie.Inventario;
+import utilita.interfaccie.tag.Inventario;
 
 public abstract class Oggetto extends Entita implements Inventario{
 	

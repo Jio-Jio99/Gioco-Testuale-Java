@@ -1,4 +1,4 @@
-package utilita.interfaccie;
+package utilita.interfaccie.tag;
 
 import java.io.Serializable;
 import java.nio.file.Path;

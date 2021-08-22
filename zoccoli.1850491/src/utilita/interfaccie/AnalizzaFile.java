@@ -76,8 +76,7 @@ public abstract class AnalizzaFile {
 	 * 1°- Chiave = tipo di entita; Set = entita specifica
 	 */
 	private static Map<String, Set<? extends Entita>> dizionario_entita;
-	private static Set<Stanza> stanze;
-	
+
 	public static void main(String[] args) throws MondoFileException {
 		analizzaLista(FilesMethod.lettura(Paths.get("resourse", "minizak.game")).orElse(null));
 	}
@@ -90,6 +89,8 @@ public abstract class AnalizzaFile {
 	 */
 	public static Mondo analizzaLista(List<String> lista) throws MondoFileException {
 		dizionario_entita = new HashMap<>();
+		Set<Stanza> stanze;
+
 		
 		/**
 		 * Unisco tutte le linee splittate sul carattere \n durante la lettura del file, perch� le divider� tramite il carattere [
@@ -143,8 +144,10 @@ public abstract class AnalizzaFile {
 		String description = mondoString.get(1).split(TAB)[1];
 		String start = mondoString.get(2).split(TAB)[1];
 		stanze = creaStanze(stanzeString);
-
-		Stanza stanzaStart = stanze.stream().filter(x -> x.getNome().equals(start)).findAny().orElseThrow(EntitaException::new);
+		
+		dizionario_entita.put(STANZA, stanze);
+			
+		Stanza stanzaStart = (Stanza) convertitore(start);
 		
 		return new Mondo(nomeMondo, description, stanze, stanzaStart);
 	}
@@ -178,8 +181,10 @@ public abstract class AnalizzaFile {
 		Set<Personaggio> pers = new HashSet<>();
 		List<String> supporto = new ArrayList<>();
 		
+		Personaggio p = null;
 		for(String personaggio : pattern) {
 			supporto = Arrays.asList(personaggio.split(TAB));
+			p = new Personaggio(null, null);
  			System.out.println(supporto);
 		}
 		
@@ -202,17 +207,17 @@ public abstract class AnalizzaFile {
 	//METODI DI SUPPORTO
 	private static Entita creazione(String pathEntita) {
 		
-		
 		return null;
 	}
 	
-	public static <T extends Entita> Set<T> convertitore(Supplier<Set<T>> tipologia, Set<String> setString, String entita) throws EntitaException {
-		Set<T> setEntita = tipologia.get();
-		
-		for(String entitaString : setString) 
-			setEntita.add((T) dizionario_entita.get(entita).stream().filter(x -> x.getNome().equals(entitaString)).findAny().orElseThrow(EntitaException::new));
-		
-		return setEntita;
+	/**
+	 * Metodo che preso in input una stringa, corrispondente al nome di un entita, ne restituisce l'instanza creata, altrimenti se non trovata, lancia l'eccezione di non esistenza
+	 * @param nomeEntita = String
+	 * @return {@link Entita}
+	 * @throws EntitaException
+	 */
+	public static Entita convertitore(String nomeEntita) throws EntitaException {
+		return dizionario_entita.values().stream().flatMap(Set::stream).filter(x -> x.getNome().equals(nomeEntita)).findAny().orElseThrow(EntitaException::new);
 	}
 }
 

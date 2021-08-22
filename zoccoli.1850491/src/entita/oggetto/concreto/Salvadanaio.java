@@ -1,8 +1,8 @@
 package entita.oggetto.concreto;
 
-import entita.oggetto.Oggetto;
+import entita.oggetto.Contenitore;
 
-public class Salvadanaio extends Oggetto {
+public class Salvadanaio extends Contenitore {
 
 	public Salvadanaio(String nome) {
 		super(nome);

@@ -1,11 +1,12 @@
 package entita.oggetto.concreto;
 
-import entita.oggetto.Oggetto;
+import entita.oggetto.Contenitore;
 
-public class Armadio extends Oggetto {
+public class Armadio extends Contenitore {
 
 	public Armadio(String nome) {
 		super(nome);
 	}
+
 
 }

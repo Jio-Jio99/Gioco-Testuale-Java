@@ -4,7 +4,7 @@ import entita.link.Link;
 import entita.oggetto.Oggetto;
 import entita.stanza.Stanza;
 
-public class Teletrasporto extends Link {
+public class Teletrasporto extends Link{
 
 	public Teletrasporto(String nome, Stanza stanza1, Stanza stanza2) {
 		super(nome, stanza1, stanza2);

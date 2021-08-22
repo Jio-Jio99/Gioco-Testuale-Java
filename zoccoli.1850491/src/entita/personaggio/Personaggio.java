@@ -6,7 +6,7 @@ import java.util.Set;
 
 import entita.Entita;
 import entita.oggetto.Oggetto;
-import utilita.interfaccie.Inventario;
+import utilita.interfaccie.tag.Inventario;
 
 /**
  * Ogni personaggio ha un nome. Un personaggio che dispone di un inventario di oggetti. Il
@@ -23,10 +23,6 @@ public class Personaggio extends Entita {
 		this.inventario = new HashSet<>();
 		this.inventario.addAll(inventario);
 	}
-	
-	
-	
-	
 	
 	@Override
 	public boolean equals(Object o) {
