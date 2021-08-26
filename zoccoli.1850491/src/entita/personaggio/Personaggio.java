@@ -6,7 +6,10 @@ import java.util.Set;
 
 import entita.Entita;
 import entita.oggetto.Oggetto;
+import utilita.eccezioni.concreto.EntitaException;
+import utilita.interfaccie.AnalizzaFile;
 import utilita.interfaccie.tag.Inventario;
+import utilita.interfaccie.tag.Observer;
 
 /**
  * Ogni personaggio ha un nome. Un personaggio che dispone di un inventario di oggetti. Il
@@ -15,13 +18,14 @@ cui si trova e con gli altri personaggi presenti nella stanza.
  * @author gioele
  *
  */
-public class Personaggio extends Entita {
+public class Personaggio extends Entita implements Observer{
 	private Set<Inventario> inventario;
+	private Set<String> inventarioString;
 
-	public Personaggio(String nome, Set<Inventario> inventario) {
+	public Personaggio(String nome, Set<String> inventarioString) {
 		super(nome);
 		this.inventario = new HashSet<>();
-		this.inventario.addAll(inventario);
+		this.inventarioString = inventarioString;
 	}
 	
 	@Override
@@ -42,6 +46,12 @@ public class Personaggio extends Entita {
 	@Override
 	public int hashCode() {
 		return Objects.hash(NOME);
+	}
+
+	@Override
+	public void converti() throws EntitaException {
+		for(String s : inventarioString)
+			inventario.add((Inventario) AnalizzaFile.convertitore(s));
 	}
 
 }

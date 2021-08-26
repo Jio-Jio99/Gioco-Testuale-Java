@@ -6,14 +6,9 @@ import entita.stanza.Stanza;
 
 public class Teletrasporto extends Link{
 
-	public Teletrasporto(String nome, Stanza stanza1, Stanza stanza2) {
+	public Teletrasporto(String nome, String stanza1, String stanza2) {
 		super(nome, stanza1, stanza2);
 	}
 
-	@Override
-	public void setStato(Oggetto oggetto) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

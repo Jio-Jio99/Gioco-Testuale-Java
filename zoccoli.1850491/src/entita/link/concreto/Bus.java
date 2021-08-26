@@ -6,11 +6,10 @@ import entita.stanza.Stanza;
 
 public class Bus extends Link{
 
-	public Bus(String nome, Stanza stanza1, Stanza stanza2) {
+	public Bus(String nome, String stanza1, String stanza2) {
 		super(nome, stanza1, stanza2);
 	}
 	
-	@Override
 	public void setStato(Oggetto oggetto) {
 
 	}

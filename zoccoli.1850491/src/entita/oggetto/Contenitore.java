@@ -1,17 +1,22 @@
 package entita.oggetto;
 
-import java.util.HashSet;
-import java.util.Set;
 
+import utilita.eccezioni.concreto.EntitaException;
+import utilita.interfaccie.AnalizzaFile;
 import utilita.interfaccie.tag.Inventario;
 import utilita.interfaccie.tag.Observer;
 
-public abstract class Contenitore extends Oggetto{
-	protected Set<Inventario> inventario;
+public abstract class Contenitore extends Oggetto implements Observer{
+	protected Inventario inventario;
+	private String inventarioString;
 	
-	public Contenitore(String nome) {
+	public Contenitore(String nome, String nomeOggetto) {
 		super(nome);
-		inventario = new HashSet<>();
+		inventarioString = nomeOggetto;
 	}
 	
+	@Override
+	public void converti() throws EntitaException{
+		inventario = (Inventario) AnalizzaFile.convertitore(inventarioString);
+	}
 }

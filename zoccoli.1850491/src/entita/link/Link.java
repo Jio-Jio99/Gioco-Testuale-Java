@@ -10,6 +10,10 @@ import java.util.Set;
 import entita.Entita;
 import entita.oggetto.Oggetto;
 import entita.stanza.Stanza;
+import utilita.eccezioni.concreto.EntitaException;
+import utilita.interfaccie.AnalizzaFile;
+import utilita.interfaccie.tag.Observable;
+import utilita.interfaccie.tag.Observer;
 
 /**
  * Classe astratta dei link di collegamento delle varie stanze, contente:
@@ -19,14 +23,16 @@ import entita.stanza.Stanza;
  * 
  * @author gioele
  */
-public abstract class Link extends Entita{
+public abstract class Link extends Entita implements Observer{
 	protected boolean aperto;
 	private List<Stanza> collegamento;
+	private List<String> nomeStanze;
 	
-	public Link(String nome, Stanza stanza1, Stanza stanza2) {
+	public Link(String nome, String stanza1, String stanza2) {
 		super(nome);
 		collegamento = new ArrayList<>();
-		collegamento.addAll(Arrays.asList(stanza1, stanza2));
+		nomeStanze = new ArrayList<>();
+		nomeStanze.addAll(Arrays.asList(stanza1, stanza2));
 	}
 	
 	
@@ -65,8 +71,6 @@ public abstract class Link extends Entita{
 		return aperto;
 	}
 	
-	public abstract void setStato(Oggetto oggetto);
-	
 	/**
 	 * Metodo che ritorna il nome del link
 	 * @return String
@@ -93,5 +97,12 @@ public abstract class Link extends Entita{
 	@Override
 	public int hashCode() {
 		return Objects.hash(NOME, collegamento);
+	}
+	
+	
+	@Override
+	public void converti() throws EntitaException {
+		for(String stanza : nomeStanze)
+			collegamento.add((Stanza) AnalizzaFile.convertitore(stanza));
 	}
 }

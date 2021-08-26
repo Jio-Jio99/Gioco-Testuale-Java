@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 
@@ -26,12 +25,19 @@ import utilita.eccezioni.MondoFileException;
 import utilita.eccezioni.concreto.EntitaException;
 import utilita.eccezioni.concreto.FormattazioneFileException;
 import utilita.interfaccie.funzionali.CreationFunction;
+import utilita.interfaccie.tag.Observable;
+import utilita.interfaccie.tag.Observer;
 
 /**
+ * Classe astratta che analizza e crea il {@link Mondo}, controllando se i pattern nel file vengono rispettati
  * @author gioele
  *
  */
-public abstract class AnalizzaFile {
+public abstract class AnalizzaFile implements Observable{
+	public static void main(String[] args) throws MondoFileException {
+		analizzaLista(FilesMethod.lettura(Paths.get("resourse", "minizak.game")).orElse(null));
+	}
+	
 	/**
 	 * Directory delle entita' concrete
 	 */
@@ -77,19 +83,21 @@ public abstract class AnalizzaFile {
 	 */
 	private static Map<String, Set<? extends Entita>> dizionario_entita;
 
-	public static void main(String[] args) throws MondoFileException {
-		analizzaLista(FilesMethod.lettura(Paths.get("resourse", "minizak.game")).orElse(null));
-	}
+	/**
+	 * Lista degli osservatori
+	 */
+	private static List<Observer> osservatori = new ArrayList<>();;
+
 	
 	/**
-	 * 
-	 * @param lista
-	 * @return
-	 * @throws MondoFileException
+	 * Metodo che analizza il file del gioco e crea il mondo
+	 * @param lista = Lista di String, dalla lettura del file
+	 * @return {@link Mondo}
+	 * @throws MondoFileException = Eccezioni nella lettura
 	 */
 	public static Mondo analizzaLista(List<String> lista) throws MondoFileException {
 		dizionario_entita = new HashMap<>();
-		Set<Stanza> stanze;
+		Set<Stanza> stanze = new HashSet<>();
 
 		
 		/**
@@ -107,7 +115,6 @@ public abstract class AnalizzaFile {
 												 	  .collect(Collectors.toList());
 		
 		String nome = "";
-		Set<List<String>> stanzeString = new HashSet<>();
 		List<String> mondoString = new ArrayList<>();
 		
 		for(List<String> parte : partizione) {
@@ -124,13 +131,12 @@ public abstract class AnalizzaFile {
 			
 			if(nome.contains(PLAYER)) {
 				if(parte.size() != LINEE_PLAYER) throw new ErroreCaricamentoException("Attenzione! Sono presenti più giocatori!");
-				
 				Giocatore player = creaGiocatore(parte);
 				continue;
 			}
 			
 			if(nome.contains(STANZA)) {
-				stanzeString.add(parte);
+				stanze.add(creaStanza(parte));
 				continue;
 			}
 			
@@ -143,18 +149,21 @@ public abstract class AnalizzaFile {
 		String nomeMondo = mondoString.get(0).split(P, 2)[1]; 
 		String description = mondoString.get(1).split(TAB)[1];
 		String start = mondoString.get(2).split(TAB)[1];
-		stanze = creaStanze(stanzeString);
 		
 		dizionario_entita.put(STANZA, stanze);
 			
 		Stanza stanzaStart = (Stanza) convertitore(start);
+		
+		//NOTIFICA, converto le stringhe in oggetto
+		for(Observer oss : osservatori)
+			oss.converti();
 		
 		return new Mondo(nomeMondo, description, stanze, stanzaStart);
 	}
 	
 	
 	//METODI DI CREAZIONE STANZA E GIOCATORE
-	private static Set<Stanza> creaStanze(Set<List<String>> pattern) throws MondoFileException {
+	private static Stanza creaStanza(List<String> pattern) throws MondoFileException {
 		
 		return null;
 	}
@@ -177,16 +186,8 @@ public abstract class AnalizzaFile {
 
 	
 	//METODI DEL DIZIONARIO PER LA CREAZIONE DI INSIEMI DI ENTITA
-	private static Set<Personaggio> creaPersonaggio(List<String> pattern) throws MondoFileException {
-		Set<Personaggio> pers = new HashSet<>();
-		List<String> supporto = new ArrayList<>();
-		
-		Personaggio p = null;
-		for(String personaggio : pattern) {
-			supporto = Arrays.asList(personaggio.split(TAB));
-			p = new Personaggio(null, null);
- 			System.out.println(supporto);
-		}
+	private static Set<? extends Personaggio> creaPersonaggio(List<String> pattern) throws MondoFileException {
+		Set<? extends Personaggio> pers = new HashSet<>();
 		
 		return pers;
 	}
@@ -205,11 +206,10 @@ public abstract class AnalizzaFile {
 	}
 
 	//METODI DI SUPPORTO
-	private static Entita creazione(String pathEntita) {
-		
-		return null;
-	}
-	
+//	private static Class<? extends Entita> creazione(String pathEntita) throws EntitaException{
+//		return null;
+//	}
+
 	/**
 	 * Metodo che preso in input una stringa, corrispondente al nome di un entita, ne restituisce l'instanza creata, altrimenti se non trovata, lancia l'eccezione di non esistenza
 	 * @param nomeEntita = String
@@ -218,6 +218,21 @@ public abstract class AnalizzaFile {
 	 */
 	public static Entita convertitore(String nomeEntita) throws EntitaException {
 		return dizionario_entita.values().stream().flatMap(Set::stream).filter(x -> x.getNome().equals(nomeEntita)).findAny().orElseThrow(EntitaException::new);
+	}
+	
+	
+	//METODI PER GESTIRE GLI OBSERVER
+	public void registraObserver(Observer o) {
+		osservatori.add(o);		
+	}
+	
+	public void cancellaObserver(Observer o) {
+		osservatori.remove(o);
+	}
+	
+	public void notifica() throws EntitaException {
+		for(Observer oss : osservatori)
+			oss.converti();
 	}
 }
 
