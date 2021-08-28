@@ -168,7 +168,7 @@ public abstract class AnalizzaFile implements Observable{
 	
 	//METODI DI CREAZIONE STANZA E GIOCATORE
 	private static Stanza creaStanza(List<String> pattern) throws MondoFileException {
-		
+		//TODO
 		return null;
 	}
 	
@@ -192,20 +192,19 @@ public abstract class AnalizzaFile implements Observable{
 	//METODI DEL DIZIONARIO PER LA CREAZIONE DI INSIEMI DI ENTITA
 	private static Set<? extends Personaggio> creaPersonaggio(List<String> pattern) throws MondoFileException {
 		Set<? extends Personaggio> pers = new HashSet<>();
-		
+		//TODO
 		return pers;
 	}
 
 	private static Set<Oggetto> creaOggetto(List<String> pattern) throws MondoFileException {
 		Set<Oggetto> oggetti = new HashSet<>();
-		
-		
+		//TODO
 		return oggetti;
 	}
 	
 	private static Set<Link> creaLink(List<String> pattern) throws MondoFileException {
 		Set<Link> links = new HashSet<>();
-		
+		//TODO
 		return links;
 	}
 
@@ -219,6 +218,13 @@ public abstract class AnalizzaFile implements Observable{
 	public static Entita convertitore(String nomeEntita) throws EntitaException {
 		return dizionario_entita.values().stream().flatMap(Set::stream).filter(x -> x.getNome().equals(nomeEntita)).findAny().orElseThrow(EntitaException::new);
 	}
+	
+	
+	//FUNZIONI DI CONTROLLO
+	public static void controllo() throws MondoFileException{
+		
+	}
+	
 	
 	
 	//METODI PER GESTIRE GLI OBSERVER**

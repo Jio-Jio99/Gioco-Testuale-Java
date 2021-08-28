@@ -25,7 +25,7 @@ import utilita.interfaccie.tag.Observer;
  */
 public abstract class Link extends Entita implements Observer{
 	protected boolean aperto;
-	private List<Stanza> collegamento;
+	protected List<Stanza> collegamento;
 	private List<String> nomeStanze;
 	
 	public Link(String nome, String stanza1, String stanza2) {
