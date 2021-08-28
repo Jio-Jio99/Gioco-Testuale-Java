@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -89,7 +90,7 @@ public abstract class AnalizzaFile implements Observable{
 	/**
 	 * Lista degli osservatori
 	 */
-	private static List<Observer> osservatori = new ArrayList<>();;
+	private static List<Observer> osservatori = new LinkedList<>();;
 
 	
 	/**
@@ -209,10 +210,6 @@ public abstract class AnalizzaFile implements Observable{
 	}
 
 	//METODI DI SUPPORTO
-//	private static Class<? extends Entita> creazione(String pathEntita) throws EntitaException{
-//		return null;
-//	}
-
 	/**
 	 * Metodo che preso in input una stringa, corrispondente al nome di un entita, ne restituisce l'instanza creata, altrimenti se non trovata, lancia l'eccezione di non esistenza
 	 * @param nomeEntita = String
@@ -224,15 +221,24 @@ public abstract class AnalizzaFile implements Observable{
 	}
 	
 	
-	//METODI PER GESTIRE GLI OBSERVER
+	//METODI PER GESTIRE GLI OBSERVER**
+	/**
+	 * Metodo che registra gli obsever dalla lista
+	 */
 	public void registraObserver(Observer o) {
 		osservatori.add(o);		
 	}
 	
+	/**
+	 * Metodo che cancella gli observer dalla lista
+	 */
 	public void cancellaObserver(Observer o) {
 		osservatori.remove(o);
 	}
 	
+	/**
+	 * Metodo che notifica cambiamenti a tutti gli observer
+	 */
 	public void notifica() throws EntitaException {
 		for(Observer oss : osservatori)
 			oss.converti();

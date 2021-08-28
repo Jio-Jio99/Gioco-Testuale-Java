@@ -9,6 +9,7 @@ import java.util.Set;
 
 import entita.Entita;
 import entita.link.Link;
+import entita.link.concreto.Libero;
 import entita.oggetto.Oggetto;
 import entita.personaggio.Personaggio;
 import utilita.PuntoCardinale;
@@ -52,14 +53,24 @@ public class Stanza extends Entita implements Observer{
 	
 	@Override
 	public void converti() throws EntitaException {
+		
 		for(String s : oggettiString) 
 			oggetti.add((Oggetto) AnalizzaFile.convertitore(s));
 		
 		for(String s : personaggiString)
 			personaggi.add((Personaggio) AnalizzaFile.convertitore(s));
 		
-		for(Map.Entry<PuntoCardinale, String> m : accessiString.entrySet()) 
-			accessi.put(m.getKey(), (Link) AnalizzaFile.convertitore(m.getValue()));
+		Link link = null;
+		for(Map.Entry<PuntoCardinale, String> m : accessiString.entrySet()) {
+			try {
+				link = (Link) AnalizzaFile.convertitore(m.getValue());
+			}
+			catch(ClassCastException e) {
+				link = new Libero(getNome(), m.getValue());
+			}
+			
+			accessi.put(m.getKey(), link);
+		}
 	}
 	
 	
