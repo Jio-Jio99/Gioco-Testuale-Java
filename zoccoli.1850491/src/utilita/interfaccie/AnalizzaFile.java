@@ -3,6 +3,7 @@ package utilita.interfaccie;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -76,7 +77,7 @@ public abstract class AnalizzaFile implements Observable{
 	/**
 	 * Dizionario delle funzioni per la creazione dell'entita
 	 */
-	public static final Map<String, CreationFunction> dizionario_funzioni = Map.of(LINKS, AnalizzaFile::creaLink,
+	public static final Map<String, CreationFunction> dizionario_funzioni = Map.of(	LINKS, AnalizzaFile::creaLink,
 																					CHARACTERS, AnalizzaFile::creaPersonaggio,
 																					OBJECTS, AnalizzaFile::creaOggetto);																	
 

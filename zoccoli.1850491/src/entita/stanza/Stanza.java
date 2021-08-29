@@ -61,14 +61,16 @@ public class Stanza extends Entita implements Observer{
 			personaggi.add((Personaggio) AnalizzaFile.convertitore(s));
 		
 		Link link = null;
+		Stanza stanza = null;
 		for(Map.Entry<PuntoCardinale, String> m : accessiString.entrySet()) {
 			try {
 				link = (Link) AnalizzaFile.convertitore(m.getValue());
 			}
 			catch(ClassCastException e) {
-				link = new Libero(getNome(), m.getValue());
+				stanza = (Stanza) AnalizzaFile.convertitore(m.getValue());
+				link = new Libero(this, stanza);
 			}
-			
+
 			accessi.put(m.getKey(), link);
 		}
 	}
