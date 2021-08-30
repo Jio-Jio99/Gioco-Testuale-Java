@@ -46,10 +46,10 @@ public abstract class AnalizzaFile implements Observable{
 	/**
 	 * Directory delle entita' concrete
 	 */
-	public static final String 	PATH_OGGETTI = "entita.oggetto.concreto.",
-								PATH_PERSONAGGIO = "entita.personaggio.",
-								PATH_LINK = "entita.link.concreto.",
-								PATH_STANZA = "entita.stanza.";
+	public static final String 	PATH_OGGETTI 		= "entita.oggetto.concreto.",
+								PATH_PERSONAGGIO 	= "entita.personaggio.",
+								PATH_LINK 			= "entita.link.concreto.",
+								PATH_STANZA			= "entita.stanza.";
 	
 	/**
 	 * Tipo di entita
@@ -64,10 +64,10 @@ public abstract class AnalizzaFile implements Observable{
 	/**
 	 * Tag del file
 	 */
-	public static final String 	DESCR = "description",
-								TAB = "\\t",
-								P = ":",
-								S = "//";
+	public static final String 	DESCR 	= "description",
+								TAB 	= "\\t",
+								P 		= ":",
+								S 		= "//";
 	
 	/**
 	 * Linee nel file di entita specifiche, per rispettare il pattern
@@ -75,7 +75,8 @@ public abstract class AnalizzaFile implements Observable{
 	public static final int LINEE_PLAYER = 2,
 							LINEE_MONDO = 3,
 							PARTI_LINK = 4,
-							PARTI_OG = 3;
+							PARTI_OG = 3,
+							MIN_LINEE_STANZA = 3;
 	/**
 	 * Posizione del nome della classe
 	 */
@@ -127,6 +128,7 @@ public abstract class AnalizzaFile implements Observable{
 		
 		String nome = "";
 		List<String> mondoString = new ArrayList<>();
+		Stanza stanza = null;
 		
 		for(List<String> parte : partizione) {
 			if(!parte.get(0).endsWith("]")) throw new FormattazioneFileException("file, pattern non rispettato");
@@ -147,7 +149,9 @@ public abstract class AnalizzaFile implements Observable{
 			}
 			
 			if(nome.contains(STANZA)) {
-				stanze.add(creaStanza(parte));
+				stanza = creaStanza(parte);
+				osservatori.add(stanza);
+				stanze.add(stanza);
 				continue;
 			}
 			
@@ -181,7 +185,7 @@ public abstract class AnalizzaFile implements Observable{
 		String nomeGiocatore = pattern.get(1).split("\\s")[0];
 		
 		try {
-			return  Giocatore.getInstance(nomeGiocatore);
+			return  Giocatore.getInstance(nomeGiocatore.strip());
 		} catch (GiocatoreException e) {
 			e.printStackTrace();
 		}
@@ -192,32 +196,36 @@ public abstract class AnalizzaFile implements Observable{
 	//METODI DEL DIZIONARIO PER LA CREAZIONE DI INSIEMI DI ENTITA
 	private static Set<? extends Personaggio> creaPersonaggio(List<String> pattern) throws MondoFileException {
 		Set<? extends Personaggio> pers = new HashSet<>();
-		//TODO
+		
+		for(String per : pattern) {
+			
+		}
+		
+		
 		return pers;
 	}
 	
 	private static Stanza creaStanza(List<String> pattern) throws MondoFileException {
 		String nome = pattern.get(0).split(P)[1].replace("]", "");
+		String descrizione = pattern.get(1).split(TAB,2)[1];
 		
-		Map<String, String> opzioniStanza = pattern.subList(1, pattern.size()).stream().map(x -> x.split(TAB,2)).filter(x -> x.length == 2).collect(Collectors.toMap(x -> x[0], x -> x[1]));
+		if(pattern.size() < MIN_LINEE_STANZA) throw new FormattazioneFileException("stanza " + nome);
+		
+		Map<String, String> opzioniStanza = pattern.subList(2, pattern.size()).stream().map(x -> x.split(TAB,2)).filter(x -> x.length == 2).collect(Collectors.toMap(x -> x[0], x -> x[1]));
 
-		StanzaBuilder stanza = StanzaBuilder.creaStanzaBuilder(nome, opzioniStanza.get(DESCR));
+		StanzaBuilder stanza = StanzaBuilder.creaStanzaBuilder(nome.strip(), descrizione);
 
-		String valore = "";
 		for(Map.Entry<String, String> m : opzioniStanza.entrySet()) {
-			valore = m.getValue();
-			
 			try {
+				
 				Method metodo = StanzaBuilder.class.getMethod(m.getKey(), String.class);
-				metodo.invoke(stanza, valore);
-			} catch (NoSuchMethodException | SecurityException e) {
-				e.printStackTrace();
+				metodo.invoke(stanza, m.getValue());
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			
 		}
-		System.out.println(stanza.build());
 		return stanza.build();
 	}
 	
@@ -244,7 +252,7 @@ public abstract class AnalizzaFile implements Observable{
 
 				classe = Class.forName(classeString);
 				constr = classe.getConstructor(String.class);
-				og = (Oggetto) constr.newInstance(parti.get(0));
+				og = (Oggetto) constr.newInstance(parti.get(0).strip());
 
 				if(og instanceof Contenitore && parti.size() == PARTI_OG) {
 					con = (Contenitore) og;
@@ -252,8 +260,7 @@ public abstract class AnalizzaFile implements Observable{
 				}
 			}
 			catch(ClassNotFoundException e) {
-				System.out.println(classeString);
-				throw new EntitaException();
+				throw new EntitaException(classeString);
 			} 
 			catch(Exception e) {
 				e.printStackTrace();
@@ -284,10 +291,10 @@ public abstract class AnalizzaFile implements Observable{
 			try {
 				classe = Class.forName(PATH_LINK + parti.get(P_CLASSE));
 				constr = classe.getConstructor(String.class, String.class, String.class);
-				l = (Link) constr.newInstance(parti.get(0), parti.get(2), parti.get(3));
+				l = (Link) constr.newInstance(parti.get(0).strip(), parti.get(2), parti.get(3));
 			}
 			catch(ClassNotFoundException e) {
-				throw new EntitaException();
+				throw new EntitaException(parti.get(P_CLASSE));
 			} 
 			catch(Exception e) {
 				e.printStackTrace();
@@ -307,7 +314,7 @@ public abstract class AnalizzaFile implements Observable{
 	 * @throws EntitaException
 	 */
 	public static Entita convertitore(String nomeEntita) throws EntitaException {
-		return dizionario_entita.values().stream().flatMap(Set::stream).filter(x -> x.getNome().equals(nomeEntita)).findAny().orElseThrow(EntitaException::new);
+		return dizionario_entita.values().stream().flatMap(Set::stream).filter(x -> x.getNome().equals(nomeEntita.strip())).findAny().orElseThrow(() -> new EntitaException(nomeEntita));
 	}
 	
 	//FUNZIONI DI CONTROLLO

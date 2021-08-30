@@ -60,7 +60,7 @@ public class StanzaBuilder {
 	 * @param personaggi
 	 * @return StanzaBuilder
 	 */
-	public StanzaBuilder charachters(String personaggi) {
+	public StanzaBuilder characters(String personaggi) {
 
 		personaggiString = inserimento(personaggi);
 		
