@@ -3,6 +3,7 @@ package entita.link.concreto;
 import entita.link.Link;
 import entita.oggetto.Oggetto;
 import entita.stanza.Stanza;
+import utilita.interfaccie.tag.Observable;
 
 public class Porta extends Link {
 

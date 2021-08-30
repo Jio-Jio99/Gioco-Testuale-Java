@@ -10,9 +10,12 @@ public abstract class Contenitore extends Oggetto implements Observer{
 	protected Inventario inventario;
 	private String inventarioString;
 	
-	public Contenitore(String nome, String nomeOggetto) {
+	public Contenitore(String nome) {
 		super(nome);
-		inventarioString = nomeOggetto;
+	}
+	
+	public void setInventario(String inventario) {
+		inventarioString = inventario;
 	}
 	
 	@Override

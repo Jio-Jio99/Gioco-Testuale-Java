@@ -1,12 +1,13 @@
 package utilita.interfaccie;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -17,18 +18,17 @@ import java.util.stream.Collectors;
 import entita.Entita;
 import entita.Mondo;
 import entita.link.Link;
+import entita.oggetto.Contenitore;
 import entita.oggetto.Oggetto;
 import entita.personaggio.Giocatore;
 import entita.personaggio.Personaggio;
 import entita.stanza.Stanza;
 import entita.stanza.StanzaBuilder;
-import utilita.PuntoCardinale;
 import utilita.eccezioni.ErroreCaricamentoException;
 import utilita.eccezioni.GiocatoreException;
 import utilita.eccezioni.MondoFileException;
 import utilita.eccezioni.concreto.EntitaException;
 import utilita.eccezioni.concreto.FormattazioneFileException;
-import utilita.eccezioni.concreto.PuntoCardinaleException;
 import utilita.interfaccie.funzionali.CreationFunction;
 import utilita.interfaccie.tag.Observable;
 import utilita.interfaccie.tag.Observer;
@@ -54,33 +54,39 @@ public abstract class AnalizzaFile implements Observable{
 	/**
 	 * Tipo di entita
 	 */
-	public static final String 	WORLD = "world",
-								PLAYER = "player",
-								STANZA = "room",
-								LINKS = "links",
-								CHARACTERS = "characters",
-								OBJECTS = "objects";
-	
+	public static final String	WORLD		= "world",
+								PLAYER		= "player",
+								STANZA		= "room",
+								LINKS		= "links",
+								CHARACTERS	= "characters",
+								OBJECTS		= "objects";
+		
 	/**
 	 * Tag del file
 	 */
 	public static final String 	DESCR = "description",
 								TAB = "\\t",
-								P = ":";
+								P = ":",
+								S = "//";
 	
 	/**
 	 * Linee nel file di entita specifiche, per rispettare il pattern
 	 */
 	public static final int LINEE_PLAYER = 2,
-							LINEE_MONDO = 3;
-	
+							LINEE_MONDO = 3,
+							PARTI_LINK = 4,
+							PARTI_OG = 3;
+	/**
+	 * Posizione del nome della classe
+	 */
+	public static final int P_CLASSE = 1;
+
 	/**
 	 * Dizionario delle funzioni per la creazione dell'entita
 	 */
 	public static final Map<String, CreationFunction> dizionario_funzioni = Map.of(	LINKS, AnalizzaFile::creaLink,
 																					CHARACTERS, AnalizzaFile::creaPersonaggio,
 																					OBJECTS, AnalizzaFile::creaOggetto);																	
-
 
 	/**
 	 * Dizionario delle entita:<p>
@@ -91,7 +97,7 @@ public abstract class AnalizzaFile implements Observable{
 	/**
 	 * Lista degli osservatori
 	 */
-	private static List<Observer> osservatori = new LinkedList<>();;
+	private static List<Observer> osservatori = new ArrayList<>();
 
 	
 	/**
@@ -168,11 +174,6 @@ public abstract class AnalizzaFile implements Observable{
 	
 	
 	//METODI DI CREAZIONE STANZA E GIOCATORE
-	private static Stanza creaStanza(List<String> pattern) throws MondoFileException {
-		//TODO
-		return null;
-	}
-	
 	private static Giocatore creaGiocatore(List<String> pattern) throws MondoFileException {
 		
 		if(pattern.size() > 2 || pattern.size() <= 0) throw new FormattazioneFileException("player");
@@ -187,8 +188,6 @@ public abstract class AnalizzaFile implements Observable{
 		
 		return null;
 	}
-
-
 	
 	//METODI DEL DIZIONARIO PER LA CREAZIONE DI INSIEMI DI ENTITA
 	private static Set<? extends Personaggio> creaPersonaggio(List<String> pattern) throws MondoFileException {
@@ -196,16 +195,107 @@ public abstract class AnalizzaFile implements Observable{
 		//TODO
 		return pers;
 	}
+	
+	private static Stanza creaStanza(List<String> pattern) throws MondoFileException {
+		String nome = pattern.get(0).split(P)[1].replace("]", "");
+		
+		Map<String, String> opzioniStanza = pattern.subList(1, pattern.size()).stream().map(x -> x.split(TAB,2)).filter(x -> x.length == 2).collect(Collectors.toMap(x -> x[0], x -> x[1]));
 
+		StanzaBuilder stanza = StanzaBuilder.creaStanzaBuilder(nome, opzioniStanza.get(DESCR));
+
+		String valore = "";
+		for(Map.Entry<String, String> m : opzioniStanza.entrySet()) {
+			valore = m.getValue();
+			
+			try {
+				Method metodo = StanzaBuilder.class.getMethod(m.getKey(), String.class);
+				metodo.invoke(stanza, valore);
+			} catch (NoSuchMethodException | SecurityException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		System.out.println(stanza.build());
+		return stanza.build();
+	}
+	
 	private static Set<Oggetto> creaOggetto(List<String> pattern) throws MondoFileException {
 		Set<Oggetto> oggetti = new HashSet<>();
-		//TODO
+		
+		//variabili di supporto
+		List<String> parti = new ArrayList<>();
+		Class<?> classe = null;
+		Constructor<?> constr = null;
+		Oggetto og = null;
+		Contenitore con = null;
+		String classeString = "";
+		
+		for(String oggetto : pattern) {
+			parti = Arrays.asList(oggetto.split(TAB));
+
+			if(parti.size() > (PARTI_OG-1) && parti.size() < PARTI_OG) 
+				throw new FormattazioneFileException("oggetto non corretto");
+			
+			try {
+				classeString = PATH_OGGETTI;
+				classeString += parti.get(1).split(" ")[0];
+
+				classe = Class.forName(classeString);
+				constr = classe.getConstructor(String.class);
+				og = (Oggetto) constr.newInstance(parti.get(0));
+
+				if(og instanceof Contenitore && parti.size() == PARTI_OG) {
+					con = (Contenitore) og;
+					con.setInventario(parti.get(2));
+				}
+			}
+			catch(ClassNotFoundException e) {
+				System.out.println(classeString);
+				throw new EntitaException();
+			} 
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			osservatori.add(og);
+			oggetti.add(og);
+		}
+
 		return oggetti;
 	}
 	
 	private static Set<Link> creaLink(List<String> pattern) throws MondoFileException {
 		Set<Link> links = new HashSet<>();
-		//TODO
+		
+		//variabili di supporto
+		List<String> parti = new ArrayList<>();
+		Class<?> classe = null;
+		Constructor<?> constr = null;
+		Link l = null;
+		
+		for(String link : pattern) {
+			parti = Arrays.asList(link.split(TAB));
+			
+			if(parti.size() != PARTI_LINK) 
+				throw new FormattazioneFileException("link non corretto");
+			
+			try {
+				classe = Class.forName(PATH_LINK + parti.get(P_CLASSE));
+				constr = classe.getConstructor(String.class, String.class, String.class);
+				l = (Link) constr.newInstance(parti.get(0), parti.get(2), parti.get(3));
+			}
+			catch(ClassNotFoundException e) {
+				throw new EntitaException();
+			} 
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			osservatori.add(l);
+			links.add(l);
+		}		
 		return links;
 	}
 
@@ -220,15 +310,12 @@ public abstract class AnalizzaFile implements Observable{
 		return dizionario_entita.values().stream().flatMap(Set::stream).filter(x -> x.getNome().equals(nomeEntita)).findAny().orElseThrow(EntitaException::new);
 	}
 	
-	
 	//FUNZIONI DI CONTROLLO
 	public static void controllo() throws MondoFileException{
 		
 	}
 	
-	
-	
-	//METODI PER GESTIRE GLI OBSERVER**
+	//METODI PER GESTIRE GLI OBSERVER
 	/**
 	 * Metodo che registra gli obsever dalla lista
 	 */

@@ -3,9 +3,11 @@ package entita.oggetto;
 import java.util.Objects;
 
 import entita.Entita;
+import utilita.eccezioni.concreto.EntitaException;
 import utilita.interfaccie.tag.Inventario;
+import utilita.interfaccie.tag.Observer;
 
-public abstract class Oggetto extends Entita implements Inventario{
+public abstract class Oggetto extends Entita implements Inventario, Observer{
 	
 	public Oggetto(String nome) {
 		super(nome);
@@ -25,6 +27,8 @@ public abstract class Oggetto extends Entita implements Inventario{
 		return NOME.equals(s.NOME);
 	}
 	
+	@Override
+	public void converti() throws EntitaException{}
 	
 	@Override
 	public int hashCode() {

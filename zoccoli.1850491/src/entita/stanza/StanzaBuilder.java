@@ -1,6 +1,7 @@
 package entita.stanza;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,9 @@ public class StanzaBuilder {
 	private StanzaBuilder(String nome, String descrizione) {
 		this.nome = nome;
 		this.descrizione = descrizione;
+		oggettiString = new HashSet<>();
+		personaggiString = new HashSet<>();
+		accessiString = new HashMap<>();
 	}
 	
 	/**
@@ -44,7 +48,7 @@ public class StanzaBuilder {
 	 * @param oggetti
 	 * @return StanzaBuilder
 	 */
-	public StanzaBuilder oggetti(String oggetti) {
+	public StanzaBuilder objects(String oggetti) {
 		
 		oggettiString = inserimento(oggetti);
 		
@@ -56,7 +60,7 @@ public class StanzaBuilder {
 	 * @param personaggi
 	 * @return StanzaBuilder
 	 */
-	public StanzaBuilder personaggi(String personaggi) {
+	public StanzaBuilder charachters(String personaggi) {
 
 		personaggiString = inserimento(personaggi);
 		
@@ -68,7 +72,7 @@ public class StanzaBuilder {
 	 * @param accessi
 	 * @return StanzaBuilder
 	 */
-	public StanzaBuilder accessi(String accessi) {
+	public StanzaBuilder links(String accessi) {
 		List<String> preMappa = Arrays.asList(accessi.split(","));
 		
 		accessiString = preMappa.stream().map(x -> x.split(":")).collect(Collectors.toMap(x -> {

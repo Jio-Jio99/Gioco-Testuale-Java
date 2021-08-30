@@ -28,9 +28,30 @@ public abstract class Link extends Entita implements Observer{
 	protected List<Stanza> collegamento;
 	private List<String> nomeStanze;
 	
-	public Link(String nome, String stanza1, String stanza2) {
+	private Link(String nome) {
 		super(nome);
 		collegamento = new ArrayList<>();
+	}
+	
+	/**
+	 * Costruttore del Link con già presenti le stanze
+	 * @param nome
+	 * @param stanza1
+	 * @param stanza2
+	 */
+	public Link(String nome, Stanza stanza1, Stanza stanza2) {
+		this(nome);
+		collegamento.addAll(Arrays.asList(stanza1, stanza2));
+	}
+	
+	/**
+	 * Costruttore che riceve due stringhe, non due stanze, e di conseguenza ha bisogno dell'Observable
+	 * @param nome
+	 * @param stanza1
+	 * @param stanza2
+	 */
+	public Link(String nome, String stanza1, String stanza2) {
+		this(nome);
 		nomeStanze = new ArrayList<>();
 		nomeStanze.addAll(Arrays.asList(stanza1, stanza2));
 	}
