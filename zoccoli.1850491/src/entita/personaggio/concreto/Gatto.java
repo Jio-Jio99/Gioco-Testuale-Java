@@ -1,4 +1,6 @@
-package entita.personaggio;
+package entita.personaggio.concreto;
+
+import entita.personaggio.Animale;
 
 public class Gatto extends Animale {
 

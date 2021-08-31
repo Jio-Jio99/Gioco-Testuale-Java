@@ -10,8 +10,8 @@ import java.util.Set;
 import entita.Entita;
 import entita.oggetto.Oggetto;
 import entita.stanza.Stanza;
+import utilita.AnalizzaFile;
 import utilita.eccezioni.concreto.EntitaException;
-import utilita.interfaccie.AnalizzaFile;
 import utilita.interfaccie.tag.Observable;
 import utilita.interfaccie.tag.Observer;
 

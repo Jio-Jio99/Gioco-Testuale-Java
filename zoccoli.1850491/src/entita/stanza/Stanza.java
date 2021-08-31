@@ -12,9 +12,9 @@ import entita.link.Link;
 import entita.link.concreto.Libero;
 import entita.oggetto.Oggetto;
 import entita.personaggio.Personaggio;
-import utilita.PuntoCardinale;
+import utilita.AnalizzaFile;
 import utilita.eccezioni.concreto.EntitaException;
-import utilita.interfaccie.AnalizzaFile;
+import utilita.enumerazioni.PuntoCardinale;
 import utilita.interfaccie.tag.Observer;
 
 /**
@@ -54,11 +54,13 @@ public class Stanza extends Entita implements Observer{
 	@Override
 	public void converti() throws EntitaException {
 		
-		for(String s : oggettiString) 
-			oggetti.add((Oggetto) AnalizzaFile.convertitore(s));
+		if(oggettiString != null)
+			for(String s : oggettiString) 
+				oggetti.add((Oggetto) AnalizzaFile.convertitore(s));
 		
-		for(String s : personaggiString) 
-			personaggi.add((Personaggio) AnalizzaFile.convertitore(s));
+		if(personaggiString != null)
+			for(String s : personaggiString) 
+				personaggi.add((Personaggio) AnalizzaFile.convertitore(s));
 		
 		Link link = null;
 		Stanza stanza = null;
@@ -75,6 +77,13 @@ public class Stanza extends Entita implements Observer{
 		}
 	}
 	
+	public Set<Personaggio> getPersonaggi(){
+		return personaggi;
+	}
+	
+	public Set<Oggetto> getInventario(){
+		return oggetti;
+	}
 	
 	@Override
 	public boolean equals(Object o) {

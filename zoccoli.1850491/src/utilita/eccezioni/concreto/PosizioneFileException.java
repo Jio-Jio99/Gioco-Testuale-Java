@@ -9,9 +9,9 @@ import utilita.eccezioni.MondoFileException;
  *
  */
 public class PosizioneFileException extends MondoFileException {
-	public static final String ERRORE = "Attenzione! Nel file per il caricamento del mondo, uno stesso oggetto si trova in due posizioni diverse!";
+	public static final String ERRORE = "Attenzione! Nel file per il caricamento del mondo, uno stesso oggetto si trova in due posizioni diverse: ";
 	
-	public PosizioneFileException() {
-		super(ERRORE);
+	public PosizioneFileException(String entita) {
+		super(ERRORE + entita);
 	}
 }

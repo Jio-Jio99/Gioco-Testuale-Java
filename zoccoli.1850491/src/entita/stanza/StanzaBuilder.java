@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import utilita.PuntoCardinale;
 import utilita.eccezioni.concreto.PuntoCardinaleException;
+import utilita.enumerazioni.PuntoCardinale;
 
 /**
  * Classe builder che costuisce la {@link Stanza}

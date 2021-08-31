@@ -15,7 +15,7 @@ import utilita.eccezioni.concreto.PosizioneFileException;
  * @author gioele
  *
  */
-public abstract class MondoFileException extends Exception{
+public abstract class MondoFileException extends ErroreCaricamentoException{
 	private static final long serialVersionUID = 1L;
 	
 	public MondoFileException(String tipoErrore) {

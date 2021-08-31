@@ -1,17 +1,20 @@
-package utilita.interfaccie;
+package utilita;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 
@@ -20,15 +23,20 @@ import entita.Mondo;
 import entita.link.Link;
 import entita.oggetto.Contenitore;
 import entita.oggetto.Oggetto;
-import entita.personaggio.Giocatore;
+import entita.personaggio.Animale;
 import entita.personaggio.Personaggio;
+import entita.personaggio.concreto.Giocatore;
 import entita.stanza.Stanza;
 import entita.stanza.StanzaBuilder;
 import utilita.eccezioni.ErroreCaricamentoException;
 import utilita.eccezioni.GiocatoreException;
 import utilita.eccezioni.MondoFileException;
 import utilita.eccezioni.concreto.EntitaException;
+import utilita.eccezioni.concreto.ErroreFileException;
 import utilita.eccezioni.concreto.FormattazioneFileException;
+import utilita.eccezioni.concreto.GiocatoreNonInstanziatoException;
+import utilita.eccezioni.concreto.PosizioneFileException;
+import utilita.interfaccie.FilesMethod;
 import utilita.interfaccie.funzionali.CreationFunction;
 import utilita.interfaccie.tag.Observable;
 import utilita.interfaccie.tag.Observer;
@@ -39,7 +47,7 @@ import utilita.interfaccie.tag.Observer;
  *
  */
 public abstract class AnalizzaFile implements Observable{
-	public static void main(String[] args) throws MondoFileException {
+	public static void main(String[] args) throws ErroreCaricamentoException {
 		analizzaLista(FilesMethod.lettura(Paths.get("resourse", "minizak.game")).orElse(null));
 	}
 	
@@ -47,7 +55,7 @@ public abstract class AnalizzaFile implements Observable{
 	 * Directory delle entita' concrete
 	 */
 	public static final String 	PATH_OGGETTI 		= "entita.oggetto.concreto.",
-								PATH_PERSONAGGIO 	= "entita.personaggio.",
+								PATH_PERSONAGGIO 	= "entita.personaggio.concreto.",
 								PATH_LINK 			= "entita.link.concreto.",
 								PATH_STANZA			= "entita.stanza.";
 	
@@ -74,9 +82,11 @@ public abstract class AnalizzaFile implements Observable{
 	 */
 	public static final int LINEE_PLAYER = 2,
 							LINEE_MONDO = 3,
+							MIN_LINEE_STANZA = 3,
+							
 							PARTI_LINK = 4,
-							PARTI_OG = 3,
-							MIN_LINEE_STANZA = 3;
+							PARTI_OG = 3;
+							
 	/**
 	 * Posizione del nome della classe
 	 */
@@ -107,7 +117,7 @@ public abstract class AnalizzaFile implements Observable{
 	 * @return {@link Mondo}
 	 * @throws MondoFileException = Eccezioni nella lettura
 	 */
-	public static Mondo analizzaLista(List<String> lista) throws MondoFileException {
+	public static Mondo analizzaLista(List<String> lista) throws ErroreCaricamentoException {
 		dizionario_entita = new HashMap<>();
 		Set<Stanza> stanze = new HashSet<>();
 
@@ -129,6 +139,7 @@ public abstract class AnalizzaFile implements Observable{
 		String nome = "";
 		List<String> mondoString = new ArrayList<>();
 		Stanza stanza = null;
+		Giocatore player = null;
 		
 		for(List<String> parte : partizione) {
 			if(!parte.get(0).endsWith("]")) throw new FormattazioneFileException("file, pattern non rispettato");
@@ -143,8 +154,8 @@ public abstract class AnalizzaFile implements Observable{
 			}
 			
 			if(nome.contains(PLAYER)) {
-				if(parte.size() != LINEE_PLAYER) throw new ErroreCaricamentoException("Attenzione! Sono presenti pi√π giocatori!");
-				Giocatore player = creaGiocatore(parte);
+				if(parte.size() != LINEE_PLAYER) throw new ErroreFileException("Attenzione! Sono presenti pi√π giocatori!");
+				player = creaGiocatore(parte);
 				continue;
 			}
 			
@@ -159,19 +170,26 @@ public abstract class AnalizzaFile implements Observable{
 			Set<? extends Entita> set = dizionario_funzioni.get(nome).apply(parte.subList(1, parte.size()));
 			dizionario_entita.putIfAbsent(nome, set);
 		}
-			
+
+		if(player == null) 
+			throw new GiocatoreNonInstanziatoException();
+		
 		//creo il mondo e lo ritorno
 		String nomeMondo = mondoString.get(0).split(P, 2)[1]; 
 		String description = mondoString.get(1).split(TAB)[1];
 		String start = mondoString.get(2).split(TAB)[1];
 		
 		dizionario_entita.put(STANZA, stanze);
-			
+		
 		Stanza stanzaStart = (Stanza) convertitore(start);
+		
+		player.setPosizione(stanzaStart);
 		
 		//NOTIFICA, converto le stringhe in oggetto
 		for(Observer oss : osservatori)
 			oss.converti();
+		
+		controllo();
 		
 		return new Mondo(nomeMondo, description, stanze, stanzaStart);
 	}
@@ -194,11 +212,40 @@ public abstract class AnalizzaFile implements Observable{
 	}
 	
 	//METODI DEL DIZIONARIO PER LA CREAZIONE DI INSIEMI DI ENTITA
-	private static Set<? extends Personaggio> creaPersonaggio(List<String> pattern) throws MondoFileException {
-		Set<? extends Personaggio> pers = new HashSet<>();
+	private static Set<Personaggio> creaPersonaggio(List<String> pattern) throws MondoFileException {
+		Set<Personaggio> pers = new HashSet<>();
 		
-		for(String per : pattern) {
+		//variabili di supporto
+		List<String> parti = new ArrayList<>();
+		Class<?> classe = null;
+		Constructor<?> constr = null;
+		Personaggio p =  null;
+		
+		for(String personaggio : pattern) {
+			parti = Arrays.asList(personaggio.split(TAB));
+			parti.forEach(String::strip);
 			
+			if(parti.size() <= 0)
+				throw new FormattazioneFileException("personaggio errato" +  parti);
+			
+			try {
+				classe = Class.forName(PATH_PERSONAGGIO + parti.get(1));
+				constr = classe.getConstructor(String.class);
+				p = (Personaggio) constr.newInstance(parti.get(0));
+				
+				if(!(p instanceof Animale) && parti.size() > 2) 
+					p.setInventario(parti.subList(2,parti.size()).stream().collect(Collectors.toSet()));
+				
+			}
+			catch(ClassNotFoundException e) {
+				throw new EntitaException("Entita " + parti.get(1));
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			osservatori.add(p);
+			pers.add(p);
 		}
 		
 		
@@ -242,9 +289,10 @@ public abstract class AnalizzaFile implements Observable{
 		
 		for(String oggetto : pattern) {
 			parti = Arrays.asList(oggetto.split(TAB));
+			parti.forEach(String::strip);
 
 			if(parti.size() > (PARTI_OG-1) && parti.size() < PARTI_OG) 
-				throw new FormattazioneFileException("oggetto non corretto");
+				throw new FormattazioneFileException("oggetto non corretto" + parti);
 			
 			try {
 				classeString = PATH_OGGETTI;
@@ -252,7 +300,7 @@ public abstract class AnalizzaFile implements Observable{
 
 				classe = Class.forName(classeString);
 				constr = classe.getConstructor(String.class);
-				og = (Oggetto) constr.newInstance(parti.get(0).strip());
+				og = (Oggetto) constr.newInstance(parti.get(0));
 
 				if(og instanceof Contenitore && parti.size() == PARTI_OG) {
 					con = (Contenitore) og;
@@ -284,6 +332,7 @@ public abstract class AnalizzaFile implements Observable{
 		
 		for(String link : pattern) {
 			parti = Arrays.asList(link.split(TAB));
+			parti.forEach(String::strip);
 			
 			if(parti.size() != PARTI_LINK) 
 				throw new FormattazioneFileException("link non corretto");
@@ -291,7 +340,7 @@ public abstract class AnalizzaFile implements Observable{
 			try {
 				classe = Class.forName(PATH_LINK + parti.get(P_CLASSE));
 				constr = classe.getConstructor(String.class, String.class, String.class);
-				l = (Link) constr.newInstance(parti.get(0).strip(), parti.get(2), parti.get(3));
+				l = (Link) constr.newInstance(parti.get(0), parti.get(2), parti.get(3));
 			}
 			catch(ClassNotFoundException e) {
 				throw new EntitaException(parti.get(P_CLASSE));
@@ -318,10 +367,30 @@ public abstract class AnalizzaFile implements Observable{
 	}
 	
 	//FUNZIONI DI CONTROLLO
-	public static void controllo() throws MondoFileException{
-		
+	private static void controllo() throws ErroreCaricamentoException{
+		//Controllo se Ë presente un personaggio/oggetto in pi˘ stanze
+		List<Entita> lista = dizionario_entita.get(STANZA)	.stream()
+															.map(AnalizzaFile::supportoControllo)
+															.flatMap(Set::stream)
+															.collect(Collectors.toList());
+		Set<Entita> p = lista.stream().filter(x -> Collections.frequency(lista, x) >= 2).collect(Collectors.toSet());
+
+		if(!p.isEmpty())
+			throw new PosizioneFileException(p.toString());
+
+		//2- Link corretti
+		//3- Posizione degli oggetti. Se sono nella stessa stanza di chi appartengono (non per i personaggi-inventario, ex Neo)
 	}
 	
+	private static Set<Entita> supportoControllo(Entita x){
+		Set<Entita> set = new HashSet<>();
+		
+		Stanza y = (Stanza) x;
+		set.addAll(y.getInventario());
+		set.addAll(y.getPersonaggi());
+		
+		return set;
+	}
 	//METODI PER GESTIRE GLI OBSERVER
 	/**
 	 * Metodo che registra gli obsever dalla lista

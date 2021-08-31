@@ -1,6 +1,6 @@
 package utilita.eccezioni;
 
-public class ErroreCaricamentoException extends MondoFileException{
+public abstract class ErroreCaricamentoException extends Exception{
 	
 	public ErroreCaricamentoException(String errore) {
 		super(errore);

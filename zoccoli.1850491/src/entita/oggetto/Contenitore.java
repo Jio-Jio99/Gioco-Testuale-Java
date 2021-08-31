@@ -1,8 +1,8 @@
 package entita.oggetto;
 
 
+import utilita.AnalizzaFile;
 import utilita.eccezioni.concreto.EntitaException;
-import utilita.interfaccie.AnalizzaFile;
 import utilita.interfaccie.tag.Inventario;
 import utilita.interfaccie.tag.Observer;
 
@@ -20,6 +20,7 @@ public abstract class Contenitore extends Oggetto implements Observer{
 	
 	@Override
 	public void converti() throws EntitaException{
-		inventario = (Inventario) AnalizzaFile.convertitore(inventarioString);
+		if(inventarioString != null)
+			inventario = (Inventario) AnalizzaFile.convertitore(inventarioString);
 	}
 }

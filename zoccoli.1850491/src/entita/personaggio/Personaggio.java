@@ -5,9 +5,9 @@ import java.util.Objects;
 import java.util.Set;
 
 import entita.Entita;
-import entita.oggetto.Oggetto;
+import entita.stanza.Stanza;
+import utilita.AnalizzaFile;
 import utilita.eccezioni.concreto.EntitaException;
-import utilita.interfaccie.AnalizzaFile;
 import utilita.interfaccie.tag.Inventario;
 import utilita.interfaccie.tag.Observer;
 
@@ -18,15 +18,29 @@ cui si trova e con gli altri personaggi presenti nella stanza.
  * @author gioele
  *
  */
-public class Personaggio extends Entita implements Observer{
+public abstract class Personaggio extends Entita implements Observer{
 	private Set<Inventario> inventario;
 	private Set<String> inventarioString;
-
-	public Personaggio(String nome, Set<String> inventarioString) {
+	protected Stanza posizione;
+	
+	public Personaggio(String nome) {
 		super(nome);
 		this.inventario = new HashSet<>();
+	}
+	
+	public void setInventario(Set<String> inventarioString) {
 		this.inventarioString = inventarioString;
 	}
+	
+	
+	public void setPosizione(Stanza stanza) {
+		posizione = stanza;
+	}
+	
+	public Stanza getPosizione(Stanza stanza) {
+		return posizione;
+	}
+	
 	
 	@Override
 	public boolean equals(Object o) {
@@ -50,8 +64,13 @@ public class Personaggio extends Entita implements Observer{
 
 	@Override
 	public void converti() throws EntitaException {
-		for(String s : inventarioString)
-			inventario.add((Inventario) AnalizzaFile.convertitore(s));
+		if(inventarioString != null)
+			for(String s : inventarioString)
+				inventario.add((Inventario) AnalizzaFile.convertitore(s));
 	}
-
+	
+	@Override
+	public String toString() {
+		return NOME + " " + inventario;
+	}
 }
