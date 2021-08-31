@@ -85,6 +85,10 @@ public class Stanza extends Entita implements Observer{
 		return oggetti;
 	}
 	
+	public Map<PuntoCardinale, Link> getAccessi(){
+		return accessi;
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if(o == null || !o.getClass().equals(getClass())) 

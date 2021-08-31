@@ -5,22 +5,20 @@ import java.lang.reflect.Method;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 
 import entita.Entita;
 import entita.Mondo;
 import entita.link.Link;
+import entita.link.concreto.Libero;
 import entita.oggetto.Contenitore;
 import entita.oggetto.Oggetto;
 import entita.personaggio.Animale;
@@ -35,6 +33,7 @@ import utilita.eccezioni.concreto.EntitaException;
 import utilita.eccezioni.concreto.ErroreFileException;
 import utilita.eccezioni.concreto.FormattazioneFileException;
 import utilita.eccezioni.concreto.GiocatoreNonInstanziatoException;
+import utilita.eccezioni.concreto.LinkFileException;
 import utilita.eccezioni.concreto.PosizioneFileException;
 import utilita.interfaccie.FilesMethod;
 import utilita.interfaccie.funzionali.CreationFunction;
@@ -379,18 +378,45 @@ public abstract class AnalizzaFile implements Observable{
 
 		if(!p.isEmpty())
 			throw new PosizioneFileException(p.toString());
-
-		//2- Link corretti TODO
 		
-		//3- Posizione degli oggetti. Se sono nella stessa stanza di chi appartengono (non per i personaggi-inventario, ex Neo)
-//		List<List<Entita>> oggettiEpersonaggi = new ArrayList<>();
-//		Set<Oggetto> personaggioInventario = new HashSet<>();
-//		
-//		for(Stanza s : stanze) {
-//			for(Oggetto in : s.getInventario()) {
-//				personaggioInventario = s.getInventario();
-//			}
-//		}
+		//variabili di supporto
+		Set<Link> accessi = new HashSet<>();
+		List<Link> linkInstanziati = dizionario_entita.get(LINKS).stream().map(x -> (Link)x).collect(Collectors.toCollection(ArrayList::new));
+		int controllo = 0;
+		
+		Set<Oggetto> oggetti = new HashSet<>();
+		Set<Inventario> inventarioPersonaggi = new HashSet<>();
+
+		
+		for(Stanza s : stanze) {
+		//Controllo se gli accessi alle stanze sono coerenti con i link
+
+			accessi = s.getAccessi().values().stream().collect(Collectors.toSet());
+			
+			for(Link l : linkInstanziati) {
+				if(accessi.contains(l) && l.connected(s)) 
+					controllo++;
+			}
+			
+			controllo += accessi.stream().filter(x-> x instanceof Libero).count();
+			
+			if(controllo != accessi.size()) 
+				throw new LinkFileException(s.toString());
+			
+		//Controllo la posizione degli oggetti se siano coerenti con l'inventario dei personaggi nelle stanze
+			oggetti = s.getInventario();
+			s.getPersonaggi().forEach(x -> inventarioPersonaggi.addAll(x.getInventario()));
+			
+			for(Inventario in : inventarioPersonaggi) {
+				if(in instanceof Animale) 
+					continue;
+				else if(!oggetti.contains(in)) 
+					throw new ErroreFileException("oggetto di un personaggio non presente anche nella stanza " + in);
+			}
+			
+			inventarioPersonaggi.clear();
+			controllo = 0;
+		}
 	}
 	
 	private static Set<Entita> supportoControllo(Stanza x){

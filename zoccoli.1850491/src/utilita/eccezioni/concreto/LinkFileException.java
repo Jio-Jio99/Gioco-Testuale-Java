@@ -9,9 +9,9 @@ import utilita.eccezioni.MondoFileException;
  *
  */
 public class LinkFileException extends MondoFileException {
-	public static final String ERRORE =  "Attenzione! È presente un errore di collegamento tra le stanze nel file per il caricamento del mondo";
+	public static final String ERRORE =  "Attenzione! È presente un errore di collegamento tra le stanze nel file per il caricamento del mondo, stanza: ";
 	
-	public LinkFileException() {
-		super(ERRORE);	
+	public LinkFileException(String stanza) {
+		super(ERRORE + stanza);	
 	}
 }
