@@ -41,6 +41,9 @@ public abstract class Personaggio extends Entita implements Observer{
 		return posizione;
 	}
 	
+	public Set<Inventario> getInventario(){
+		return inventario;
+	}
 	
 	@Override
 	public boolean equals(Object o) {

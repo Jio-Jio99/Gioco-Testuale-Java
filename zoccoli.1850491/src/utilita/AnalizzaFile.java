@@ -38,6 +38,7 @@ import utilita.eccezioni.concreto.GiocatoreNonInstanziatoException;
 import utilita.eccezioni.concreto.PosizioneFileException;
 import utilita.interfaccie.FilesMethod;
 import utilita.interfaccie.funzionali.CreationFunction;
+import utilita.interfaccie.tag.Inventario;
 import utilita.interfaccie.tag.Observable;
 import utilita.interfaccie.tag.Observer;
 
@@ -189,7 +190,7 @@ public abstract class AnalizzaFile implements Observable{
 		for(Observer oss : osservatori)
 			oss.converti();
 		
-		controllo();
+		controllo(stanze);
 		
 		return new Mondo(nomeMondo, description, stanze, stanzaStart);
 	}
@@ -367,30 +368,40 @@ public abstract class AnalizzaFile implements Observable{
 	}
 	
 	//FUNZIONI DI CONTROLLO
-	private static void controllo() throws ErroreCaricamentoException{
+	private static void controllo(Set<Stanza> stanze) throws ErroreCaricamentoException{
 		//Controllo se è presente un personaggio/oggetto in più stanze
-		List<Entita> lista = dizionario_entita.get(STANZA)	.stream()
-															.map(AnalizzaFile::supportoControllo)
-															.flatMap(Set::stream)
-															.collect(Collectors.toList());
+		List<Entita> lista = stanze.stream()
+									.map(AnalizzaFile::supportoControllo)
+									.flatMap(Set::stream)
+									.collect(Collectors.toList());
+		
 		Set<Entita> p = lista.stream().filter(x -> Collections.frequency(lista, x) >= 2).collect(Collectors.toSet());
 
 		if(!p.isEmpty())
 			throw new PosizioneFileException(p.toString());
 
-		//2- Link corretti
+		//2- Link corretti TODO
+		
 		//3- Posizione degli oggetti. Se sono nella stessa stanza di chi appartengono (non per i personaggi-inventario, ex Neo)
+//		List<List<Entita>> oggettiEpersonaggi = new ArrayList<>();
+//		Set<Oggetto> personaggioInventario = new HashSet<>();
+//		
+//		for(Stanza s : stanze) {
+//			for(Oggetto in : s.getInventario()) {
+//				personaggioInventario = s.getInventario();
+//			}
+//		}
 	}
 	
-	private static Set<Entita> supportoControllo(Entita x){
+	private static Set<Entita> supportoControllo(Stanza x){
 		Set<Entita> set = new HashSet<>();
 		
-		Stanza y = (Stanza) x;
-		set.addAll(y.getInventario());
-		set.addAll(y.getPersonaggi());
+		set.addAll(x.getInventario());
+		set.addAll(x.getPersonaggi());
 		
 		return set;
 	}
+	
 	//METODI PER GESTIRE GLI OBSERVER
 	/**
 	 * Metodo che registra gli obsever dalla lista
