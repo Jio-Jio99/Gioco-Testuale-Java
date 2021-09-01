@@ -34,6 +34,7 @@ import utilita.eccezioni.concreto.ErroreFileException;
 import utilita.eccezioni.concreto.FormattazioneFileException;
 import utilita.eccezioni.concreto.GiocatoreNonInstanziatoException;
 import utilita.eccezioni.concreto.LinkFileException;
+import utilita.eccezioni.concreto.NomeEsistenteException;
 import utilita.eccezioni.concreto.PosizioneFileException;
 import utilita.interfaccie.FilesMethod;
 import utilita.interfaccie.funzionali.CreationFunction;
@@ -47,10 +48,6 @@ import utilita.interfaccie.tag.Observer;
  *
  */
 public abstract class AnalizzaFile implements Observable{
-	public static void main(String[] args) throws ErroreCaricamentoException {
-		analizzaLista(FilesMethod.lettura(Paths.get("resourse", "minizak.game")).orElse(null));
-	}
-	
 	/**
 	 * Directory delle entita' concrete
 	 */
@@ -111,16 +108,19 @@ public abstract class AnalizzaFile implements Observable{
 	private static List<Observer> osservatori = new ArrayList<>();
 
 	
+	public static void main(String[] args) throws ErroreCaricamentoException {
+		analizzaLista(FilesMethod.lettura(Paths.get("resourse", "minizak.game")).orElse(null));
+	}
+	
 	/**
 	 * Metodo che analizza il file del gioco e crea il mondo
 	 * @param lista = Lista di String, dalla lettura del file
 	 * @return {@link Mondo}
-	 * @throws MondoFileException = Eccezioni nella lettura
+	 * @throws ErroreCaricamentoException = Eccezioni nella lettura
 	 */
 	public static Mondo analizzaLista(List<String> lista) throws ErroreCaricamentoException {
 		dizionario_entita = new HashMap<>();
 		Set<Stanza> stanze = new HashSet<>();
-
 		
 		/**
 		 * Unisco tutte le linee splittate sul carattere \n durante la lettura del file, perchï¿½ le dividerï¿½ tramite il carattere [
@@ -185,6 +185,8 @@ public abstract class AnalizzaFile implements Observable{
 		
 		player.setPosizione(stanzaStart);
 		
+		controlloNomi();
+		
 		//NOTIFICA, converto le stringhe in oggetto
 		for(Observer oss : osservatori)
 			oss.converti();
@@ -196,6 +198,12 @@ public abstract class AnalizzaFile implements Observable{
 	
 	
 	//METODI DI CREAZIONE STANZA E GIOCATORE
+	/**
+	 * Metodo che instanzia il Giocatore
+	 * @param pattern = List<String> del giocatore
+	 * @return {@link Giocatore}
+	 * @throws MondoFileException
+	 */
 	private static Giocatore creaGiocatore(List<String> pattern) throws MondoFileException {
 		
 		if(pattern.size() > 2 || pattern.size() <= 0) throw new FormattazioneFileException("player");
@@ -212,6 +220,12 @@ public abstract class AnalizzaFile implements Observable{
 	}
 	
 	//METODI DEL DIZIONARIO PER LA CREAZIONE DI INSIEMI DI ENTITA
+	/**
+	 * Metodo che costruisce un set di {@link Personaggio} instanziando i Personaggi concreti usando la reflection
+	 * @param pattern = List<String> dei vari personaggi
+	 * @return Set<{@link Personaggio}> personaggi 
+	 * @throws MondoFileException
+	 */
 	private static Set<Personaggio> creaPersonaggio(List<String> pattern) throws MondoFileException {
 		Set<Personaggio> pers = new HashSet<>();
 		
@@ -231,6 +245,7 @@ public abstract class AnalizzaFile implements Observable{
 			try {
 				classe = Class.forName(PATH_PERSONAGGIO + parti.get(1));
 				constr = classe.getConstructor(String.class);
+
 				p = (Personaggio) constr.newInstance(parti.get(0));
 				
 				if(!(p instanceof Animale) && parti.size() > 2) 
@@ -252,16 +267,23 @@ public abstract class AnalizzaFile implements Observable{
 		return pers;
 	}
 	
+	/**
+	 * Metodo che costruisce una {@link Stanza} tramite la {@link StanzaBuilder}
+	 * @param pattern = List<String> di una stanza
+	 * @return {@link Stanza}
+	 * @throws MondoFileException
+	 */
 	private static Stanza creaStanza(List<String> pattern) throws MondoFileException {
-		String nome = pattern.get(0).split(P)[1].replace("]", "");
+		String nome = pattern.get(0).split(P)[1].replace("]", "").strip();
 		String descrizione = pattern.get(1).split(TAB,2)[1];
 		
 		if(pattern.size() < MIN_LINEE_STANZA) throw new FormattazioneFileException("stanza " + nome);
 		
 		Map<String, String> opzioniStanza = pattern.subList(2, pattern.size()).stream().map(x -> x.split(TAB,2)).filter(x -> x.length == 2).collect(Collectors.toMap(x -> x[0], x -> x[1]));
 
-		StanzaBuilder stanza = StanzaBuilder.creaStanzaBuilder(nome.strip(), descrizione);
-
+		StanzaBuilder stanza = StanzaBuilder.creaStanzaBuilder(nome, descrizione);
+		
+		//ciclo che invoca i vari metodi della classe StanzaBuilder
 		for(Map.Entry<String, String> m : opzioniStanza.entrySet()) {
 			try {
 				
@@ -273,9 +295,16 @@ public abstract class AnalizzaFile implements Observable{
 			}
 			
 		}
+		
 		return stanza.build();
 	}
 	
+	/**
+	 * Metodo che costruisce un set di {@link Oggetto} instanziando gli oggetti concreti usando la reflection
+	 * @param pattern = List<String> di tutti gli oggetti
+	 * @return Set<{@link Oggetti}> di Oggetto
+	 * @throws MondoFileException
+	 */
 	private static Set<Oggetto> creaOggetto(List<String> pattern) throws MondoFileException {
 		Set<Oggetto> oggetti = new HashSet<>();
 		
@@ -290,7 +319,7 @@ public abstract class AnalizzaFile implements Observable{
 		for(String oggetto : pattern) {
 			parti = Arrays.asList(oggetto.split(TAB));
 			parti.forEach(String::strip);
-
+			
 			if(parti.size() > (PARTI_OG-1) && parti.size() < PARTI_OG) 
 				throw new FormattazioneFileException("oggetto non corretto" + parti);
 			
@@ -321,6 +350,12 @@ public abstract class AnalizzaFile implements Observable{
 		return oggetti;
 	}
 	
+	/**
+	 * Metodo che costruisce un set di {@link Link} instanziando i link concreti usando la reflection
+	 * @param pattern = List<String> di tutti i Link
+	 * @return Set<{@link Link} di link
+	 * @throws MondoFileException
+	 */
 	private static Set<Link> creaLink(List<String> pattern) throws MondoFileException {
 		Set<Link> links = new HashSet<>();
 		
@@ -357,7 +392,7 @@ public abstract class AnalizzaFile implements Observable{
 
 	//METODI DI SUPPORTO
 	/**
-	 * Metodo che preso in input una stringa, corrispondente al nome di un entita, ne restituisce l'instanza creata, altrimenti se non trovata, lancia l'eccezione di non esistenza
+	 * Metodo che preso in input una stringa, corrispondente al nome di un entita, ne restituisce l'instanza creata, altrimenti lancia l'eccezione di non esistenza
 	 * @param nomeEntita = String
 	 * @return {@link Entita}
 	 * @throws EntitaException
@@ -367,6 +402,14 @@ public abstract class AnalizzaFile implements Observable{
 	}
 	
 	//FUNZIONI DI CONTROLLO
+	/**
+	 * Metodo che preso il set di stanze controlla se tutti gli oggetti/personaggi rispettano le condizioni per la creazione del mondo, lanciando altrimenti l'eccezione corrispondente all'errore: <p>
+	 * - {@link PosizioneFileException} <p>
+	 * - {@link LinkFileException} <p>
+	 * - {@link ErroreFileException}
+	 * @param stanze = Set<Stanza>
+	 * @throws ErroreCaricamentoException
+	 */
 	private static void controllo(Set<Stanza> stanze) throws ErroreCaricamentoException{
 		//Controllo se è presente un personaggio/oggetto in più stanze
 		List<Entita> lista = stanze.stream()
@@ -419,6 +462,28 @@ public abstract class AnalizzaFile implements Observable{
 		}
 	}
 	
+	/**
+	 * Metodo privato che controlla se non ci sono ripetizioni di nomi tra le entita create, altrimenti lancia l'eccezione
+	 * @throws NomeEsistenteException
+	 */
+	private static void controlloNomi() throws NomeEsistenteException {
+		List<String> lista = dizionario_entita.values()	.stream()
+														.flatMap(Set::stream)
+														.map(x -> x.getNome())
+														.collect(Collectors.toList());
+		
+		List<String> lista2 = lista.stream().filter(x -> Collections.frequency(lista, x) >= 2).collect(Collectors.toList());
+		
+		if(!lista2.isEmpty())
+			throw new NomeEsistenteException(lista2.toString());
+	}
+	
+	
+	/**
+	 * Metodo privato che prende i personaggi e gli oggetti in una stanza e l'inserisce in un unico set
+	 * @param x = Stanza
+	 * @return
+	 */
 	private static Set<Entita> supportoControllo(Stanza x){
 		Set<Entita> set = new HashSet<>();
 		
@@ -427,7 +492,6 @@ public abstract class AnalizzaFile implements Observable{
 		
 		return set;
 	}
-	
 	//METODI PER GESTIRE GLI OBSERVER
 	/**
 	 * Metodo che registra gli obsever dalla lista

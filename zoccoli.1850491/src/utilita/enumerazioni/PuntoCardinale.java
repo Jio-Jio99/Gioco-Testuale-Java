@@ -2,12 +2,27 @@ package utilita.enumerazioni;
 
 import utilita.eccezioni.concreto.PuntoCardinaleException;
 
+/**
+ * Enumerazione per la direzione: <p>
+ * - Nord <p>
+ * - Sud <p>
+ * - Est <p>
+ * - Ovest/West 
+ * @author gioele
+ *
+ */
 public enum PuntoCardinale {
 	NORD,
 	SUD,
 	EST,
 	OVEST;
 	
+	/**
+	 * Metodo statico che dato in input una stringa, restituisce la coordinata giusta, altrimenti lancia l'eccezione
+	 * @param direzione
+	 * @return PuntoCardinale
+	 * @throws PuntoCardinaleException
+	 */
 	public static PuntoCardinale getDirezione(String direzione) throws PuntoCardinaleException{
 		direzione = direzione.toLowerCase().strip();
 		

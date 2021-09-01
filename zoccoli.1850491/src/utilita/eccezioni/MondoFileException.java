@@ -1,5 +1,6 @@
 package utilita.eccezioni;
 
+import utilita.eccezioni.concreto.EntitaException;
 import utilita.eccezioni.concreto.FormattazioneFileException;
 import utilita.eccezioni.concreto.LinkFileException;
 import utilita.eccezioni.concreto.PosizioneFileException;
@@ -11,6 +12,7 @@ import utilita.eccezioni.concreto.PosizioneFileException;
  * - Errori di formattazione file, {@link FormattazioneFileException}
  * - Errori di collegamenti nel file, {@link LinkFileException}
  * - Errore del posizionamento di un entità del gioco (un stesso oggetto in più posti), {@link PosizioneFileException}
+ * - Entita non esistente, {@link EntitaException}
  * </pre>
  * @author gioele
  *
