@@ -140,11 +140,11 @@ public abstract class AnalizzaFile implements Observable{
 		for(List<String> parte : partizione) {
 			if(!parte.get(0).endsWith("]")) throw new FormattazioneFileException("file, pattern non rispettato");
 			
-			nome = parte.get(0);
+			nome = parte.get(0).replace("]", "");
 			
 			if(nome.contains(WORLD)) {
 				if(parte.size() != LINEE_MONDO) throw new FormattazioneFileException("mondo");
-
+				
 				mondoString = parte;
 				continue;
 			}
@@ -161,7 +161,6 @@ public abstract class AnalizzaFile implements Observable{
 				stanze.add(stanza);
 				continue;
 			}
-			
 			//creazione delle altre entita in insiemi
 			Set<? extends Entita> set = dizionario_funzioni.get(nome).apply(parte.subList(1, parte.size()));
 			dizionario_entita.putIfAbsent(nome, set);

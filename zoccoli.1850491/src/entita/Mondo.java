@@ -28,8 +28,6 @@ public class Mondo extends Entita{
 	}
 	
 	public static Mondo fromFile(Path file) throws ErroreCaricamentoException {
-		System.out.println(FilesMethod.lettura(file));
-		
-		return AnalizzaFile.analizzaLista(new ArrayList<>());
+		return AnalizzaFile.analizzaLista(FilesMethod.lettura(file));
 	}
 }

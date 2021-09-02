@@ -14,5 +14,7 @@ public class Main {
 		Mondo m = Mondo.fromFile(fileName);
 		g.play(m);
 		
+		System.out.println(m);
+		
 	}
 }
