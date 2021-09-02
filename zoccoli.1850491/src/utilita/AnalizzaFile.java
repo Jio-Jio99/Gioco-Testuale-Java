@@ -2,7 +2,6 @@ package utilita;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -36,7 +35,6 @@ import utilita.eccezioni.concreto.GiocatoreNonInstanziatoException;
 import utilita.eccezioni.concreto.LinkFileException;
 import utilita.eccezioni.concreto.NomeEsistenteException;
 import utilita.eccezioni.concreto.PosizioneFileException;
-import utilita.interfaccie.FilesMethod;
 import utilita.interfaccie.funzionali.CreationFunction;
 import utilita.interfaccie.tag.Inventario;
 import utilita.interfaccie.tag.Observable;
@@ -107,11 +105,6 @@ public abstract class AnalizzaFile implements Observable{
 	 */
 	private static List<Observer> osservatori = new ArrayList<>();
 
-	
-	public static void main(String[] args) throws ErroreCaricamentoException {
-		analizzaLista(FilesMethod.lettura(Paths.get("resourse", "minizak.game")).orElse(null));
-	}
-	
 	/**
 	 * Metodo che analizza il file del gioco e crea il mondo
 	 * @param lista = Lista di String, dalla lettura del file
@@ -121,6 +114,9 @@ public abstract class AnalizzaFile implements Observable{
 	public static Mondo analizzaLista(List<String> lista) throws ErroreCaricamentoException {
 		dizionario_entita = new HashMap<>();
 		Set<Stanza> stanze = new HashSet<>();
+		
+		if(lista.isEmpty())
+			throw new ErroreFileException("File vuoto!");
 		
 		/**
 		 * Unisco tutte le linee splittate sul carattere \n durante la lettura del file, perchï¿½ le dividerï¿½ tramite il carattere [
@@ -144,7 +140,7 @@ public abstract class AnalizzaFile implements Observable{
 		for(List<String> parte : partizione) {
 			if(!parte.get(0).endsWith("]")) throw new FormattazioneFileException("file, pattern non rispettato");
 			
-			nome = parte.get(0).replace("]", "");
+			nome = parte.get(0);
 			
 			if(nome.contains(WORLD)) {
 				if(parte.size() != LINEE_MONDO) throw new FormattazioneFileException("mondo");
@@ -175,7 +171,7 @@ public abstract class AnalizzaFile implements Observable{
 			throw new GiocatoreNonInstanziatoException();
 		
 		//creo il mondo e lo ritorno
-		String nomeMondo = mondoString.get(0).split(P, 2)[1]; 
+		String nomeMondo = mondoString.get(0).split(P, 2)[1].replace("]", ""); 
 		String description = mondoString.get(1).split(TAB)[1];
 		String start = mondoString.get(2).split(TAB)[1];
 		
@@ -411,7 +407,7 @@ public abstract class AnalizzaFile implements Observable{
 	 * @throws ErroreCaricamentoException
 	 */
 	private static void controllo(Set<Stanza> stanze) throws ErroreCaricamentoException{
-		//Controllo se è presente un personaggio/oggetto in più stanze
+		//Controllo se ï¿½ presente un personaggio/oggetto in piï¿½ stanze
 		List<Entita> lista = stanze.stream()
 									.map(AnalizzaFile::supportoControllo)
 									.flatMap(Set::stream)
