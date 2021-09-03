@@ -1,8 +1,7 @@
 package entita;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Set;
+import java.util.Map;
 
 import entita.stanza.Stanza;
 import utilita.creazione.AnalizzaFile;
@@ -17,10 +16,10 @@ import utilita.creazione.interfaccia.FilesMethod;
  */
 public class Mondo extends Entita{
 	private final String DESCRIZIONE_TESTUALE;
-	private Set<Stanza> stanze;
+	private Map<String,? super Stanza> stanze;
 	private Stanza start;
 	
-	public Mondo(String nomeMondo, String descrizioneTestuale, Set<Stanza> stanze, Stanza start) {
+	public Mondo(String nomeMondo, String descrizioneTestuale, Map<String,? super Stanza> stanze, Stanza start) {
 		super(nomeMondo);
 		DESCRIZIONE_TESTUALE = descrizioneTestuale;
 		this.stanze = stanze;

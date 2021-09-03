@@ -31,7 +31,7 @@ public class Giocatore extends Personaggio{
 	
 	
 	public void prendi(Oggetto o) {
-		inventario.add(o);
+		inventario.put(o.toString(), o);
 	}
 	
 	

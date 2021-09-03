@@ -1,9 +1,6 @@
 package utilita.creazione.interfaccia.funzionali;
 
 import java.util.List;
-import java.util.Set;
-
-import entita.Entita;
 import utilita.creazione.eccezioni.MondoFileException;
 
 /**
@@ -12,5 +9,5 @@ import utilita.creazione.eccezioni.MondoFileException;
  */
 @FunctionalInterface
 public interface CreationFunction {
-	Set<? extends Entita> apply(List<String> pattern) throws MondoFileException;
+	void apply(List<String> pattern) throws MondoFileException;
 }

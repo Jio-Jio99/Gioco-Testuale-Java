@@ -2,17 +2,16 @@ package entita.link;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
 import entita.Entita;
-import entita.oggetto.Oggetto;
 import entita.stanza.Stanza;
 import utilita.creazione.AnalizzaFile;
 import utilita.creazione.eccezioni.concreto.EntitaException;
-import utilita.creazione.interfaccia.Observable;
+import utilita.creazione.eccezioni.concreto.LinkFileException;
 import utilita.creazione.interfaccia.Observer;
 
 /**
@@ -25,12 +24,12 @@ import utilita.creazione.interfaccia.Observer;
  */
 public abstract class Link extends Entita implements Observer{
 	protected boolean aperto;
-	protected List<Stanza> collegamento;
+	protected Map<String,Stanza> collegamento;
 	private List<String> nomeStanze;
 	
 	private Link(String nome) {
 		super(nome);
-		collegamento = new ArrayList<>();
+		collegamento = new HashMap<>();
 	}
 	
 	/**
@@ -38,10 +37,11 @@ public abstract class Link extends Entita implements Observer{
 	 * @param nome
 	 * @param stanza1
 	 * @param stanza2
+	 * @throws LinkFileException 
 	 */
-	public Link(String nome, Stanza stanza1, Stanza stanza2) {
+	public Link(String nome, Stanza stanza1, Stanza stanza2){
 		this(nome);
-		collegamento.addAll(Arrays.asList(stanza1, stanza2));
+		collegamento = Map.of(stanza1.getNome(), stanza1, stanza2.getNome(), stanza2);
 	}
 	
 	/**
@@ -49,9 +49,14 @@ public abstract class Link extends Entita implements Observer{
 	 * @param nome
 	 * @param stanza1
 	 * @param stanza2
+	 * @throws LinkFileException 
 	 */
-	public Link(String nome, String stanza1, String stanza2) {
+	public Link(String nome, String stanza1, String stanza2) throws LinkFileException {
 		this(nome);
+		
+		if(stanza1.equals(stanza2))
+			throw new LinkFileException(getNome());
+		
 		nomeStanze = new ArrayList<>();
 		nomeStanze.addAll(Arrays.asList(stanza1, stanza2));
 	}
@@ -61,7 +66,7 @@ public abstract class Link extends Entita implements Observer{
 	 * Metodo che restituisce il Set delle stanze
 	 * @return {@link Set<{@link Stanza}>}
 	 */
-	public List<Stanza> getStanze() {
+	public Map<String,Stanza> getStanze() {
 		return collegamento;
 	}
 	
@@ -71,7 +76,7 @@ public abstract class Link extends Entita implements Observer{
 	 * @return boolean
 	 */
 	public boolean connected(Stanza stanza) {
-		return collegamento.contains(stanza);
+		return collegamento.containsValue(stanza);
 	}
 	
 	/**
@@ -124,6 +129,6 @@ public abstract class Link extends Entita implements Observer{
 	@Override
 	public void converti() throws EntitaException {
 		for(String stanza : nomeStanze)
-			collegamento.add((Stanza) AnalizzaFile.convertitore(stanza));
+			collegamento.put(stanza,(Stanza) AnalizzaFile.convertitore(stanza));
 	}
 }

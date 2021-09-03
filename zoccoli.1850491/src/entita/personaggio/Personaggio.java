@@ -1,6 +1,8 @@
 package entita.personaggio;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -22,13 +24,13 @@ cui si trova e con gli altri personaggi presenti nella stanza.
  *
  */
 public abstract class Personaggio extends Entita implements Observer{
-	protected Set<Inventario> inventario;
+	protected Map<String, Inventario> inventario;
 	private Set<String> inventarioString;
 	protected Stanza posizione;
 	
 	public Personaggio(String nome) {
 		super(nome);
-		this.inventario = new HashSet<>();
+		this.inventario = new HashMap<>();
 	}
 	
 	
@@ -37,7 +39,7 @@ public abstract class Personaggio extends Entita implements Observer{
 		this.inventarioString = inventarioString;
 	}
 	
-	public void removeOggetto(Inventario o) {
+	public void removeOggetto(String o) {
 		inventario.remove(o);
 	}
 	
@@ -50,29 +52,23 @@ public abstract class Personaggio extends Entita implements Observer{
 	
 	//METODI GET
 	public Optional<Oggetto> getOggetto(String o) {
-		Oggetto oggetto = (Oggetto) inventario.stream().filter(x -> ((Entita)x).getNome().equals(o)).findAny().orElse(null);
+		Oggetto oggetto = (Oggetto) inventario.get(o);
 		
 		if(oggetto == null)
 			return Optional.empty();
 		
-		removeOggetto(oggetto);
+		removeOggetto(oggetto.getNome());
 		
 		return Optional.of(oggetto);
-	}
-	
-	public boolean oggettoPresente(String o) {
-		return inventario.stream().anyMatch(x -> ((Entita)x).getNome().equals(o));
 	}
 	
 	public Stanza getPosizione(Stanza stanza) {
 		return posizione;
 	}
 	
-	public Set<Inventario> getInventario(){
+	public Map<String, Inventario> getInventario(){
 		return inventario;
 	}
-	
-	
 	
 	@Override
 	public boolean equals(Object o) {
@@ -98,6 +94,6 @@ public abstract class Personaggio extends Entita implements Observer{
 	public void converti() throws EntitaException {
 		if(inventarioString != null)
 			for(String s : inventarioString)
-				inventario.add((Inventario) AnalizzaFile.convertitore(s));
+				inventario.put(s, (Inventario) AnalizzaFile.convertitore(s));
 	}
 }

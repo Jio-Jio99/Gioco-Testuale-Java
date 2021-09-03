@@ -1,8 +1,6 @@
 package entita.stanza;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -29,9 +27,9 @@ import utilita.enumerazioni.PuntoCardinale;
  */
 public class Stanza extends Entita implements Observer{
 	private String DESCRIZIONE_STANZA;
-	private Set<Oggetto> oggetti;
-	private Set<Personaggio> personaggi;
-	private Map<PuntoCardinale,Link> accessi;
+	private Map<String, Oggetto> oggetti;
+	private Map<String, Personaggio> personaggi;
+	private Map<PuntoCardinale, Link> accessi;
 	
 	//Corrispettivi in stringhe
 	private Set<String> oggettiString;
@@ -41,8 +39,8 @@ public class Stanza extends Entita implements Observer{
 	public Stanza(String nome, String descrizioneStanza, Set<String> oggettiString, Set<String> personaggiString, Map<PuntoCardinale,String> accessiString) {
 		super(nome);
 		this.DESCRIZIONE_STANZA = descrizioneStanza;
-		this.oggetti = new HashSet<>();
-		this.personaggi = new HashSet<>();
+		this.oggetti = new HashMap<>();
+		this.personaggi = new HashMap<>();
 		this.accessi = new HashMap<>();
 		
 		//inizializzo gli insiemi delle stringhe
@@ -56,11 +54,11 @@ public class Stanza extends Entita implements Observer{
 		
 		if(oggettiString != null)
 			for(String s : oggettiString) 
-				oggetti.add((Oggetto) AnalizzaFile.convertitore(s));
+				oggetti.put(s, (Oggetto) AnalizzaFile.convertitore(s));
 		
 		if(personaggiString != null)
 			for(String s : personaggiString) 
-				personaggi.add((Personaggio) AnalizzaFile.convertitore(s));
+				personaggi.put(s, (Personaggio) AnalizzaFile.convertitore(s));
 		
 		Link link = null;
 		Stanza stanza = null;
@@ -77,16 +75,24 @@ public class Stanza extends Entita implements Observer{
 		}
 	}
 	
-	public Set<Personaggio> getPersonaggi(){
+	public Map<String, Personaggio> getPersonaggi(){
 		return personaggi;
 	}
 	
-	public Set<Oggetto> getInventario(){
+	public Map<String, Oggetto> getInventario(){
 		return oggetti;
 	}
 	
 	public Map<PuntoCardinale, Link> getAccessi(){
 		return accessi;
+	}
+	
+	public Oggetto getOggetto(String nome) {
+		return oggetti.get(nome);
+	}
+	
+	public Personaggio getPersonaggio(String nome) {
+		return personaggi.get(nome);
 	}
 	
 	@Override
