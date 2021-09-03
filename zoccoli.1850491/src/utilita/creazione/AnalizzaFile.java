@@ -411,7 +411,6 @@ public abstract class AnalizzaFile implements Observable{
 	private static void controllo() throws ErroreCaricamentoException{
 		Stanza stanza = null;
 		List<Entita> doppioni = new ArrayList<>();
-		List<Personaggio> personaggi = new ArrayList<>();
 		List<Entita> verifica = new ArrayList<>();
 		List<Inventario> verificaInventario = new ArrayList<>();
 		Set<Personaggio> personaggiStanza = new HashSet<>();
@@ -433,13 +432,10 @@ public abstract class AnalizzaFile implements Observable{
 					throw new LinkFileException(l.getNome());
 			
 			//Controllo la posizione degli oggetti se siano coerenti con l'inventario dei personaggi nelle stanze
-			
 			verificaInventario = personaggiStanza.stream().flatMap(x -> x.getInventario().values().stream()).filter(x -> !(x instanceof Animale)).collect(Collectors.toList());
 		
 			if(!oggettiStanza.containsAll(verificaInventario))
 				throw new ErroreFileException("oggetto di un personaggio nella stanza non presente anche nella stanza " + stanza);			
-			
-			personaggiStanza.clear();
 		}
 		
 		//Controllo se � presente un personaggio/oggetto in pi� stanze
