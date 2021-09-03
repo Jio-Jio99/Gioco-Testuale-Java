@@ -1,4 +1,4 @@
-package utilita.creazione.interfaccie;
+package utilita.creazione.interfaccia;
 
 import utilita.creazione.eccezioni.concreto.EntitaException;
 

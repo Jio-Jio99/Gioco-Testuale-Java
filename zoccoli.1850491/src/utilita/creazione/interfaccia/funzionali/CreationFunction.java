@@ -1,4 +1,4 @@
-package utilita.creazione.interfaccie.funzionali;
+package utilita.creazione.interfaccia.funzionali;
 
 import java.util.List;
 import java.util.Set;

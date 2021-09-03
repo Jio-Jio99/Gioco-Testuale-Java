@@ -2,7 +2,10 @@ package entita.personaggio.concreto;
 
 import java.util.HashSet;
 
+import entita.Entita;
+import entita.oggetto.Oggetto;
 import entita.personaggio.Personaggio;
+import utilita.azione.interfaccia.Description;
 import utilita.creazione.eccezioni.GiocatoreException;
 import utilita.creazione.eccezioni.concreto.GiocatoreNomeDiversoException;
 import utilita.creazione.eccezioni.concreto.GiocatoreNonInstanziatoException;
@@ -16,6 +19,34 @@ public class Giocatore extends Personaggio{
 	}
 	
 	
+	
+	public String osserva(Entita e) {
+		String descr = e.getNome() + " ";
+		
+		if(e instanceof Description)
+			descr += ((Description) e).getDescription();
+		
+		return descr;
+	}
+	
+	
+	public void prendi(Oggetto o) {
+		inventario.add(o);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * Metodo che instanzia il Giocatore, se non instanziato precedentemnte, altrmenti restituisce la stessa instanza
+	 * @param nome = nome che si vuole dare al Giocatore
+	 * @return {@link Giocatore}
+	 * @throws GiocatoreException
+	 */
 	public static Giocatore getInstance(String nome) throws GiocatoreException {
 		if(instanza == null)
 			instanza = new Giocatore(nome);
@@ -26,6 +57,11 @@ public class Giocatore extends Personaggio{
 		return instanza;
 	}
 	
+	/**
+	 * Metodo che ritorna il Giocatore già instanziato
+	 * @return
+	 * @throws GiocatoreException
+	 */
 	public static Giocatore getInstance() throws GiocatoreException {
 		if(instanza == null) 
 			throw new GiocatoreNonInstanziatoException();

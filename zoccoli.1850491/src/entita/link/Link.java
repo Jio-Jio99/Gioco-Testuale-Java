@@ -12,8 +12,8 @@ import entita.oggetto.Oggetto;
 import entita.stanza.Stanza;
 import utilita.creazione.AnalizzaFile;
 import utilita.creazione.eccezioni.concreto.EntitaException;
-import utilita.creazione.interfaccie.Observable;
-import utilita.creazione.interfaccie.Observer;
+import utilita.creazione.interfaccia.Observable;
+import utilita.creazione.interfaccia.Observer;
 
 /**
  * Classe astratta dei link di collegamento delle varie stanze, contente:

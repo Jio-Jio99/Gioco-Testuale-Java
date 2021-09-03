@@ -2,14 +2,17 @@ package entita.personaggio;
 
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import entita.Entita;
+import entita.oggetto.Oggetto;
 import entita.stanza.Stanza;
 import utilita.creazione.AnalizzaFile;
 import utilita.creazione.eccezioni.concreto.EntitaException;
-import utilita.creazione.interfaccie.Inventario;
-import utilita.creazione.interfaccie.Observer;
+import utilita.creazione.interfaccia.Inventario;
+import utilita.creazione.interfaccia.Observer;
 
 /**
  * Ogni personaggio ha un nome. Un personaggio che dispone di un inventario di oggetti. Il
@@ -19,7 +22,7 @@ cui si trova e con gli altri personaggi presenti nella stanza.
  *
  */
 public abstract class Personaggio extends Entita implements Observer{
-	private Set<Inventario> inventario;
+	protected Set<Inventario> inventario;
 	private Set<String> inventarioString;
 	protected Stanza posizione;
 	
@@ -28,13 +31,37 @@ public abstract class Personaggio extends Entita implements Observer{
 		this.inventario = new HashSet<>();
 	}
 	
+	
+	//METODI SET
 	public void setInventario(Set<String> inventarioString) {
 		this.inventarioString = inventarioString;
 	}
 	
+	public void removeOggetto(Inventario o) {
+		inventario.remove(o);
+	}
 	
 	public void setPosizione(Stanza stanza) {
 		posizione = stanza;
+	}
+	
+	
+	
+	
+	//METODI GET
+	public Optional<Oggetto> getOggetto(String o) {
+		Oggetto oggetto = (Oggetto) inventario.stream().filter(x -> ((Entita)x).getNome().equals(o)).findAny().orElse(null);
+		
+		if(oggetto == null)
+			return Optional.empty();
+		
+		removeOggetto(oggetto);
+		
+		return Optional.of(oggetto);
+	}
+	
+	public boolean oggettoPresente(String o) {
+		return inventario.stream().anyMatch(x -> ((Entita)x).getNome().equals(o));
 	}
 	
 	public Stanza getPosizione(Stanza stanza) {
@@ -44,6 +71,8 @@ public abstract class Personaggio extends Entita implements Observer{
 	public Set<Inventario> getInventario(){
 		return inventario;
 	}
+	
+	
 	
 	@Override
 	public boolean equals(Object o) {
@@ -70,10 +99,5 @@ public abstract class Personaggio extends Entita implements Observer{
 		if(inventarioString != null)
 			for(String s : inventarioString)
 				inventario.add((Inventario) AnalizzaFile.convertitore(s));
-	}
-	
-	@Override
-	public String toString() {
-		return NOME + " " + inventario;
 	}
 }

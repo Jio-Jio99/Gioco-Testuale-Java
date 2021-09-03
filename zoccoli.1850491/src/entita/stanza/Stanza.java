@@ -14,7 +14,7 @@ import entita.oggetto.Oggetto;
 import entita.personaggio.Personaggio;
 import utilita.creazione.AnalizzaFile;
 import utilita.creazione.eccezioni.concreto.EntitaException;
-import utilita.creazione.interfaccie.Observer;
+import utilita.creazione.interfaccia.Observer;
 import utilita.enumerazioni.PuntoCardinale;
 
 /**

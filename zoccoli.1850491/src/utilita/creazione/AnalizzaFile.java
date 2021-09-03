@@ -35,10 +35,10 @@ import utilita.creazione.eccezioni.concreto.GiocatoreNonInstanziatoException;
 import utilita.creazione.eccezioni.concreto.LinkFileException;
 import utilita.creazione.eccezioni.concreto.NomeEsistenteException;
 import utilita.creazione.eccezioni.concreto.PosizioneFileException;
-import utilita.creazione.interfaccie.Inventario;
-import utilita.creazione.interfaccie.Observable;
-import utilita.creazione.interfaccie.Observer;
-import utilita.creazione.interfaccie.funzionali.CreationFunction;
+import utilita.creazione.interfaccia.Inventario;
+import utilita.creazione.interfaccia.Observable;
+import utilita.creazione.interfaccia.Observer;
+import utilita.creazione.interfaccia.funzionali.CreationFunction;
 
 /**
  * Classe astratta che analizza e crea il {@link Mondo}, controllando se i pattern nel file vengono rispettati
