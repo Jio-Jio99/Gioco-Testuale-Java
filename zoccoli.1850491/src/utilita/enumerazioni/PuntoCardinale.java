@@ -1,6 +1,6 @@
 package utilita.enumerazioni;
 
-import utilita.eccezioni.concreto.PuntoCardinaleException;
+import utilita.creazione.eccezioni.concreto.PuntoCardinaleException;
 
 /**
  * Enumerazione per la direzione: <p>

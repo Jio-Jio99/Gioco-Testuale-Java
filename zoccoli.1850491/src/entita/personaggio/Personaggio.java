@@ -6,10 +6,10 @@ import java.util.Set;
 
 import entita.Entita;
 import entita.stanza.Stanza;
-import utilita.AnalizzaFile;
-import utilita.eccezioni.concreto.EntitaException;
-import utilita.interfaccie.tag.Inventario;
-import utilita.interfaccie.tag.Observer;
+import utilita.creazione.AnalizzaFile;
+import utilita.creazione.eccezioni.concreto.EntitaException;
+import utilita.creazione.interfaccie.Inventario;
+import utilita.creazione.interfaccie.Observer;
 
 /**
  * Ogni personaggio ha un nome. Un personaggio che dispone di un inventario di oggetti. Il

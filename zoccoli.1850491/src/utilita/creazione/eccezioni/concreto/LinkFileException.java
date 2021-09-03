@@ -1,6 +1,6 @@
-package utilita.eccezioni.concreto;
+package utilita.creazione.eccezioni.concreto;
 
-import utilita.eccezioni.MondoFileException;
+import utilita.creazione.eccezioni.MondoFileException;
 
 /**
  * Eccezione lanciata quando è presente un errore di collegamento tra le stanze nel file di caricamento del Mondo <p>

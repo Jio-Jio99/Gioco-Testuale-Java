@@ -12,10 +12,10 @@ import entita.link.Link;
 import entita.link.concreto.Libero;
 import entita.oggetto.Oggetto;
 import entita.personaggio.Personaggio;
-import utilita.AnalizzaFile;
-import utilita.eccezioni.concreto.EntitaException;
+import utilita.creazione.AnalizzaFile;
+import utilita.creazione.eccezioni.concreto.EntitaException;
+import utilita.creazione.interfaccie.Observer;
 import utilita.enumerazioni.PuntoCardinale;
-import utilita.interfaccie.tag.Observer;
 
 /**
  * La stanza è l’elemento base del mondo. Ogni stanza ha un nome, una descrizione testuale

@@ -1,4 +1,4 @@
-package utilita;
+package utilita.creazione;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -25,20 +25,20 @@ import entita.personaggio.Personaggio;
 import entita.personaggio.concreto.Giocatore;
 import entita.stanza.Stanza;
 import entita.stanza.StanzaBuilder;
-import utilita.eccezioni.ErroreCaricamentoException;
-import utilita.eccezioni.GiocatoreException;
-import utilita.eccezioni.MondoFileException;
-import utilita.eccezioni.concreto.EntitaException;
-import utilita.eccezioni.concreto.ErroreFileException;
-import utilita.eccezioni.concreto.FormattazioneFileException;
-import utilita.eccezioni.concreto.GiocatoreNonInstanziatoException;
-import utilita.eccezioni.concreto.LinkFileException;
-import utilita.eccezioni.concreto.NomeEsistenteException;
-import utilita.eccezioni.concreto.PosizioneFileException;
-import utilita.interfaccie.funzionali.CreationFunction;
-import utilita.interfaccie.tag.Inventario;
-import utilita.interfaccie.tag.Observable;
-import utilita.interfaccie.tag.Observer;
+import utilita.creazione.eccezioni.ErroreCaricamentoException;
+import utilita.creazione.eccezioni.GiocatoreException;
+import utilita.creazione.eccezioni.MondoFileException;
+import utilita.creazione.eccezioni.concreto.EntitaException;
+import utilita.creazione.eccezioni.concreto.ErroreFileException;
+import utilita.creazione.eccezioni.concreto.FormattazioneFileException;
+import utilita.creazione.eccezioni.concreto.GiocatoreNonInstanziatoException;
+import utilita.creazione.eccezioni.concreto.LinkFileException;
+import utilita.creazione.eccezioni.concreto.NomeEsistenteException;
+import utilita.creazione.eccezioni.concreto.PosizioneFileException;
+import utilita.creazione.interfaccie.Inventario;
+import utilita.creazione.interfaccie.Observable;
+import utilita.creazione.interfaccie.Observer;
+import utilita.creazione.interfaccie.funzionali.CreationFunction;
 
 /**
  * Classe astratta che analizza e crea il {@link Mondo}, controllando se i pattern nel file vengono rispettati

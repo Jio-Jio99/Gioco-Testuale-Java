@@ -1,6 +1,6 @@
-package utilita.eccezioni.concreto;
+package utilita.creazione.eccezioni.concreto;
 
-import utilita.eccezioni.ErroreCaricamentoException;
+import utilita.creazione.eccezioni.ErroreCaricamentoException;
 
 /**
  * Eccezione generale che incapsula l'errore nel file 

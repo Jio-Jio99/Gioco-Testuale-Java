@@ -1,6 +1,6 @@
-package utilita.eccezioni.concreto;
+package utilita.creazione.eccezioni.concreto;
 
-import utilita.eccezioni.MondoFileException;
+import utilita.creazione.eccezioni.MondoFileException;
 
 /**
  * Errore lanciato in caso non sia presente come classe .java l'entita richiesta da instanziare e/o da chiamare

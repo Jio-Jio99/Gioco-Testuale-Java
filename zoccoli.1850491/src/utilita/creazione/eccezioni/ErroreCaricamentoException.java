@@ -1,4 +1,4 @@
-package utilita.eccezioni;
+package utilita.creazione.eccezioni;
 
 /**
  * Classe generale di errore che potrebbe provenire dalla creazione del mondo analizzando il file

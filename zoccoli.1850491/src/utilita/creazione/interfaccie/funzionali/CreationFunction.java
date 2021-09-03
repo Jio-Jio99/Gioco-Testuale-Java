@@ -1,10 +1,10 @@
-package utilita.interfaccie.funzionali;
+package utilita.creazione.interfaccie.funzionali;
 
 import java.util.List;
 import java.util.Set;
 
 import entita.Entita;
-import utilita.eccezioni.MondoFileException;
+import utilita.creazione.eccezioni.MondoFileException;
 
 /**
  * Interfaccia funzionale per i metodi della creazione dell'Entita 

@@ -1,10 +1,10 @@
 package entita.oggetto;
 
 
-import utilita.AnalizzaFile;
-import utilita.eccezioni.concreto.EntitaException;
-import utilita.interfaccie.tag.Inventario;
-import utilita.interfaccie.tag.Observer;
+import utilita.creazione.AnalizzaFile;
+import utilita.creazione.eccezioni.concreto.EntitaException;
+import utilita.creazione.interfaccie.Inventario;
+import utilita.creazione.interfaccie.Observer;
 
 public abstract class Contenitore extends Oggetto implements Observer{
 	protected Inventario inventario;

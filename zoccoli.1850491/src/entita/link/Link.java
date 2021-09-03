@@ -10,10 +10,10 @@ import java.util.Set;
 import entita.Entita;
 import entita.oggetto.Oggetto;
 import entita.stanza.Stanza;
-import utilita.AnalizzaFile;
-import utilita.eccezioni.concreto.EntitaException;
-import utilita.interfaccie.tag.Observable;
-import utilita.interfaccie.tag.Observer;
+import utilita.creazione.AnalizzaFile;
+import utilita.creazione.eccezioni.concreto.EntitaException;
+import utilita.creazione.interfaccie.Observable;
+import utilita.creazione.interfaccie.Observer;
 
 /**
  * Classe astratta dei link di collegamento delle varie stanze, contente:
@@ -34,7 +34,7 @@ public abstract class Link extends Entita implements Observer{
 	}
 	
 	/**
-	 * Costruttore del Link con già presenti le stanze
+	 * Costruttore del Link con giï¿½ presenti le stanze
 	 * @param nome
 	 * @param stanza1
 	 * @param stanza2

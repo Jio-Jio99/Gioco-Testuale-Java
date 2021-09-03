@@ -3,9 +3,9 @@ package entita.personaggio.concreto;
 import java.util.HashSet;
 
 import entita.personaggio.Personaggio;
-import utilita.eccezioni.GiocatoreException;
-import utilita.eccezioni.concreto.GiocatoreNomeDiversoException;
-import utilita.eccezioni.concreto.GiocatoreNonInstanziatoException;
+import utilita.creazione.eccezioni.GiocatoreException;
+import utilita.creazione.eccezioni.concreto.GiocatoreNomeDiversoException;
+import utilita.creazione.eccezioni.concreto.GiocatoreNonInstanziatoException;
 
 public class Giocatore extends Personaggio{
 	private static Giocatore instanza;

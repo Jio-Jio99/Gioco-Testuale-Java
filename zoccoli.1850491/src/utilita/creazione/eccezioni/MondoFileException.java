@@ -1,9 +1,9 @@
-package utilita.eccezioni;
+package utilita.creazione.eccezioni;
 
-import utilita.eccezioni.concreto.EntitaException;
-import utilita.eccezioni.concreto.FormattazioneFileException;
-import utilita.eccezioni.concreto.LinkFileException;
-import utilita.eccezioni.concreto.PosizioneFileException;
+import utilita.creazione.eccezioni.concreto.EntitaException;
+import utilita.creazione.eccezioni.concreto.FormattazioneFileException;
+import utilita.creazione.eccezioni.concreto.LinkFileException;
+import utilita.creazione.eccezioni.concreto.PosizioneFileException;
 
 /**
  * Classe astratta Eccezione per gestire evenutali errori dal caricamento del Mondo dal file .game.

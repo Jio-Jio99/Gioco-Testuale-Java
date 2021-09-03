@@ -1,7 +1,7 @@
 package entita.oggetto.concreto;
 
 import entita.oggetto.Oggetto;
-import utilita.interfaccie.tag.Inventario;
+import utilita.creazione.interfaccie.Inventario;
 
 public class Soldi extends Oggetto implements Inventario {
 

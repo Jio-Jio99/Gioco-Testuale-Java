@@ -1,6 +1,6 @@
-package utilita.interfaccie.tag;
+package utilita.creazione.interfaccie;
 
-import utilita.eccezioni.concreto.EntitaException;
+import utilita.creazione.eccezioni.concreto.EntitaException;
 
 /**
  * Interfaccia Observer per convertire le Stringhe in Entita
