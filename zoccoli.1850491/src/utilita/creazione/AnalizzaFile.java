@@ -424,20 +424,22 @@ public abstract class AnalizzaFile implements Observable{
 			personaggiStanza = stanza.getPersonaggi().values().stream().collect(Collectors.toSet());
 			oggettiStanza = stanza.getInventario().values().stream().collect(Collectors.toSet());
 			
+			doppioni.addAll(personaggiStanza);
+			doppioni.addAll(oggettiStanza);
+
 			//Controllo se gli accessi alle stanze sono coerenti con i link
 			for(Link l : stanza.getAccessi().values()) 
 				if(!l.connected(stanza))
 					throw new LinkFileException(l.getNome());
 			
 			//Controllo la posizione degli oggetti se siano coerenti con l'inventario dei personaggi nelle stanze
-			personaggi.addAll(stanza.getPersonaggi().values());
 			
-			verificaInventario = personaggi.stream().flatMap(x -> x.getInventario().values().stream()).filter(x -> !(x instanceof Animale)).collect(Collectors.toList());
+			verificaInventario = personaggiStanza.stream().flatMap(x -> x.getInventario().values().stream()).filter(x -> !(x instanceof Animale)).collect(Collectors.toList());
 		
-			if(!stanza.getInventario().values().containsAll(verificaInventario))
+			if(!oggettiStanza.containsAll(verificaInventario))
 				throw new ErroreFileException("oggetto di un personaggio nella stanza non presente anche nella stanza " + stanza);			
 			
-			personaggi.clear();
+			personaggiStanza.clear();
 		}
 		
 		//Controllo se � presente un personaggio/oggetto in pi� stanze
