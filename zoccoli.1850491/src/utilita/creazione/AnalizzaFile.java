@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 
@@ -249,7 +250,7 @@ public abstract class AnalizzaFile implements Observable{
 		
 		for(String personaggio : pattern) {
 			parti = Arrays.asList(personaggio.split(TAB));
-			parti.stream().map(String::strip);
+			parti = parti.stream().map(String::strip).collect(Collectors.toList());
 
 			if(parti.size() <= 0)
 				throw new FormattazioneFileException("personaggio errato" +  parti);
@@ -297,7 +298,7 @@ public abstract class AnalizzaFile implements Observable{
 		
 		for(String oggetto : pattern) {
 			parti = Arrays.asList(oggetto.split(TAB));
-			parti.stream().map(String::strip);
+			parti = parti.stream().map(String::strip).collect(Collectors.toList());
 			
 			if(parti.size() > (PARTI_OG-1) && parti.size() < PARTI_OG) 
 				throw new FormattazioneFileException("oggetto non corretto" + parti);
@@ -346,7 +347,7 @@ public abstract class AnalizzaFile implements Observable{
 		
 		for(String link : pattern) {
 			parti = Arrays.asList(link.split(TAB));
-			parti.stream().map(String::strip);
+			parti = parti.stream().map(String::strip).collect(Collectors.toList());
 			
 			if(parti.size() != PARTI_LINK) 
 				throw new FormattazioneFileException("link non corretto");
