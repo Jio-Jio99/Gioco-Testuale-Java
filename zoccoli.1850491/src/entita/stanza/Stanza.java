@@ -55,8 +55,8 @@ public class Stanza extends Entita implements Observer{
 		if(oggettiString != null)
 			for(String s : oggettiString) 
 				oggetti.put(s, (Oggetto) AnalizzaFile.convertitore(s));
-		
-		if(personaggiString != null)
+				
+		if(personaggiString != null) 
 			for(String s : personaggiString) 
 				personaggi.put(s, (Personaggio) AnalizzaFile.convertitore(s));
 		

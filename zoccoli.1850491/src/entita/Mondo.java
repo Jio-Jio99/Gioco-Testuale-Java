@@ -2,6 +2,8 @@ package entita;
 
 import java.nio.file.Path;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import entita.stanza.Stanza;
 import utilita.creazione.AnalizzaFile;
@@ -16,13 +18,14 @@ import utilita.creazione.interfaccia.FilesMethod;
  */
 public class Mondo extends Entita{
 	private final String DESCRIZIONE_TESTUALE;
-	private Map<String,? super Stanza> stanze;
+	private Map<String, Stanza> stanze;
 	private Stanza start;
 	
 	public Mondo(String nomeMondo, String descrizioneTestuale, Map<String,? super Stanza> stanze, Stanza start) {
 		super(nomeMondo);
 		DESCRIZIONE_TESTUALE = descrizioneTestuale;
-		this.stanze = stanze;
+		
+		this.stanze = stanze.values().stream().map(x -> (Stanza)x).collect(Collectors.toMap(x -> x.getNome(), Function.identity()));
 		this.start = start;
 	}
 	

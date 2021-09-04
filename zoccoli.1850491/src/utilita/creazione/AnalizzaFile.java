@@ -2,7 +2,6 @@ package utilita.creazione;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 
@@ -35,7 +33,6 @@ import utilita.creazione.eccezioni.concreto.FormattazioneFileException;
 import utilita.creazione.eccezioni.concreto.LinkFileException;
 import utilita.creazione.eccezioni.concreto.NomeEsistenteException;
 import utilita.creazione.eccezioni.concreto.PosizioneFileException;
-import utilita.creazione.interfaccia.FilesMethod;
 import utilita.creazione.interfaccia.Inventario;
 import utilita.creazione.interfaccia.Observable;
 import utilita.creazione.interfaccia.Observer;
@@ -107,10 +104,6 @@ public abstract class AnalizzaFile implements Observable{
 	 * Lista degli osservatori
 	 */
 	private static List<Observer> osservatori = new ArrayList<>();
-	
-	public static void main(String[] args) throws Exception {
-		analizzaLista(FilesMethod.lettura(Paths.get("resourse", "minizak.game")));
-	}
 
 	/**
 	 * Metodo che analizza il file del gioco e crea il mondo
@@ -159,7 +152,7 @@ public abstract class AnalizzaFile implements Observable{
 				continue;
 			}
 			
-			if(nome.contains(STANZA)) 
+			else if(nome.contains(STANZA)) 
 				nome = STANZA;
 			else
 				parte = parte.subList(1, parte.size());
@@ -190,7 +183,7 @@ public abstract class AnalizzaFile implements Observable{
 	 * @throws MondoFileException
 	 */
 	private static void creaGiocatore(List<String> pattern) throws MondoFileException {
-		if(pattern.size() >= LINEE_PLAYER || pattern.size() <= 0) throw new FormattazioneFileException("player, sono presenti più giocatori!");
+		if(pattern.size() >= LINEE_PLAYER || pattern.size() <= 0) throw new FormattazioneFileException("player, sono presenti piï¿½ giocatori!");
 		
 		String nomeGiocatore = pattern.get(0).split(TAB)[0];
 
@@ -235,7 +228,7 @@ public abstract class AnalizzaFile implements Observable{
 			
 		}
 		
-		dizionario_entita.get(STANZA).put(nome, stanza.build());
+		inserimentoInMappa(STANZA, stanza.build());;
 	}
 	
 	/**
@@ -256,8 +249,8 @@ public abstract class AnalizzaFile implements Observable{
 		
 		for(String personaggio : pattern) {
 			parti = Arrays.asList(personaggio.split(TAB));
-			parti.forEach(String::strip);
-			
+			parti.stream().map(String::strip);
+
 			if(parti.size() <= 0)
 				throw new FormattazioneFileException("personaggio errato" +  parti);
 			
@@ -286,9 +279,9 @@ public abstract class AnalizzaFile implements Observable{
 	}
 	
 	/**
-	 * Metodo che costruisce un set di {@link Oggetto} instanziando gli oggetti concreti usando la reflection
+	 * Metodo che costruisce una mappa di {@link Oggetto} instanziando gli oggetti concreti usando la reflection, con chiave il nome
 	 * @param pattern = List<String> di tutti gli oggetti
-	 * @return Set<{@link Oggetti}> di Oggetto
+	 * @return Map<String, {@link Oggetti}> di Oggetto
 	 * @throws MondoFileException
 	 */
 	private static void creaOggetto(List<String> pattern) throws MondoFileException {
@@ -304,7 +297,7 @@ public abstract class AnalizzaFile implements Observable{
 		
 		for(String oggetto : pattern) {
 			parti = Arrays.asList(oggetto.split(TAB));
-			parti.forEach(String::strip);
+			parti.stream().map(String::strip);
 			
 			if(parti.size() > (PARTI_OG-1) && parti.size() < PARTI_OG) 
 				throw new FormattazioneFileException("oggetto non corretto" + parti);
@@ -337,9 +330,9 @@ public abstract class AnalizzaFile implements Observable{
 	}
 	
 	/**
-	 * Metodo che costruisce un set di {@link Link} instanziando i link concreti usando la reflection
+	 * Metodo che costruisce una mappa di {@link Link} instanziando i link concreti usando la reflection, con chiave i nomi
 	 * @param pattern = List<String> di tutti i Link
-	 * @return Set<{@link Link} di link
+	 * @return Map<String,{@link Link} di link
 	 * @throws MondoFileException
 	 */
 	private static void creaLink(List<String> pattern) throws MondoFileException {
@@ -353,7 +346,7 @@ public abstract class AnalizzaFile implements Observable{
 		
 		for(String link : pattern) {
 			parti = Arrays.asList(link.split(TAB));
-			parti.forEach(String::strip);
+			parti.stream().map(String::strip);
 			
 			if(parti.size() != PARTI_LINK) 
 				throw new FormattazioneFileException("link non corretto");
@@ -425,17 +418,17 @@ public abstract class AnalizzaFile implements Observable{
 			
 			doppioni.addAll(personaggiStanza);
 			doppioni.addAll(oggettiStanza);
-
+			
 			//Controllo se gli accessi alle stanze sono coerenti con i link
 			for(Link l : stanza.getAccessi().values()) 
-				if(!l.connected(stanza))
-					throw new LinkFileException(l.getNome());
+				if(!l.connected(stanza)) 
+					throw new LinkFileException(stanza.getNome() + " e link " + l.getNome());
 			
 			//Controllo la posizione degli oggetti se siano coerenti con l'inventario dei personaggi nelle stanze
 			verificaInventario = personaggiStanza.stream().flatMap(x -> x.getInventario().values().stream()).filter(x -> !(x instanceof Animale)).collect(Collectors.toList());
 		
 			if(!oggettiStanza.containsAll(verificaInventario))
-				throw new ErroreFileException("oggetto di un personaggio nella stanza non presente anche nella stanza " + stanza);			
+				throw new ErroreFileException("Oggetto di un personaggio nella stanza non presente anche nella stessa: " + stanza);			
 		}
 		
 		//Controllo se ï¿½ presente un personaggio/oggetto in piï¿½ stanze
@@ -468,4 +461,3 @@ public abstract class AnalizzaFile implements Observable{
 			oss.converti();
 	}
 }
-

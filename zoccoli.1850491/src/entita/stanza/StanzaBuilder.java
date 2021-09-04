@@ -84,7 +84,7 @@ public class StanzaBuilder {
 			}
 			return null;
 			
-		}, x -> x[1]));
+		}, x -> x[1].strip()));
 		
 		return this;
 	}
@@ -109,7 +109,7 @@ public class StanzaBuilder {
 		List<String> listaString = Arrays.asList(pattern.split(","));
 		
 		for(String s : listaString)
-			set.add(s);
+			set.add(s.strip());
 		
 		return set;
 	}
