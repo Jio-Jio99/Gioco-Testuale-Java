@@ -1,6 +1,7 @@
 package entita;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -31,5 +32,9 @@ public class Mondo extends Entita{
 	
 	public static Mondo fromFile(Path file) throws ErroreCaricamentoException {
 		return AnalizzaFile.analizzaLista(FilesMethod.lettura(file));
+	}
+	
+	public static Mondo fromFile(String file) throws ErroreCaricamentoException {
+		return fromFile(Paths.get(file));
 	}
 }
