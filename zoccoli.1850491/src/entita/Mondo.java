@@ -20,14 +20,12 @@ import utilita.creazione.interfaccia.FilesMethod;
 public class Mondo extends Entita{
 	private final String DESCRIZIONE_TESTUALE;
 	private Map<String, Stanza> stanze;
-	private Stanza start;
 	
-	public Mondo(String nomeMondo, String descrizioneTestuale, Map<String,? super Stanza> stanze, Stanza start) {
+	public Mondo(String nomeMondo, String descrizioneTestuale, Map<String,? super Stanza> stanze) {
 		super(nomeMondo);
 		DESCRIZIONE_TESTUALE = descrizioneTestuale;
 		
 		this.stanze = stanze.values().stream().map(x -> (Stanza)x).collect(Collectors.toMap(x -> x.getNome(), Function.identity()));
-		this.start = start;
 	}
 	
 	public static Mondo fromFile(Path file) throws ErroreCaricamentoException {
