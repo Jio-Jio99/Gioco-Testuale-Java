@@ -1,6 +1,6 @@
 package entita.personaggio;
 
-import utilita.creazione.interfaccia.Inventario;
+import utilita.interfaccie.Inventario;
 
 public abstract class Animale extends Personaggio implements Inventario{
 
