@@ -3,28 +3,21 @@ package entita;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import entita.stanza.Stanza;
-import utilita.azione.interfaccia.Description;
 import utilita.creazione.AnalizzaFile;
 import utilita.creazione.eccezioni.ErroreCaricamentoException;
-import utilita.interfaccie.FilesMethod;
+import utilita.creazione.interfaccia.FilesMethod;
 
 /**
  * Il mondo è un insieme di stanze ed è dotato di un nome e una descrizione testuale 
- * @author gioele @see {@link #DESCRIZIONE_TESTUALE}
+ * @author gioele
+ * @see #SalvaStato
+ * @see #mondo 
  */
-<<<<<<< HEAD
 public class Mondo extends Entita{
-	/**
-	 * Prova
-	 */
-=======
-public class Mondo extends Entita implements Description{
->>>>>>> 5b8ad9f537db9e072a7d9d7cbb67a0e1242ff894
 	private final String DESCRIZIONE_TESTUALE;
 	private Map<String, Stanza> stanze;
 	
@@ -35,20 +28,11 @@ public class Mondo extends Entita implements Description{
 		this.stanze = stanze.values().stream().map(x -> (Stanza)x).collect(Collectors.toMap(x -> x.getNome(), Function.identity()));
 	}
 	
-	public Set<Stanza> getStanze(){
-		return stanze.values().stream().collect(Collectors.toSet());
-	}
-	
 	public static Mondo fromFile(Path file) throws ErroreCaricamentoException {
 		return AnalizzaFile.analizzaLista(FilesMethod.lettura(file));
 	}
 	
 	public static Mondo fromFile(String file) throws ErroreCaricamentoException {
 		return fromFile(Paths.get(file));
-	}
-
-	@Override
-	public String guarda() {
-		return getNome() + " " + DESCRIZIONE_TESTUALE;
 	}
 }

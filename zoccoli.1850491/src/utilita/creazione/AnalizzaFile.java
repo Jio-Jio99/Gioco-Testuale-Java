@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 import entita.Entita;
 import entita.Mondo;
 import entita.link.Link;
-import entita.oggetto.Chiavistello;
 import entita.oggetto.Contenitore;
 import entita.oggetto.Oggetto;
 import entita.personaggio.Animale;
@@ -34,10 +33,10 @@ import utilita.creazione.eccezioni.concreto.FormattazioneFileException;
 import utilita.creazione.eccezioni.concreto.LinkFileException;
 import utilita.creazione.eccezioni.concreto.NomeEsistenteException;
 import utilita.creazione.eccezioni.concreto.PosizioneFileException;
+import utilita.creazione.interfaccia.Inventario;
 import utilita.creazione.interfaccia.Observable;
 import utilita.creazione.interfaccia.Observer;
 import utilita.creazione.interfaccia.funzionali.CreationFunction;
-import utilita.interfaccie.Inventario;
 
 /**
  * Classe astratta che analizza e crea il {@link Mondo}, controllando se i pattern nel file vengono rispettati
@@ -316,13 +315,8 @@ public abstract class AnalizzaFile implements Observable{
 				
 				og = (Oggetto) constr.newInstance(parti.get(0));
 
-				if(parti.size() == PARTI_OG) {
-					if(og instanceof Contenitore)
-						((Contenitore)og).setInventario(parti.get(2));
-					else if(og instanceof Chiavistello)
-						((Chiavistello) og).setPorta(parti.get(2));
-				}
-				
+				if(og instanceof Contenitore && parti.size() == PARTI_OG) 
+					((Contenitore)og).setInventario(parti.get(2));
 			}
 			catch(ClassNotFoundException e) {
 				throw new EntitaException(classeString);

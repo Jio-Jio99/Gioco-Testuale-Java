@@ -1,16 +1,11 @@
 package entita.oggetto.concreto;
 
-import entita.oggetto.Chiavistello;
+import entita.oggetto.Oggetto;
 
-public class Vite extends Chiavistello{
+public class Vite extends Oggetto{
 
 	public Vite(String nome) {
 		super(nome);
 	}
-	
-	
-	@Override
-	public String guarda() {
-		return "È una " + getNome().toLowerCase();
-	}
+
 }

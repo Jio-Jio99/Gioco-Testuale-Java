@@ -2,22 +2,14 @@ package entita.link.concreto;
 
 import entita.link.Link;
 import entita.oggetto.Oggetto;
-import utilita.azione.interfaccia.Apribile;
+import entita.stanza.Stanza;
 import utilita.creazione.eccezioni.concreto.LinkFileException;
+import utilita.creazione.interfaccia.Observable;
 
-public class Porta extends Link implements Apribile{
+public class Porta extends Link {
 
 	public Porta(String nome, String stanza1, String stanza2) throws LinkFileException {
 		super(nome, stanza1, stanza2);
 	}
 
-	@Override
-	public void apriCon(Oggetto e) {
-		
-	}
-	
-	@Override
-	public String guarda() {
-		return "È una " + getNome().toLowerCase();
-	}
 }

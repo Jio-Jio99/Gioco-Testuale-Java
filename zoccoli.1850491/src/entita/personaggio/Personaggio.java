@@ -1,18 +1,20 @@
 package entita.personaggio;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import entita.Entita;
 import entita.oggetto.Oggetto;
 import entita.stanza.Stanza;
 import utilita.creazione.AnalizzaFile;
 import utilita.creazione.eccezioni.concreto.EntitaException;
+import utilita.creazione.interfaccia.Inventario;
 import utilita.creazione.interfaccia.Observer;
-import utilita.interfaccie.Inventario;
 
 /**
  * Ogni personaggio ha un nome. Un personaggio che dispone di un inventario di oggetti. Il
@@ -60,7 +62,7 @@ public abstract class Personaggio extends Entita implements Observer{
 		return Optional.of(oggetto);
 	}
 	
-	public Stanza getPosizione() {
+	public Stanza getPosizione(Stanza stanza) {
 		return posizione;
 	}
 	

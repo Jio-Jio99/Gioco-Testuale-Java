@@ -2,15 +2,13 @@ package entita.link;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
 import entita.Entita;
-import entita.personaggio.Personaggio;
 import entita.stanza.Stanza;
-import utilita.azione.interfaccia.Description;
 import utilita.creazione.AnalizzaFile;
 import utilita.creazione.eccezioni.concreto.EntitaException;
 import utilita.creazione.eccezioni.concreto.LinkFileException;
@@ -24,14 +22,14 @@ import utilita.creazione.interfaccia.Observer;
  * 
  * @author gioele
  */
-public abstract class Link extends Entita implements Observer, Description{
+public abstract class Link extends Entita implements Observer{
 	protected boolean aperto;
-	private Set<Stanza> collegamento;
+	protected Map<String,Stanza> collegamento;
 	private List<String> nomeStanze;
 	
 	private Link(String nome) {
 		super(nome);
-		collegamento = new HashSet<>();
+		collegamento = new HashMap<>();
 	}
 	
 	/**
@@ -43,7 +41,7 @@ public abstract class Link extends Entita implements Observer, Description{
 	 */
 	public Link(String nome, Stanza stanza1, Stanza stanza2){
 		this(nome);
-		collegamento = Set.of(stanza1, stanza2);
+		collegamento = Map.of(stanza1.getNome(), stanza1, stanza2.getNome(), stanza2);
 	}
 	
 	/**
@@ -65,49 +63,20 @@ public abstract class Link extends Entita implements Observer, Description{
 	
 	
 	/**
-	 * Metodo che restituisce la mappa delle stanze
-	 * @return {@link Map<{@link Stanza}>}
+	 * Metodo che restituisce il Set delle stanze
+	 * @return {@link Set<{@link Stanza}>}
 	 */
-	public Set<Stanza> getStanze() {
+	public Map<String,Stanza> getStanze() {
 		return collegamento;
 	}
 	
-	
-	
-	
-	//METODI DI MOVIMENTO
-	/**
-	 * Metodo che preso un personaggio, se il link è aperto setta la nuova posizione del personaggio nell'altrea stanza, 
-	 * altriemnti returna false
-	 * @param p
-	 * @return
-	 */
-	public boolean passaggio(Personaggio  p) {
-		if(aperto) {
-			p.setPosizione(collegamento.stream().filter(x -> !(p.getPosizione().equals(x))).findAny().orElse(p.getPosizione()));
-			return true;
-		}
-		
-		return false;
-	}
-	
-	/**
-	 * Metodo che ritorna se il collegamento � aperto o meno
-	 * @return {@link TipoLink}
-	 */
-	public boolean passaggio() {
-		return aperto;
-	}
-	
-	
-	//METODI DI VERIFICA
 	/**
 	 * Metodo che verifica se la stanza � effettivamente collegata da questo link
 	 * @param stanza
 	 * @return boolean
 	 */
 	public boolean connected(Stanza stanza) {
-		return collegamento.contains(stanza);
+		return collegamento.containsValue(stanza);
 	}
 	
 	/**
@@ -118,6 +87,22 @@ public abstract class Link extends Entita implements Observer, Description{
 	 */
 	public boolean connected(Stanza stanza1, Stanza stanza2) {
 		return connected(stanza1) && connected(stanza2);
+	}
+	
+	/**
+	 * Metodo che ritorna se il collegamento � aperto o meno
+	 * @return {@link TipoLink}
+	 */
+	public boolean getStato() {
+		return aperto;
+	}
+	
+	/**
+	 * Metodo che ritorna il nome del link
+	 * @return String
+	 */
+	public String getNome() {
+		return NOME;
 	}
 	
 	@Override
@@ -144,6 +129,6 @@ public abstract class Link extends Entita implements Observer, Description{
 	@Override
 	public void converti() throws EntitaException {
 		for(String stanza : nomeStanze)
-			collegamento.add((Stanza) AnalizzaFile.convertitore(stanza));
+			collegamento.put(stanza,(Stanza) AnalizzaFile.convertitore(stanza));
 	}
 }

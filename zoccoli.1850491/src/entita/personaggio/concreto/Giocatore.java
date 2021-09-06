@@ -19,12 +19,12 @@ public class Giocatore extends Personaggio{
 	}
 	
 	
-	//METODI PER LE AZIONI
+	
 	public String osserva(Entita e) {
 		String descr = e.getNome() + " ";
 		
 		if(e instanceof Description)
-			descr += ((Description) e).guarda();
+			descr += ((Description) e).getDescription();
 		
 		return descr;
 	}

@@ -8,8 +8,5 @@ public class Armadio extends Contenitore {
 		super(nome);
 	}
 
-	@Override
-	public String guarda() {
-		return "È un'" + getNome().toLowerCase();
-	}
+
 }
