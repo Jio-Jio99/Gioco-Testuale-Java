@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import entita.stanza.Stanza;
 import utilita.creazione.AnalizzaFile;
 import utilita.creazione.eccezioni.ErroreCaricamentoException;
-import utilita.creazione.interfaccia.FilesMethod;
+import utilita.interfaccie.FilesMethod;
 
 /**
  * Il mondo è un insieme di stanze ed è dotato di un nome e una descrizione testuale 

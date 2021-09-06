@@ -13,8 +13,8 @@ import entita.oggetto.Oggetto;
 import entita.stanza.Stanza;
 import utilita.creazione.AnalizzaFile;
 import utilita.creazione.eccezioni.concreto.EntitaException;
-import utilita.creazione.interfaccia.Inventario;
 import utilita.creazione.interfaccia.Observer;
+import utilita.interfaccie.Inventario;
 
 /**
  * Ogni personaggio ha un nome. Un personaggio che dispone di un inventario di oggetti. Il
@@ -62,7 +62,7 @@ public abstract class Personaggio extends Entita implements Observer{
 		return Optional.of(oggetto);
 	}
 	
-	public Stanza getPosizione(Stanza stanza) {
+	public Stanza getPosizione() {
 		return posizione;
 	}
 	

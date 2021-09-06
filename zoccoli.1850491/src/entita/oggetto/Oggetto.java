@@ -4,8 +4,8 @@ import java.util.Objects;
 
 import entita.Entita;
 import utilita.creazione.eccezioni.concreto.EntitaException;
-import utilita.creazione.interfaccia.Inventario;
 import utilita.creazione.interfaccia.Observer;
+import utilita.interfaccie.Inventario;
 
 public abstract class Oggetto extends Entita implements Inventario, Observer{
 	

@@ -7,8 +7,8 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import entita.Mondo;
-import utilita.creazione.interfaccia.FilesMethod;
 import utilita.enumerazioni.TipoGioco;
+import utilita.interfaccie.FilesMethod;
 
 public class Gioco {
 	

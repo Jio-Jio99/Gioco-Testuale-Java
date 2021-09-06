@@ -2,6 +2,7 @@ package entita.link.concreto;
 
 import entita.link.Link;
 import entita.oggetto.Oggetto;
+import entita.oggetto.concreto.Chiave;
 import entita.stanza.Stanza;
 import utilita.creazione.eccezioni.concreto.LinkFileException;
 import utilita.creazione.interfaccia.Observable;
@@ -12,4 +13,8 @@ public class Porta extends Link {
 		super(nome, stanza1, stanza2);
 	}
 
+	@Override
+	public void apriCon(Oggetto o) {
+		
+	}
 }

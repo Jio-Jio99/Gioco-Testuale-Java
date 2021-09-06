@@ -12,4 +12,9 @@ public class Teletrasporto extends Link{
 		super(nome, stanza1, stanza2);
 	}
 
+	@Override
+	public void apriCon(Oggetto o) {
+		
+	}
+
 }
