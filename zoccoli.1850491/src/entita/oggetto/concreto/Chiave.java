@@ -9,4 +9,8 @@ public class Chiave extends Chiavistello{
 		super(nome);
 	}
 	
+	@Override
+	public String guarda() {
+		return "È una " + getNome().toLowerCase();
+	}
 }

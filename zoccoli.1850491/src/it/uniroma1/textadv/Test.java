@@ -9,5 +9,7 @@ public class Test{
 		Gioco g = new Gioco();
 		Mondo m = Mondo.fromFile(Paths.get("resourse","minizak.game"));
 		g.play(m, Paths.get("resourse","minizak.ff"));
+		
+//		m.getStanze().forEach(x -> System.out.println(x.guarda()));
 	}
 }

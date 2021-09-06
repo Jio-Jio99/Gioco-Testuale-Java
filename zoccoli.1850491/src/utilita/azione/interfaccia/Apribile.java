@@ -2,6 +2,6 @@ package utilita.azione.interfaccia;
 
 import entita.oggetto.Oggetto;
 
-public interface Apertura {
-	public void apriCon(Oggetto o);
+public interface Apribile {
+	public void apriCon(Oggetto e);
 }

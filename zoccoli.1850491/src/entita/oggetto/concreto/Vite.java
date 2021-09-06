@@ -8,4 +8,9 @@ public class Vite extends Chiavistello{
 		super(nome);
 	}
 	
+	
+	@Override
+	public String guarda() {
+		return "È una " + getNome().toLowerCase();
+	}
 }

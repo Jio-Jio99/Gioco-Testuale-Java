@@ -10,7 +10,7 @@ import java.util.Set;
 import entita.Entita;
 import entita.personaggio.Personaggio;
 import entita.stanza.Stanza;
-import utilita.azione.interfaccia.Apertura;
+import utilita.azione.interfaccia.Description;
 import utilita.creazione.AnalizzaFile;
 import utilita.creazione.eccezioni.concreto.EntitaException;
 import utilita.creazione.eccezioni.concreto.LinkFileException;
@@ -24,7 +24,7 @@ import utilita.creazione.interfaccia.Observer;
  * 
  * @author gioele
  */
-public abstract class Link extends Entita implements Observer, Apertura{
+public abstract class Link extends Entita implements Observer, Description{
 	protected boolean aperto;
 	private Set<Stanza> collegamento;
 	private List<String> nomeStanze;
@@ -119,7 +119,6 @@ public abstract class Link extends Entita implements Observer, Apertura{
 	public boolean connected(Stanza stanza1, Stanza stanza2) {
 		return connected(stanza1) && connected(stanza2);
 	}
-	
 	
 	@Override
 	public boolean equals(Object o) {
