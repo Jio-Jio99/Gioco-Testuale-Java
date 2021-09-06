@@ -1,4 +1,4 @@
-package utilita.creazione.interfaccia;
+package utilita.interfaccie;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

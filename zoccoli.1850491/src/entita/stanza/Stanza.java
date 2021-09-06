@@ -10,6 +10,7 @@ import entita.link.Link;
 import entita.link.concreto.Libero;
 import entita.oggetto.Oggetto;
 import entita.personaggio.Personaggio;
+import utilita.azione.interfaccia.Description;
 import utilita.creazione.AnalizzaFile;
 import utilita.creazione.eccezioni.concreto.EntitaException;
 import utilita.creazione.interfaccia.Observer;
@@ -25,7 +26,7 @@ import utilita.enumerazioni.PuntoCardinale;
  * </pre>
  * @author gioele
  */
-public class Stanza extends Entita implements Observer{
+public class Stanza extends Entita implements Observer, Description{
 	private String DESCRIZIONE_STANZA;
 	private Map<String, Oggetto> oggetti;
 	private Map<String, Personaggio> personaggi;
@@ -73,6 +74,14 @@ public class Stanza extends Entita implements Observer{
 
 			accessi.put(m.getKey(), link);
 		}
+	}
+	
+	@Override
+	public String guarda() {
+		return 	"È un posto, " +
+				DESCRIZIONE_STANZA + 
+				(oggetti.isEmpty() ? "" : "\noggetti in vista: " + oggetti.values().toString().replace("[", "").replace("]", ""))+ 
+				(personaggi.isEmpty() ? "" : "\nGuarda chi c'è! " + personaggi.values().toString().replace("[", "").replace("]", ""));
 	}
 	
 	public Map<String, Personaggio> getPersonaggi(){
