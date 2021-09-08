@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.Set;
 
 import entita.Entita;
-import entita.oggetto.Oggetto;
 import entita.stanza.Stanza;
 import utilita.creazione.AnalizzaFile;
 import utilita.creazione.eccezioni.concreto.EntitaException;
@@ -37,8 +36,8 @@ public abstract class Personaggio extends Entita implements Observer{
 		this.inventarioString = inventarioString;
 	}
 	
-	public void removeOggetto(String o) {
-		inventario.remove(o);
+	public void removeOggetto(Inventario o) {
+		inventario.remove(((Entita)o).getNome());
 	}
 	
 	public void setPosizione(Stanza stanza) {
@@ -46,16 +45,14 @@ public abstract class Personaggio extends Entita implements Observer{
 	}
 	
 	
-	
-	
 	//METODI GET
-	public Optional<Oggetto> getOggetto(String o) {
-		Oggetto oggetto = (Oggetto) inventario.get(o);
+	public Optional<Inventario> getOggetto(String o) {
+		Inventario oggetto = inventario.get(o);
 		
 		if(oggetto == null)
 			return Optional.empty();
 		
-		removeOggetto(oggetto.getNome());
+		removeOggetto(oggetto);
 		
 		return Optional.of(oggetto);
 	}

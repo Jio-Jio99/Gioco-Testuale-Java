@@ -5,11 +5,13 @@ import java.util.Set;
 import entita.Entita;
 import entita.link.Link;
 import entita.link.MezzoDiTrasporto;
+import entita.personaggio.Personaggio;
 import entita.personaggio.concreto.Giocatore;
 import utilita.azione.eccezioni.AzioneException;
 import utilita.azione.eccezioni.concreto.AccessoNonDisponibileException;
 import utilita.azione.eccezioni.concreto.ComandoScrittoNonCorrettamenteException;
 import utilita.azione.eccezioni.concreto.IncoerenzaEntitaAzioneException;
+import utilita.azione.eccezioni.concreto.OggettoNonInInventarioException;
 import utilita.azione.interfaccia.Description;
 import utilita.creazione.eccezioni.GiocatoreException;
 import utilita.interfaccie.Inventario;
@@ -35,14 +37,16 @@ public enum TipoAzione {
 				Giocatore.getInstance().prendi((Inventario) e);
 		}
 	},
-	USA(Set.of("usa")){
+	USA(Set.of("usa", "rompi")){
 		public void active(Entita... entita) {
-			System.out.println("da fare");
+
+		
 		}
 	},
 	APRI(Set.of("apri")){
 		public void active(Entita... entita) {
-			System.out.println("da fare");
+			
+		
 		}
 	},
 	VAI(Set.of("vai", "entra")){
@@ -63,6 +67,16 @@ public enum TipoAzione {
 				Giocatore.getInstance().guarda();
 			else
 				System.out.println("Non puoi guardare più cose assieme... senza offesa per gli strabici");
+		}
+	},
+	INTERAZIONE(Set.of("parla", "accarezza")){
+		public void active(Entita... entita) throws AzioneException, GiocatoreException {
+			((Personaggio) entita[0]).interazione();
+		}
+	},
+	DAI(Set.of("dai")){
+		public void active(Entita... entita) throws OggettoNonInInventarioException, GiocatoreException {
+			Giocatore.getInstance().dai((Inventario) entita[1], (Personaggio) entita[0]);
 		}
 	};
 	

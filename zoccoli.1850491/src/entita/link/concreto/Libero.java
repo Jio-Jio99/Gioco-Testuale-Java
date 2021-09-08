@@ -1,6 +1,7 @@
 package entita.link.concreto;
 
 import entita.link.Link;
+import entita.oggetto.Oggetto;
 import entita.stanza.Stanza;
 
 public class Libero extends Link{
@@ -20,5 +21,10 @@ public class Libero extends Link{
 	@Override
 	public String guarda() {
 		return "È un passaggio libero...  vedi l'altra parte... interessante! È " + nomeStanza;
+	}
+
+	@Override
+	public void apriCon(Oggetto o) {
+		System.out.println("È già aperto!");
 	}
 }

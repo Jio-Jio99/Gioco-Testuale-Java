@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import entita.Entita;
 import entita.link.Link;
 import entita.link.MezzoDiTrasporto;
+import entita.oggetto.Contenitore;
+import entita.oggetto.Oggetto;
 import entita.personaggio.Personaggio;
 import utilita.azione.eccezioni.concreto.LinkChiusoException;
 import utilita.azione.eccezioni.concreto.OggettoNonInInventarioException;
@@ -13,6 +15,7 @@ import utilita.azione.interfaccia.Description;
 import utilita.creazione.eccezioni.GiocatoreException;
 import utilita.creazione.eccezioni.concreto.GiocatoreNomeDiversoException;
 import utilita.creazione.eccezioni.concreto.GiocatoreNonInstanziatoException;
+import utilita.enumerazioni.StatoGioco;
 import utilita.interfaccie.Inventario;
 
 public class Giocatore extends Personaggio{
@@ -81,13 +84,12 @@ public class Giocatore extends Personaggio{
 	
 	//INTERAZIONE CON ALTRI PERSONAGGI
 	public void dai(String oggetto, Personaggio p) throws OggettoNonInInventarioException {
-		Inventario in = inventario.get(oggetto);
-		
-		if(in == null)
-			throw new OggettoNonInInventarioException();
-		
-		inventario.remove(oggetto);
+		Inventario in = getOggetto(oggetto).orElseThrow(OggettoNonInInventarioException::new);
 		p.prendi(in);
+	}
+	
+	public void dai(Inventario oggetto, Personaggio p) throws OggettoNonInInventarioException {
+		dai(((Entita)oggetto).getNome(), p);
 	}
 	
 	@Override
@@ -101,18 +103,18 @@ public class Giocatore extends Personaggio{
 	
 	
 	//METODI DI INTERAZIONE CON GLI OGGETTI
-	public void apri() {
+	public void apri(Link l, Oggetto o) {
+		
+	}
+	
+	public void apri(Contenitore c, Oggetto o) {
 		
 	}
 	
 	
-	public void usa() {
+	public void usa(Oggetto o1, Oggetto o2) {
 		
 	}
-	
-	
-	
-	
 	
 	/**
 	 * Metodo che instanzia il Giocatore, se non instanziato precedentemnte, altrmenti restituisce la stessa instanza

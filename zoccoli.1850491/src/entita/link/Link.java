@@ -10,6 +10,7 @@ import java.util.Set;
 import entita.Entita;
 import entita.personaggio.Personaggio;
 import entita.stanza.Stanza;
+import utilita.azione.interfaccia.Apribile;
 import utilita.azione.interfaccia.Description;
 import utilita.creazione.AnalizzaFile;
 import utilita.creazione.eccezioni.concreto.EntitaException;
@@ -24,7 +25,7 @@ import utilita.creazione.interfaccia.Observer;
  * 
  * @author gioele
  */
-public abstract class Link extends Entita implements Observer, Description{
+public abstract class Link extends Entita implements Observer, Description, Apribile{
 	protected boolean aperto;
 	private Set<Stanza> collegamento;
 	private List<String> nomeStanze;
@@ -95,8 +96,8 @@ public abstract class Link extends Entita implements Observer, Description{
 	 * Metodo che ritorna se il collegamento � aperto o meno
 	 * @return {@link TipoLink}
 	 */
-	public boolean passaggio() {
-		return aperto;
+	public void apri() {
+		System.out.println((aperto ? "È aperto il passaggio!" : "È chiuso il passaggio!"));
 	}
 	
 	

@@ -5,13 +5,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import entita.Entita;
 import entita.link.Link;
 import entita.link.concreto.Libero;
 import entita.oggetto.Oggetto;
 import entita.personaggio.Personaggio;
+import utilita.azione.eccezioni.concreto.AccessoNonDisponibileException;
 import utilita.azione.interfaccia.Description;
 import utilita.creazione.AnalizzaFile;
 import utilita.creazione.eccezioni.concreto.EntitaException;
@@ -102,6 +102,14 @@ public class Stanza extends Entita implements Observer, Description{
 	
 	public Map<PuntoCardinale, Link> getAccessi(){
 		return accessi;
+	}
+	
+	public Link getAccesso(PuntoCardinale p) throws AccessoNonDisponibileException {
+		Link l = accessi.get(p);
+		if(l == null)
+			throw new AccessoNonDisponibileException();
+		
+		return l;
 	}
 	
 	public Oggetto getOggetto(String nome) {

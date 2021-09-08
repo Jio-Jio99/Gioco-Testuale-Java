@@ -1,36 +1,64 @@
 package it.uniroma1.textadv;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import entita.Mondo;
-import utilita.enumerazioni.TipoGioco;
+import entita.personaggio.concreto.Giocatore;
+import utilita.azione.AnalizzaComando;
+import utilita.azione.eccezioni.AzioneException;
+import utilita.creazione.eccezioni.GiocatoreException;
 import utilita.interfaccie.FilesMethod;
 
 public class Gioco {
 	public static final Scanner scan = new Scanner(System.in);
+	private static List<String> azioni;
+	private static int index;
 	
-	public void play(Mondo m) throws Exception {
-		//inizio gioco
-		TipoGioco t = TipoGioco.IN_GIOCO;
-		
-		//ciclo di comandi
-		while(t.equals(TipoGioco.IN_GIOCO)) {
-			String s = input();
-			
-			
-			
-			
-		}
-		
-		scan.close();
+	/**
+	 * Metodo che mette in azione il gioco tramite uno script
+	 * @param m = Mondo
+	 * @param scriptDiGioco = script di gioco
+	 * @throws Exception
+	 */
+	public void play(Mondo m, Path scriptDiGioco) throws Exception {
+		azioni = FilesMethod.lettura(scriptDiGioco).stream().map(x -> x.split("//")[0].strip()).collect(Collectors.toList());
+		play(m, Gioco::inputDaLista);
 	}
 	
-	public void play(Mondo m, Path scriptDiGioco) throws Exception {
-		List<String> azioni = FilesMethod.lettura(scriptDiGioco).stream().map(x -> x.split("//")[0].strip()).collect(Collectors.toList());
+	/**
+	 * Metodo che mette in azione il gioco tramite l'input da tastiera, quindi l'utente
+	 * @param m = Mondo
+	 * @throws Exception
+	 */
+	public void play(Mondo m) throws Exception {
+		play(m, Gioco::input);
+	}
+	
+	/**
+	 * Metodo che aziona il gioco
+	 * @param m
+	 * @param funzioneInput = quale input ricevere (se da tastiera o da script)
+	 * @throws GiocatoreException
+	 */
+	private void play(Mondo m, Supplier<String> funzioneInput) throws GiocatoreException{
+		//ciclo di comandi
+		while(!Giocatore.getInstance().getInventario().containsKey("tesoro")) {
+			String s = funzioneInput.get();
+			
+			try {
+				AnalizzaComando.analizzaComando(m, s);
+			}
+			catch(AzioneException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		System.out.println("\n\t\t\tfine");
+		scan.close();
 	}
 	
 	/**
@@ -40,5 +68,11 @@ public class Gioco {
 	public static String input() {
 		System.out.print("\n>> ");
 		return scan.nextLine();
+	}
+	
+	private static String inputDaLista() {
+		String s = azioni.get(index++);
+		System.out.print("\n>> " + s);
+		return s;
 	}
 }

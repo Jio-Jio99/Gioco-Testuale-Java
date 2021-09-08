@@ -1,94 +1,85 @@
 package utilita.azione;
 
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import entita.Entita;
 import entita.Mondo;
-import entita.link.Link;
 import entita.link.concreto.Libero;
 import entita.personaggio.concreto.Giocatore;
 import entita.stanza.Stanza;
-import it.uniroma1.textadv.Gioco;
 import utilita.azione.eccezioni.AzioneException;
 import utilita.azione.eccezioni.concreto.ComandoNonRiconosciutoException;
 import utilita.azione.eccezioni.concreto.OggettoNonInStanzaException;
-import utilita.creazione.AnalizzaFile;
 import utilita.creazione.eccezioni.GiocatoreException;
 import utilita.creazione.eccezioni.concreto.PuntoCardinaleException;
 import utilita.enumerazioni.PuntoCardinale;
-import utilita.interfaccie.FilesMethod;
 
 public abstract class AnalizzaComando {
-	
-	public static void main(String[] args) throws Exception {
-		Mondo m = AnalizzaFile.analizzaLista(FilesMethod.lettura(Paths.get("resourse", "minizak.game")));
-		String s = "";
-		
-		while(true) {
-			s = Gioco.input();
-			if(s.equals("fine")) break;
-			analizzaComando(m, s);
-		}
-	}
-	
+	private static List<String> comando;
+
+	/**
+	 * 
+	 * @param mondo
+	 * @param comandoString
+	 * @throws AzioneException
+	 * @throws GiocatoreException
+	 */
 	public static void analizzaComando(Mondo mondo, String comandoString) throws AzioneException, GiocatoreException {
-		List<String> comando = stringInList(comandoString);
-		
+		Map<Integer, Entita> disponibili = new TreeMap<>();
 		Stanza stanza = Giocatore.getInstance().getPosizione();
+		comando = stringInList(comandoString);
 		
 		TipoAzione azione = null;
 		
+		int posizione = 0;
 		for(String s : comando) {
 			azione = TipoAzione.getTipoAzione(s);
-			if(azione != null) break;
+			if(azione != null) 
+				break;
+			posizione ++;
 		}
 		
-		if(azione == null)
+		if(azione == null && comando.size() != 1)
 			throw new ComandoNonRiconosciutoException();
 		
-		List<Entita> entitaInComando = new ArrayList<>();
-		List<String> supporto;
+		if(posizione > 0)
+			System.out.println("Sembra che il comando non sia scritto correttamente... ma penso di aver capito cosa vuoi...");
 		
-		for(Entita e : mondo.getEntita()) {
-			supporto = stringInList(e.getNome());
-			if(Collections.indexOfSubList(comando, supporto) != -1)
-				entitaInComando.add(e);
-		}
-		
-		
-		
-		Entita[] disponibili = entitaInComando.stream().filter(x -> stanza.getEntita().contains(x)).toArray(Entita[]::new);
-		
-		if(!entitaInComando.isEmpty())
-			System.out.println(Arrays.toString(disponibili) + entitaInComando.get(0).getClass());
-		
-		if(azione == TipoAzione.VAI) {
+		//AZIONE DA CONTROLLARE: MOVIMENTO, ESTRARRE DALLA STANZA IN QUALE DIREZIONE SI STA ANDANDO
+		if(azione == TipoAzione.VAI || (comando.size() == 1 && azione == null)) {
+			azione = TipoAzione.VAI;
+			
 			PuntoCardinale p = null;
 			for(String s : comando) {
 				try {
 					p = PuntoCardinale.getDirezione(s);
+					break;
 				} catch (PuntoCardinaleException e1) {continue;}
 			}
-				
-			disponibili = new Entita[1];
-			if(p != null) {
-				disponibili[0] = stanza.getAccessi().get(p);
-			}
-			else {
-				disponibili[0] = null;
-			}
+			if(p != null) 
+				disponibili.put(-1, stanza.getAccesso(p));
 		}	
-		
-		if(disponibili.length != entitaInComando.size())
-			throw new OggettoNonInStanzaException();
 
-		azione.active(disponibili);
+		if(comando.size() > 1) {
+			Map<Integer, Entita> entitaInComando = entitaPresenti(x -> x.getNome(), mondo.getEntita());
+			disponibili = entitaPresenti(x -> {if(!(x instanceof Libero)) return x.getNome(); else return ((Libero)x).getNomeStanzaVisibile();}, stanza.getEntita());
+		
+			if(!disponibili.values().containsAll(entitaInComando.values()))
+				throw new OggettoNonInStanzaException();
+		}
+		
+		if(disponibili.size() > 2)
+			throw new AzioneException();
+		
+		azione.active(disponibili.entrySet().stream().sorted().map(x -> x.getValue()).toArray(Entita[]::new));
 	}
 	
 	/**
@@ -98,5 +89,21 @@ public abstract class AnalizzaComando {
 	 */
 	private static List<String> stringInList(String stringa){
 		return Arrays.asList(stringa.split(" ")).stream().map(String::strip).filter(Predicate.not(String::isBlank)).collect(Collectors.toList());
+	}
+	
+	
+	private static Map<Integer, Entita> entitaPresenti(Function<Entita,String> funzione, Set<Entita> setEntita){
+		Map<Integer, Entita> lista = new TreeMap<>();
+		List<String> supporto;
+		int i = -1;
+		
+		for(Entita e : setEntita) {
+			supporto = stringInList(funzione.apply(e));
+			i = Collections.indexOfSubList(comando, supporto);
+			if(i != -1)
+				lista.put(i,e);
+		}
+		
+		return lista;
 	}
 }
