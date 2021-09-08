@@ -1,8 +1,9 @@
 package entita.oggetto.concreto;
 
 import entita.oggetto.Oggetto;
+import utilita.interfaccie.Inventario;
 
-public class Tronchesi extends Oggetto{
+public class Tronchesi extends Oggetto implements Inventario{
 
 	public Tronchesi(String nome) {
 		super(nome);

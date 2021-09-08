@@ -8,7 +8,7 @@ import utilita.creazione.eccezioni.concreto.EntitaException;
 import utilita.creazione.interfaccia.Observer;
 import utilita.interfaccie.Inventario;
 
-public abstract class Oggetto extends Entita implements Inventario, Observer, Description{
+public abstract class Oggetto extends Entita implements Observer, Description{
 	
 	public Oggetto(String nome) {
 		super(nome);

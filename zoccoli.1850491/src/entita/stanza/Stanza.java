@@ -1,6 +1,7 @@
 package entita.stanza;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -13,6 +14,7 @@ import entita.personaggio.Personaggio;
 import utilita.azione.interfaccia.Description;
 import utilita.creazione.AnalizzaFile;
 import utilita.creazione.eccezioni.concreto.EntitaException;
+import utilita.creazione.interfaccia.Accesso;
 import utilita.creazione.interfaccia.Observer;
 import utilita.enumerazioni.PuntoCardinale;
 
@@ -26,11 +28,12 @@ import utilita.enumerazioni.PuntoCardinale;
  * </pre>
  * @author gioele
  */
-public class Stanza extends Entita implements Observer, Description{
+public class Stanza extends Entita implements Observer, Description, Accesso{
 	private String DESCRIZIONE_STANZA;
 	private Map<String, Oggetto> oggetti;
 	private Map<String, Personaggio> personaggi;
-	private Map<PuntoCardinale, Link> accessi;
+	private Map<PuntoCardinale, Accesso> accessi;
+	private Set<Entita> entita;
 	
 	//Corrispettivi in stringhe
 	private Set<String> oggettiString;
@@ -43,6 +46,7 @@ public class Stanza extends Entita implements Observer, Description{
 		this.oggetti = new HashMap<>();
 		this.personaggi = new HashMap<>();
 		this.accessi = new HashMap<>();
+		entita = new HashSet<>();
 		
 		//inizializzo gli insiemi delle stringhe
 		this.oggettiString = oggettiString;
@@ -69,19 +73,25 @@ public class Stanza extends Entita implements Observer, Description{
 			}
 			catch(ClassCastException e) {
 				stanza = (Stanza) AnalizzaFile.convertitore(m.getValue());
-				link = new Libero(this, stanza);
+				link = new Libero(stanza.getNome(), this, stanza);
 			}
 
 			accessi.put(m.getKey(), link);
 		}
+		
+		entita.addAll(oggetti.values());
+		entita.addAll(accessi.values());
+		entita.addAll(personaggi.values());
 	}
 	
 	@Override
 	public String guarda() {
-		return 	"È un posto, " +
+		return 	"È " + getNome() +", " +
 				DESCRIZIONE_STANZA + 
-				(oggetti.isEmpty() ? "" : "\noggetti in vista: " + oggetti.values().toString().replace("[", "").replace("]", ""))+ 
-				(personaggi.isEmpty() ? "" : "\nGuarda chi c'è! " + personaggi.values().toString().replace("[", "").replace("]", ""));
+				(oggetti.isEmpty() ? "" : "\n-Oggetti in vista: " + oggetti.values().toString().replaceAll("[\\[\\]]", ""))+ 
+				(personaggi.isEmpty() ? "" : "\n-Guarda chi c'è! " + personaggi.values().toString().replaceAll("[\\[\\]]", "")) + 
+				"\n-Accessi: " + accessi.toString().replaceAll("[{}]"," ");
+				
 	}
 	
 	public Map<String, Personaggio> getPersonaggi(){
@@ -102,6 +112,10 @@ public class Stanza extends Entita implements Observer, Description{
 	
 	public Personaggio getPersonaggio(String nome) {
 		return personaggi.get(nome);
+	}
+	
+	public Set<Entita> getEntita(){
+		return entita;
 	}
 	
 	@Override
@@ -125,5 +139,11 @@ public class Stanza extends Entita implements Observer, Description{
 	@Override
 	public int hashCode() {
 		return Objects.hash(NOME, DESCRIZIONE_STANZA);
+	}
+
+	@Override
+	public boolean passaggio(Personaggio p) {
+		p.setPosizione(this);
+		return true;
 	}
 }

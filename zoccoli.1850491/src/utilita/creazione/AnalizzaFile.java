@@ -453,6 +453,11 @@ public abstract class AnalizzaFile implements Observable{
 			throw new NomeEsistenteException(nome);
 	}
 	
+	//METODI GET
+	public static Set<Entita> getEntita(){
+		return dizionario_entita.values().stream().flatMap(x -> x.values().stream()).collect(Collectors.toSet());
+	}
+	
 	//METODI PER GESTIRE GLI OBSERVER
 	public void registraObserver(Observer o) {
 		osservatori.add(o);		

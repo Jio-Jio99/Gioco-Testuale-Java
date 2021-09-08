@@ -67,6 +67,13 @@ public abstract class Personaggio extends Entita implements Observer{
 	public Map<String, Inventario> getInventario(){
 		return inventario;
 	}
+	//METODI PER INTERAZIONE 
+	public abstract void interazione();
+	
+	public void prendi(Inventario o) {
+		inventario.putIfAbsent(((Entita)o).getNome(), o);
+		System.out.println(getNome() + " ti ringrazia!");
+	}
 	
 	@Override
 	public boolean equals(Object o) {

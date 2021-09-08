@@ -1,3 +1,3 @@
 package utilita.azione.eccezioni;
 
-public class InventarioException extends Exception {}
+public class InventarioException extends AzioneException {}

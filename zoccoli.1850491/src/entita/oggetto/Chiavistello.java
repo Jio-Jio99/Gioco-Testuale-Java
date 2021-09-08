@@ -4,8 +4,9 @@ import entita.link.Link;
 import utilita.creazione.AnalizzaFile;
 import utilita.creazione.eccezioni.concreto.EntitaException;
 import utilita.creazione.interfaccia.Observer;
+import utilita.interfaccie.Inventario;
 
-public abstract class Chiavistello extends Oggetto implements Observer{
+public abstract class Chiavistello extends Oggetto implements Observer, Inventario{
 	protected Link porta;
 	protected String portaString;
 	

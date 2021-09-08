@@ -22,10 +22,13 @@ import utilita.interfaccie.FilesMethod;
 public class Mondo extends Entita implements Description{
 	private final String DESCRIZIONE_TESTUALE;
 	private Map<String, Stanza> stanze;
+	private Set<Entita> entita;
 	
 	public Mondo(String nomeMondo, String descrizioneTestuale, Map<String,? super Stanza> stanze) {
 		super(nomeMondo);
 		DESCRIZIONE_TESTUALE = descrizioneTestuale;
+		 
+		entita = AnalizzaFile.getEntita();
 		
 		this.stanze = stanze.values().stream().map(x -> (Stanza)x).collect(Collectors.toMap(x -> x.getNome(), Function.identity()));
 	}
@@ -41,7 +44,12 @@ public class Mondo extends Entita implements Description{
 	public static Mondo fromFile(String file) throws ErroreCaricamentoException {
 		return fromFile(Paths.get(file));
 	}
-
+	
+	public Set<Entita> getEntita(){
+		return entita;
+	}
+	
+	
 	@Override
 	public String guarda() {
 		return getNome() + " " + DESCRIZIONE_TESTUALE;

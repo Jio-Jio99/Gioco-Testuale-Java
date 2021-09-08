@@ -6,10 +6,10 @@ import entita.stanza.Stanza;
 import utilita.azione.interfaccia.Apribile;
 
 public class Libero extends Link implements Apribile{
-	public static final String NOME = "libero";
-
-	public Libero(Stanza stanza1, Stanza stanza2){
-		super(NOME, stanza1, stanza2);
+	public static final String accesso = "Accesso libero a ";
+	
+	public Libero(String nome, Stanza stanza1, Stanza stanza2){
+		super(accesso + nome, stanza1, stanza2);
 		aperto = true;
 	}
 

@@ -8,9 +8,4 @@ public class Scrivania extends Contenitore{
 		super(nome);
 	}
 
-	
-	@Override
-	public String guarda() {
-		return "È una " + getNome().toLowerCase();
-	}
 }

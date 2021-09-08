@@ -1,8 +1,9 @@
 package entita.oggetto.concreto;
 
 import entita.oggetto.Contenitore;
+import utilita.interfaccie.Inventario;
 
-public class Tesoro extends Contenitore {
+public class Tesoro extends Contenitore implements Inventario {
 
 	public Tesoro(String nome) {
 		super(nome);
