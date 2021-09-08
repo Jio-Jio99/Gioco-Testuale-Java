@@ -61,7 +61,12 @@ public abstract class AnalizzaComando {
 				entitaInComando.add(e);
 		}
 		
+		
+		
 		Entita[] disponibili = entitaInComando.stream().filter(x -> stanza.getEntita().contains(x)).toArray(Entita[]::new);
+		
+		if(!entitaInComando.isEmpty())
+			System.out.println(Arrays.toString(disponibili) + entitaInComando.get(0).getClass());
 		
 		if(azione == TipoAzione.VAI) {
 			PuntoCardinale p = null;
@@ -71,18 +76,18 @@ public abstract class AnalizzaComando {
 				} catch (PuntoCardinaleException e1) {continue;}
 			}
 				
+			disponibili = new Entita[1];
 			if(p != null) {
-				disponibili = new Entita[1];
 				disponibili[0] = stanza.getAccessi().get(p);
 			}
-			else if(stanza.getAccessi().values().stream().anyMatch(x -> x instanceof Libero)){
-				
+			else {
+				disponibili[0] = null;
 			}
 		}	
 		
 		if(disponibili.length != entitaInComando.size())
 			throw new OggettoNonInStanzaException();
-		
+
 		azione.active(disponibili);
 	}
 	

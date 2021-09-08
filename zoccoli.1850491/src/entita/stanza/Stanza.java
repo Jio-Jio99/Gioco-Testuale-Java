@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import entita.Entita;
 import entita.link.Link;
@@ -14,7 +15,6 @@ import entita.personaggio.Personaggio;
 import utilita.azione.interfaccia.Description;
 import utilita.creazione.AnalizzaFile;
 import utilita.creazione.eccezioni.concreto.EntitaException;
-import utilita.creazione.interfaccia.Accesso;
 import utilita.creazione.interfaccia.Observer;
 import utilita.enumerazioni.PuntoCardinale;
 
@@ -28,11 +28,11 @@ import utilita.enumerazioni.PuntoCardinale;
  * </pre>
  * @author gioele
  */
-public class Stanza extends Entita implements Observer, Description, Accesso{
+public class Stanza extends Entita implements Observer, Description{
 	private String DESCRIZIONE_STANZA;
 	private Map<String, Oggetto> oggetti;
 	private Map<String, Personaggio> personaggi;
-	private Map<PuntoCardinale, Accesso> accessi;
+	private Map<PuntoCardinale, Link> accessi;
 	private Set<Entita> entita;
 	
 	//Corrispettivi in stringhe
@@ -65,18 +65,16 @@ public class Stanza extends Entita implements Observer, Description, Accesso{
 			for(String s : personaggiString) 
 				personaggi.put(s, (Personaggio) AnalizzaFile.convertitore(s));
 		
-		Link link = null;
+		Link l = null;
 		Stanza stanza = null;
 		for(Map.Entry<PuntoCardinale, String> m : accessiString.entrySet()) {
 			try {
-				link = (Link) AnalizzaFile.convertitore(m.getValue());
-			}
-			catch(ClassCastException e) {
+				l = (Link) AnalizzaFile.convertitore(m.getValue());
+			}catch (ClassCastException e) {
 				stanza = (Stanza) AnalizzaFile.convertitore(m.getValue());
-				link = new Libero(stanza.getNome(), this, stanza);
+				l = new Libero(stanza.getNome(), this, stanza);
 			}
-
-			accessi.put(m.getKey(), link);
+			accessi.put(m.getKey(), l);
 		}
 		
 		entita.addAll(oggetti.values());
@@ -86,7 +84,7 @@ public class Stanza extends Entita implements Observer, Description, Accesso{
 	
 	@Override
 	public String guarda() {
-		return 	"È " + getNome() +", " +
+		return 	"Nome della stanza: " + getNome() +", " +
 				DESCRIZIONE_STANZA + 
 				(oggetti.isEmpty() ? "" : "\n-Oggetti in vista: " + oggetti.values().toString().replaceAll("[\\[\\]]", ""))+ 
 				(personaggi.isEmpty() ? "" : "\n-Guarda chi c'è! " + personaggi.values().toString().replaceAll("[\\[\\]]", "")) + 
@@ -139,11 +137,5 @@ public class Stanza extends Entita implements Observer, Description, Accesso{
 	@Override
 	public int hashCode() {
 		return Objects.hash(NOME, DESCRIZIONE_STANZA);
-	}
-
-	@Override
-	public boolean passaggio(Personaggio p) {
-		p.setPosizione(this);
-		return true;
 	}
 }

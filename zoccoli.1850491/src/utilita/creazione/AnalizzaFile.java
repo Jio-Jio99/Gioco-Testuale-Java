@@ -37,7 +37,6 @@ import utilita.creazione.eccezioni.concreto.PosizioneFileException;
 import utilita.creazione.interfaccia.Observable;
 import utilita.creazione.interfaccia.Observer;
 import utilita.creazione.interfaccia.funzionali.CreationFunction;
-import utilita.interfaccie.Inventario;
 
 /**
  * Classe astratta che analizza e crea il {@link Mondo}, controllando se i pattern nel file vengono rispettati
@@ -387,7 +386,7 @@ public abstract class AnalizzaFile implements Observable{
 		osservatori.add((Observer) e);
 		dizionario_entita.get(key).put(e.getNome(), e);
 	}
-	
+
 	/**
 	 * Metodo che preso in input una stringa, corrispondente al nome di un entita, ne restituisce l'instanza creata, altrimenti lancia l'eccezione di non esistenza
 	 * @param nomeEntita = String
@@ -411,7 +410,7 @@ public abstract class AnalizzaFile implements Observable{
 		Stanza stanza = null;
 		List<Entita> doppioni = new ArrayList<>();
 		List<Entita> verifica = new ArrayList<>();
-		List<Inventario> verificaInventario = new ArrayList<>();
+		List<Oggetto> verificaInventario = new ArrayList<>();
 		Set<Personaggio> personaggiStanza = new HashSet<>();
 		Set<Oggetto> oggettiStanza = new HashSet<>();
 
@@ -431,7 +430,7 @@ public abstract class AnalizzaFile implements Observable{
 					throw new LinkFileException(stanza.getNome() + " e link " + l.getNome());
 			
 			//Controllo la posizione degli oggetti se siano coerenti con l'inventario dei personaggi nelle stanze
-			verificaInventario = personaggiStanza.stream().flatMap(x -> x.getInventario().values().stream()).filter(x -> !(x instanceof Animale)).collect(Collectors.toList());
+			verificaInventario = personaggiStanza.stream().flatMap(x -> x.getInventario().values().stream()).filter(x -> !(x instanceof Animale)).map(x -> (Oggetto)x).collect(Collectors.toList());
 		
 			if(!oggettiStanza.containsAll(verificaInventario))
 				throw new ErroreFileException("Oggetto di un personaggio nella stanza non presente anche nella stessa: " + stanza);			

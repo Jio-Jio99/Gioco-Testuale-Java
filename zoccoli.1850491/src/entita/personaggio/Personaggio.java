@@ -101,4 +101,9 @@ public abstract class Personaggio extends Entita implements Observer{
 			for(String s : inventarioString)
 				inventario.put(s, (Inventario) AnalizzaFile.convertitore(s));
 	}
+	
+	@Override
+	public String toString() {
+		return Character.toUpperCase(getNome().charAt(0)) + getNome().substring(1);
+	}
 }

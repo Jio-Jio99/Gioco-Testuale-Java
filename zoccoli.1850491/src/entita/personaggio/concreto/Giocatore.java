@@ -1,7 +1,6 @@
 package entita.personaggio.concreto;
 
 import java.util.HashSet;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import entita.Entita;
