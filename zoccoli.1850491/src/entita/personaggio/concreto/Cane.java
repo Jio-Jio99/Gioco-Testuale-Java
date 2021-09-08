@@ -6,7 +6,7 @@ public class Cane extends Animale {
 
 	public Cane(String nome) {
 		super(nome);
-		verso = "BAU BAU BAU... penso voglia coccole ancora!";
+		verso = "BAU BAU BAU... penso voglia ancora coccole!";
 	}
 
 }

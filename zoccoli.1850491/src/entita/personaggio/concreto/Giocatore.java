@@ -15,7 +15,6 @@ import utilita.azione.interfaccia.Description;
 import utilita.creazione.eccezioni.GiocatoreException;
 import utilita.creazione.eccezioni.concreto.GiocatoreNomeDiversoException;
 import utilita.creazione.eccezioni.concreto.GiocatoreNonInstanziatoException;
-import utilita.enumerazioni.StatoGioco;
 import utilita.interfaccie.Inventario;
 
 public class Giocatore extends Personaggio{

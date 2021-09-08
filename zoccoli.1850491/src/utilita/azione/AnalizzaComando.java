@@ -50,13 +50,13 @@ public abstract class AnalizzaComando {
 		if(azione == null && comando.size() != 1)
 			throw new ComandoNonRiconosciutoException();
 		
-		if(posizione > 0)
+		if(posizione > 1)
 			System.out.println("Sembra che il comando non sia scritto correttamente... ma penso di aver capito cosa vuoi...");
 		
+		disponibili = entitaPresenti(x -> {if(!(x instanceof Libero)) return x.getNome(); else return ((Libero)x).getNomeStanzaVisibile();}, stanza.getEntita());
+
 		//AZIONE DA CONTROLLARE: MOVIMENTO, ESTRARRE DALLA STANZA IN QUALE DIREZIONE SI STA ANDANDO
 		if(azione == TipoAzione.VAI || (comando.size() == 1 && azione == null)) {
-			azione = TipoAzione.VAI;
-			
 			PuntoCardinale p = null;
 			for(String s : comando) {
 				try {
@@ -66,18 +66,20 @@ public abstract class AnalizzaComando {
 			}
 			if(p != null) 
 				disponibili.put(-1, stanza.getAccesso(p));
+			else if(azione == null ) 
+				throw new ComandoNonRiconosciutoException();
+			if(azione == null)
+				azione = TipoAzione.VAI;			
 		}	
 
 		if(comando.size() > 1) {
 			Map<Integer, Entita> entitaInComando = entitaPresenti(x -> x.getNome(), mondo.getEntita());
-			disponibili = entitaPresenti(x -> {if(!(x instanceof Libero)) return x.getNome(); else return ((Libero)x).getNomeStanzaVisibile();}, stanza.getEntita());
-		
+
 			if(!disponibili.values().containsAll(entitaInComando.values()))
 				throw new OggettoNonInStanzaException();
 		}
-		
 		if(disponibili.size() > 2)
-			throw new AzioneException();
+			throw new AzioneException("Ehm... ci sono troppi oggetti con cui dovrei lavorare in questo comando... potresti evitare di metterne così tanti?");
 		
 		azione.active(disponibili.entrySet().stream().sorted().map(x -> x.getValue()).toArray(Entita[]::new));
 	}
@@ -100,7 +102,7 @@ public abstract class AnalizzaComando {
 		for(Entita e : setEntita) {
 			supporto = stringInList(funzione.apply(e));
 			i = Collections.indexOfSubList(comando, supporto);
-			if(i != -1)
+			if(i != -1 && !(e instanceof Stanza))
 				lista.put(i,e);
 		}
 		

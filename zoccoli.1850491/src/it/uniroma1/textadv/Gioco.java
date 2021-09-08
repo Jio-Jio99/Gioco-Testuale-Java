@@ -3,7 +3,6 @@ package it.uniroma1.textadv;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Scanner;
-import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
