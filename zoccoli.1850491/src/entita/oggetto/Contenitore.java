@@ -1,15 +1,16 @@
 package entita.oggetto;
 
 
+import utilita.azione.eccezioni.concreto.ContenitoreChiusoException;
+import utilita.azione.interfaccia.Apribile;
 import utilita.creazione.AnalizzaFile;
 import utilita.creazione.eccezioni.concreto.EntitaException;
 import utilita.creazione.interfaccia.Observer;
-import utilita.interfaccie.Inventario;
 
-public abstract class Contenitore extends Oggetto implements Observer{
-	protected Inventario inventario;
+public abstract class Contenitore extends Oggetto implements Observer, Apribile{
+	protected Oggetto inventario;
 	private String inventarioString;
-	private boolean aperto;
+	protected boolean aperto;
 	
 	public Contenitore(String nome) {
 		super(nome);
@@ -19,6 +20,11 @@ public abstract class Contenitore extends Oggetto implements Observer{
 		inventarioString = inventario;
 	}
 	
+	public Oggetto getOggetto() throws ContenitoreChiusoException {
+		if(aperto)
+			return inventario;
+		throw new ContenitoreChiusoException(getNome());
+	}
 	
 	//METODI PER INTERAGIRE
 	public boolean aperto() {
@@ -33,6 +39,6 @@ public abstract class Contenitore extends Oggetto implements Observer{
 	@Override
 	public void converti() throws EntitaException{
 		if(inventarioString != null)
-			inventario = (Inventario) AnalizzaFile.convertitore(inventarioString);
+			inventario = (Oggetto) AnalizzaFile.convertitore(inventarioString);
 	}
 }

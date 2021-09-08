@@ -39,14 +39,12 @@ public enum TipoAzione {
 	},
 	USA(Set.of("usa", "rompi")){
 		public void active(Entita... entita) {
-
-		
+			//TODO
 		}
 	},
 	APRI(Set.of("apri")){
 		public void active(Entita... entita) {
-			
-		
+			//TODO
 		}
 	},
 	VAI(Set.of("vai", "entra")){
