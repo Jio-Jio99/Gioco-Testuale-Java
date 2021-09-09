@@ -1,5 +1,6 @@
 package it.uniroma1.textadv.utilita.funzionamento.azione.concreto;
 
+import java.util.List;
 import java.util.Set;
 
 import it.uniroma1.textadv.entita.Entita;
@@ -18,8 +19,8 @@ public class Prendere extends Azione{
 	}
 	
 	@Override
-	public void active(Entita... entita) throws AzioneException, GiocatoreException {
-		if(entita[0] instanceof MezzoDiTrasporto) {
+	public void active(List<Entita> entita) throws AzioneException, GiocatoreException {
+		if(entita.get(0) instanceof MezzoDiTrasporto) {
 //			if(entita.length == 1)
 //				Giocatore.getInstance().prendi((MezzoDiTrasporto) entita[0]);
 //			else
@@ -27,6 +28,6 @@ public class Prendere extends Azione{
 			new Movimento().active(entita);
 		}
 
-		Giocatore.getInstance().prendi((Inventario) entita[0]);
+		Giocatore.getInstance().prendi((Inventario) entita.get(0));
 	}
 }

@@ -1,7 +1,6 @@
 package it.uniroma1.textadv.entita.link.concreto;
 
 import it.uniroma1.textadv.entita.link.Link;
-import it.uniroma1.textadv.entita.oggetto.Oggetto;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.LinkFileException;
 
 public class Teletrasporto extends Link{
@@ -11,12 +10,8 @@ public class Teletrasporto extends Link{
 	}
 
 	@Override
-	public void apriCon(Oggetto e) {
-		
-	}
-
-	@Override
 	public String guarda() {
 		return "È un teletrasporto! Caspita! La cosa si fa interessante";
 	}
+
 }

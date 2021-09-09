@@ -1,4 +1,4 @@
-package it.uniroma1.textadv.utilita.interfaccie;
+package it.uniroma1.textadv.utilita.interfaccieSupporto;
 
 import java.io.Serializable;
 import java.nio.file.Path;

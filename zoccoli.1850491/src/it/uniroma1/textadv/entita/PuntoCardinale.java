@@ -1,4 +1,4 @@
-package it.uniroma1.textadv.utilita.enumerazioni;
+package it.uniroma1.textadv.entita;
 
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.PuntoCardinaleException;
 

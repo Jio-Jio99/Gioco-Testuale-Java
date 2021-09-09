@@ -1,5 +1,6 @@
 package it.uniroma1.textadv.utilita.funzionamento.azione.concreto;
 
+import java.util.List;
 import java.util.Set;
 
 import it.uniroma1.textadv.entita.Entita;
@@ -16,7 +17,7 @@ public class Interazione extends Azione{
 	}
 
 	@Override
-	public void active(Entita... entita) throws AzioneException, GiocatoreException {
-		((Personaggio) entita[0]).interazione();
+	public void active(List<Entita> entita) throws AzioneException, GiocatoreException {
+		((Personaggio) entita.get(0)).interazione();
 	}
 }

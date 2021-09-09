@@ -1,13 +1,14 @@
 package it.uniroma1.textadv.entita.oggetto;
 
+import it.uniroma1.textadv.entita.interfaccia.Apribile;
 import it.uniroma1.textadv.entita.interfaccia.Inventario;
-import it.uniroma1.textadv.entita.link.Link;
 import it.uniroma1.textadv.utilita.creazione.AnalizzaFile;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.EntitaException;
 import it.uniroma1.textadv.utilita.creazione.interfaccia.Observer;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.ChiaveNonCorrispondenteException;
 
 public abstract class Chiavistello extends Oggetto implements Observer, Inventario{
-	protected Link porta;
+	protected Apribile porta;
 	protected String portaString;
 	
 	public Chiavistello(String nome) {
@@ -18,14 +19,21 @@ public abstract class Chiavistello extends Oggetto implements Observer, Inventar
 		portaString = nomePorta.strip();
 	}
 	
-	public Link getPorta() {
+	public Apribile getPorta() {
 		return porta;
 	}
 	
+	//METODO PER INTERAZIONE
+	public void usa(Apribile e) throws ChiaveNonCorrispondenteException {
+		if(e.equals(porta))	
+			e.sblocca();
+		
+		throw new ChiaveNonCorrispondenteException(this, e);
+	}
 	
 	@Override
 	public void converti() throws EntitaException {
 		if(portaString != null)
-			porta = (Link) AnalizzaFile.convertitore(portaString);
+			porta = (Apribile) AnalizzaFile.convertitore(portaString);
 	}
 }

@@ -1,6 +1,6 @@
 package it.uniroma1.textadv.utilita.funzionamento.azione.concreto;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import it.uniroma1.textadv.entita.Entita;
@@ -17,23 +17,23 @@ public class Osservazione extends Azione{
 	}
 	
 	@Override
-	public void active(Entita... entita) throws GiocatoreException {
+	public void active(List<Entita> entita) throws GiocatoreException {
 		if(comandoRicevuto.equals("inventario")) {
 			Giocatore.getInstance().inventario();
 
-			if(entita.length != 0)
-				System.out.println("Il comando inventario visiona solo il tuo zaioni... non altre cose, quindi ho fatto finta che non mi hai chiesto nulla di " + Arrays.toString(entita)+ "! ;-)");
+			if(!entita.isEmpty())
+				System.out.println("Il comando inventario visiona solo il tuo zaioni... non altre cose, quindi ho fatto finta che non mi hai chiesto nulla di " + entita+ "! ;-)");
 			
 			return;
 		}
 		
-		if(entita.length == 1) {
-			Description d = (Description) entita[0];
+		if(entita.size() == 1) {
+			Description d = (Description) entita.get(0);
 			Giocatore.getInstance().guarda(d);
 			return;
 		}
 		
-		if(entita.length == 0 || entita == null)
+		if(entita.isEmpty())
 			Giocatore.getInstance().guarda();
 		else
 			System.out.println("Non puoi guardare più cose assieme... senza offesa per gli strabici");

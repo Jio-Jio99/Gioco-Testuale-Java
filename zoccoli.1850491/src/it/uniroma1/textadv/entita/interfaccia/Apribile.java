@@ -1,7 +1,9 @@
 package it.uniroma1.textadv.entita.interfaccia;
 
-import it.uniroma1.textadv.entita.oggetto.Oggetto;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.ChiaveNonCorrispondenteException;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.ChiusoException;
 
 public interface Apribile {
-	public void apriCon(Oggetto e);
+	public void apri() throws ChiusoException;
+	public void sblocca() throws ChiaveNonCorrispondenteException;
 }

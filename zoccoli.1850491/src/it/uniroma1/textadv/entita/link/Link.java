@@ -16,6 +16,7 @@ import it.uniroma1.textadv.utilita.creazione.AnalizzaFile;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.EntitaException;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.LinkFileException;
 import it.uniroma1.textadv.utilita.creazione.interfaccia.Observer;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.ChiusoException;
 
 /**
  * Classe astratta dei link di collegamento delle varie stanze, contente:
@@ -27,6 +28,7 @@ import it.uniroma1.textadv.utilita.creazione.interfaccia.Observer;
  */
 public abstract class Link extends Entita implements Observer, Description, Apribile{
 	protected boolean aperto;
+	protected boolean chiusoAChiave;
 	private Set<Stanza> collegamento;
 	private List<String> nomeStanze;
 	
@@ -73,8 +75,24 @@ public abstract class Link extends Entita implements Observer, Description, Apri
 		return collegamento;
 	}
 	
+	@Override
+	public void apri() throws ChiusoException {
+		if(aperto)
+			System.out.println("È già aperto!");
+		
+		if(!chiusoAChiave) {
+			aperto = true;
+			System.out.println(getNome() + " aperto!");
+		}
+		else 
+			throw new ChiusoException(this);
+	}
 	
-	
+	@Override
+	public void sblocca() {
+		chiusoAChiave = true;
+		aperto = true;
+	}
 	
 	//METODI DI MOVIMENTO
 	/**
@@ -90,14 +108,6 @@ public abstract class Link extends Entita implements Observer, Description, Apri
 		}
 		
 		return false;
-	}
-	
-	/**
-	 * Metodo che ritorna se il collegamento � aperto o meno
-	 * @return {@link TipoLink}
-	 */
-	public void apri() {
-		System.out.println((aperto ? "È aperto il passaggio!" : "È chiuso il passaggio!"));
 	}
 	
 	

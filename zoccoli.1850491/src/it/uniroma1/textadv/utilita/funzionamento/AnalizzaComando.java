@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
 
 import it.uniroma1.textadv.entita.Entita;
 import it.uniroma1.textadv.entita.Mondo;
+import it.uniroma1.textadv.entita.PuntoCardinale;
 import it.uniroma1.textadv.entita.link.concreto.Libero;
 import it.uniroma1.textadv.entita.personaggio.concreto.Giocatore;
 import it.uniroma1.textadv.entita.stanza.Stanza;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
-import it.uniroma1.textadv.utilita.enumerazioni.PuntoCardinale;
 import it.uniroma1.textadv.utilita.funzionamento.azione.Azione;
 import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Movimento;
 import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Osservazione;
@@ -64,9 +64,8 @@ public abstract class AnalizzaComando {
 				throw new OggettoNonInStanzaException();
 		}
 		
-		
 		try{
-			azione.active(disponibili.toArray(Entita[]::new));
+			azione.active(disponibili);
 		}
 		catch(ClassCastException e) {
 			throw new IncoerenzaEntitaAzioneException();

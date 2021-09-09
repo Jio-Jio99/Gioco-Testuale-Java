@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import it.uniroma1.textadv.utilita.enumerazioni.PuntoCardinale;
+import it.uniroma1.textadv.entita.PuntoCardinale;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.PuntoCardinaleException;
 
 /**

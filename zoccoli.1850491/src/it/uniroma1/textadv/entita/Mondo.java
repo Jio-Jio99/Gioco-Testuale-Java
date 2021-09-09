@@ -11,7 +11,7 @@ import it.uniroma1.textadv.entita.interfaccia.Description;
 import it.uniroma1.textadv.entita.stanza.Stanza;
 import it.uniroma1.textadv.utilita.creazione.AnalizzaFile;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.ErroreCaricamentoException;
-import it.uniroma1.textadv.utilita.interfaccie.FilesMethod;
+import it.uniroma1.textadv.utilita.interfaccieSupporto.FilesMethod;
 
 /**
  * Il mondo è un insieme di stanze ed è dotato di un nome e una descrizione testuale 

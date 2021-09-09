@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import it.uniroma1.textadv.entita.Entita;
+import it.uniroma1.textadv.entita.PuntoCardinale;
 import it.uniroma1.textadv.entita.interfaccia.Description;
 import it.uniroma1.textadv.entita.link.Link;
 import it.uniroma1.textadv.entita.link.concreto.Libero;
@@ -15,7 +16,6 @@ import it.uniroma1.textadv.entita.personaggio.Personaggio;
 import it.uniroma1.textadv.utilita.creazione.AnalizzaFile;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.EntitaException;
 import it.uniroma1.textadv.utilita.creazione.interfaccia.Observer;
-import it.uniroma1.textadv.utilita.enumerazioni.PuntoCardinale;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.AccessoNonDisponibileException;
 
 /**

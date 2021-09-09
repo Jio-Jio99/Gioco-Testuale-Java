@@ -1,5 +1,6 @@
 package it.uniroma1.textadv.utilita.funzionamento.azione.concreto;
 
+import java.util.List;
 import java.util.Set;
 
 import it.uniroma1.textadv.entita.Entita;
@@ -18,7 +19,7 @@ public class Dare extends Azione{
 	}
 	
 	@Override
-	public void active(Entita... entita) throws OggettoNonInInventarioException, GiocatoreException {
-		Giocatore.getInstance().dai((Inventario) entita[1], (Personaggio) entita[0]);
+	public void active(List<Entita> entita) throws OggettoNonInInventarioException, GiocatoreException {
+		Giocatore.getInstance().dai((Inventario) entita.get(1), (Personaggio) entita.get(0));
 	}
 }

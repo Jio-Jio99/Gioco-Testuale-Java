@@ -12,7 +12,7 @@ import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.funzionamento.AnalizzaComando;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.ExitException;
-import it.uniroma1.textadv.utilita.interfaccie.FilesMethod;
+import it.uniroma1.textadv.utilita.interfaccieSupporto.FilesMethod;
 
 public class Gioco {
 	public static final Scanner scan = new Scanner(System.in);
