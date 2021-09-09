@@ -11,12 +11,12 @@ import it.uniroma1.textadv.entita.link.Link;
 import it.uniroma1.textadv.entita.link.concreto.Libero;
 import it.uniroma1.textadv.entita.oggetto.Oggetto;
 import it.uniroma1.textadv.entita.personaggio.Personaggio;
-import it.uniroma1.textadv.utilita.azione.eccezioni.concreto.AccessoNonDisponibileException;
-import it.uniroma1.textadv.utilita.azione.interfaccia.Description;
 import it.uniroma1.textadv.utilita.creazione.AnalizzaFile;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.EntitaException;
 import it.uniroma1.textadv.utilita.creazione.interfaccia.Observer;
 import it.uniroma1.textadv.utilita.enumerazioni.PuntoCardinale;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.AccessoNonDisponibileException;
+import it.uniroma1.textadv.utilita.funzionamento.interfaccia.Description;
 
 /**
  * La stanza è l’elemento base del mondo. Ogni stanza ha un nome, una descrizione testuale

@@ -1,4 +1,4 @@
-package it.uniroma1.textadv.utilita.azione;
+package it.uniroma1.textadv.utilita.funzionamento;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -15,12 +15,14 @@ import it.uniroma1.textadv.entita.Mondo;
 import it.uniroma1.textadv.entita.link.concreto.Libero;
 import it.uniroma1.textadv.entita.personaggio.concreto.Giocatore;
 import it.uniroma1.textadv.entita.stanza.Stanza;
-import it.uniroma1.textadv.utilita.azione.eccezioni.AzioneException;
-import it.uniroma1.textadv.utilita.azione.eccezioni.concreto.ComandoNonRiconosciutoException;
-import it.uniroma1.textadv.utilita.azione.eccezioni.concreto.OggettoNonInStanzaException;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.PuntoCardinaleException;
 import it.uniroma1.textadv.utilita.enumerazioni.PuntoCardinale;
+import it.uniroma1.textadv.utilita.funzionamento.azione.Azione;
+import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Movimento;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.ComandoNonRiconosciutoException;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.OggettoNonInStanzaException;
 
 public abstract class AnalizzaComando {
 	private static List<String> comando;
@@ -37,26 +39,16 @@ public abstract class AnalizzaComando {
 		Stanza stanza = Giocatore.getInstance().getPosizione();
 		comando = stringInList(comandoString);
 		
-		TipoAzione azione = null;
-		
-		int posizione = 0;
-		for(String s : comando) {
-			azione = TipoAzione.getTipoAzione(s);
-			if(azione != null) 
-				break;
-			posizione ++;
-		}
+		//prendo l'azione da fare tramite la prima parola
+		Azione azione = Azione.getAzione(comando.get(0));
 		
 		if(azione == null && comando.size() != 1)
 			throw new ComandoNonRiconosciutoException();
 		
-		if(posizione > 1)
-			System.out.println("Sembra che il comando non sia scritto correttamente... ma penso di aver capito cosa vuoi...");
-		
 		disponibili = entitaPresenti(x -> {if(!(x instanceof Libero)) return x.getNome(); else return ((Libero)x).getNomeStanzaVisibile();}, stanza.getEntita());
 
 		//AZIONE DA CONTROLLARE: MOVIMENTO, ESTRARRE DALLA STANZA IN QUALE DIREZIONE SI STA ANDANDO
-		if(azione == TipoAzione.VAI || (comando.size() == 1 && azione == null)) {
+		if(azione instanceof Movimento || (comando.size() == 1 && azione == null)) {
 			PuntoCardinale p = null;
 			for(String s : comando) {
 				try {
@@ -69,7 +61,7 @@ public abstract class AnalizzaComando {
 			else if(azione == null ) 
 				throw new ComandoNonRiconosciutoException();
 			if(azione == null)
-				azione = TipoAzione.VAI;			
+				azione = new Movimento();			
 		}	
 
 		if(comando.size() > 1) {

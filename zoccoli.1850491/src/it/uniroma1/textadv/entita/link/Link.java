@@ -10,12 +10,12 @@ import java.util.Set;
 import it.uniroma1.textadv.entita.Entita;
 import it.uniroma1.textadv.entita.personaggio.Personaggio;
 import it.uniroma1.textadv.entita.stanza.Stanza;
-import it.uniroma1.textadv.utilita.azione.interfaccia.Apribile;
-import it.uniroma1.textadv.utilita.azione.interfaccia.Description;
 import it.uniroma1.textadv.utilita.creazione.AnalizzaFile;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.EntitaException;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.LinkFileException;
 import it.uniroma1.textadv.utilita.creazione.interfaccia.Observer;
+import it.uniroma1.textadv.utilita.funzionamento.interfaccia.Apribile;
+import it.uniroma1.textadv.utilita.funzionamento.interfaccia.Description;
 
 /**
  * Classe astratta dei link di collegamento delle varie stanze, contente:

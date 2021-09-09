@@ -8,9 +8,9 @@ import java.util.stream.Collectors;
 
 import it.uniroma1.textadv.entita.Mondo;
 import it.uniroma1.textadv.entita.personaggio.concreto.Giocatore;
-import it.uniroma1.textadv.utilita.azione.AnalizzaComando;
-import it.uniroma1.textadv.utilita.azione.eccezioni.AzioneException;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
+import it.uniroma1.textadv.utilita.funzionamento.AnalizzaComando;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 import it.uniroma1.textadv.utilita.interfaccie.FilesMethod;
 
 public class Gioco {
@@ -46,8 +46,10 @@ public class Gioco {
 	 */
 	private void play(Mondo m, Supplier<String> funzioneInput) throws GiocatoreException{
 		//ciclo di comandi
+		System.out.println(m.guarda());
+		String s = "";
 		while(!Giocatore.getInstance().getInventario().containsKey("tesoro")) {
-			String s = funzioneInput.get();
+			s = funzioneInput.get();
 			
 			try {
 				AnalizzaComando.analizzaComando(m, s);

@@ -9,12 +9,12 @@ import it.uniroma1.textadv.entita.link.MezzoDiTrasporto;
 import it.uniroma1.textadv.entita.oggetto.Contenitore;
 import it.uniroma1.textadv.entita.oggetto.Oggetto;
 import it.uniroma1.textadv.entita.personaggio.Personaggio;
-import it.uniroma1.textadv.utilita.azione.eccezioni.concreto.LinkChiusoException;
-import it.uniroma1.textadv.utilita.azione.eccezioni.concreto.OggettoNonInInventarioException;
-import it.uniroma1.textadv.utilita.azione.interfaccia.Description;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.GiocatoreNomeDiversoException;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.GiocatoreNonInstanziatoException;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.LinkChiusoException;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.OggettoNonInInventarioException;
+import it.uniroma1.textadv.utilita.funzionamento.interfaccia.Description;
 import it.uniroma1.textadv.utilita.interfaccie.Inventario;
 
 public class Giocatore extends Personaggio{

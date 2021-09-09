@@ -3,9 +3,9 @@ package it.uniroma1.textadv.entita.oggetto;
 import java.util.Objects;
 
 import it.uniroma1.textadv.entita.Entita;
-import it.uniroma1.textadv.utilita.azione.interfaccia.Description;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.EntitaException;
 import it.uniroma1.textadv.utilita.creazione.interfaccia.Observer;
+import it.uniroma1.textadv.utilita.funzionamento.interfaccia.Description;
 import it.uniroma1.textadv.utilita.interfaccie.Inventario;
 
 public abstract class Oggetto extends Entita implements Observer, Description{

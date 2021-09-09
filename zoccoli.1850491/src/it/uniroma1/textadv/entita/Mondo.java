@@ -8,9 +8,9 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import it.uniroma1.textadv.entita.stanza.Stanza;
-import it.uniroma1.textadv.utilita.azione.interfaccia.Description;
 import it.uniroma1.textadv.utilita.creazione.AnalizzaFile;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.ErroreCaricamentoException;
+import it.uniroma1.textadv.utilita.funzionamento.interfaccia.Description;
 import it.uniroma1.textadv.utilita.interfaccie.FilesMethod;
 
 /**
@@ -52,6 +52,6 @@ public class Mondo extends Entita implements Description{
 	
 	@Override
 	public String guarda() {
-		return getNome() + " " + DESCRIZIONE_TESTUALE;
+		return "\t\t\t" + getNome().toUpperCase() + "\n  " + DESCRIZIONE_TESTUALE;
 	}
 }

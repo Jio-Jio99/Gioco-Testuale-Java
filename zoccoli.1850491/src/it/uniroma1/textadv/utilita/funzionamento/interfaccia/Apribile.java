@@ -1,4 +1,4 @@
-package it.uniroma1.textadv.utilita.azione.interfaccia;
+package it.uniroma1.textadv.utilita.funzionamento.interfaccia;
 
 import it.uniroma1.textadv.entita.oggetto.Oggetto;
 
