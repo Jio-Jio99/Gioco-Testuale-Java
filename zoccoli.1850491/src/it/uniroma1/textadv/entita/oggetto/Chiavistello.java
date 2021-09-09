@@ -25,8 +25,10 @@ public abstract class Chiavistello extends Oggetto implements Observer, Inventar
 	
 	//METODO PER INTERAZIONE
 	public void usa(Apribile e) throws ChiaveNonCorrispondenteException {
-		if(e.equals(porta))	
+		if(e.equals(porta)) {
 			e.sblocca();
+			return;
+		}
 		
 		throw new ChiaveNonCorrispondenteException(this, e);
 	}

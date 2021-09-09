@@ -113,7 +113,9 @@ public class Stanza extends Entita implements Observer, Description{
 	}
 	
 	public Oggetto getOggetto(String nome) {
-		return oggetti.get(nome);
+		Oggetto o = oggetti.get(nome);
+		oggetti.remove(o.getNome());
+		return o;
 	}
 	
 	public Personaggio getPersonaggio(String nome) {

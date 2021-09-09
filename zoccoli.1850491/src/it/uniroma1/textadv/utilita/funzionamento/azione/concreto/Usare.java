@@ -10,7 +10,8 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 
 public class Usare extends Azione{
 	public static final Set<String> COMANDI = Set.of("usa");
-	
+	public static final String 	USA = "usa",
+								SU = "su";
 	public Usare() {
 		super(COMANDI);
 	}
@@ -18,6 +19,5 @@ public class Usare extends Azione{
 	@Override
 	public void active(List<Entita> entita) throws AzioneException, GiocatoreException {
 		// TODO Auto-generated method stub
-		
 	}
 }

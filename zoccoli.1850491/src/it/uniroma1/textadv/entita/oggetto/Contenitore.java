@@ -31,7 +31,7 @@ public abstract class Contenitore extends Oggetto implements Observer, Apribile{
 	//METODI PER INTERAGIRE
 	@Override
 	public String guarda() {
-		return aperto ? "Ecco cosa trovi dentro: " + (inventario == null ? "ops... nulla" : inventario) : "È un " + getNome() + " chiuso/a";
+		return aperto ? "Scrivania aperta, trovi: " + (inventario == null ? "ops... nulla" : inventario) : "È un " + getNome() + " chiuso/a";
 	}	
 	
 	@Override
