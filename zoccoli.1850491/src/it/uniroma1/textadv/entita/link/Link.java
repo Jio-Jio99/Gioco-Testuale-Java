@@ -35,6 +35,7 @@ public abstract class Link extends Entita implements Observer, Description, Apri
 	private Link(String nome) {
 		super(nome);
 		collegamento = new HashSet<>();
+		chiusoAChiave = true;
 	}
 	
 	/**
@@ -81,6 +82,7 @@ public abstract class Link extends Entita implements Observer, Description, Apri
 			System.out.println("È già aperto!");
 		
 		if(!chiusoAChiave) {
+			System.out.println(chiusoAChiave);
 			aperto = true;
 			System.out.println(getNome() + " aperto!");
 		}

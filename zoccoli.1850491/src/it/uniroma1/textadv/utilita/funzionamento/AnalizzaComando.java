@@ -62,7 +62,7 @@ public abstract class AnalizzaComando {
 			else if(comando.size() == 1) {
 				throw new ComandoScrittoNonCorrettamenteException();
 			}
-			else 
+			else
 				throw new OggettoNonInStanzaException();
 		}
 		
@@ -85,25 +85,13 @@ public abstract class AnalizzaComando {
 	
 	
 	private static List<Entita> cercaEntita(Set<Entita> setEntita) throws GiocatoreException {
-		Map<Integer, Entita> lista = new TreeMap<>();
-		List<String> supporto;
 		int index = -1;
 		
 		Set<Entita> inInventario = Giocatore.getInstance().getInventario().values().stream().map(x ->(Entita) x).collect(Collectors.toSet());
 		
 		setEntita.addAll(inInventario);
 		
-		for(Entita e : setEntita) {
-			supporto = stringInList(e.getNome());
-			index = Collections.indexOfSubList(comando, supporto);
-			if(index!=-1 && !(e instanceof Stanza))
-				lista.put(index,e);
-		}
-		
-		
-		comando.indexOf(Aprire.CON);
-		comando.indexOf(Usare.SU);
 
-		return lista.keySet().stream().sorted().map(x -> lista.get(x)).collect(Collectors.toCollection(LinkedList::new));
+		return null;
 	}
 }
