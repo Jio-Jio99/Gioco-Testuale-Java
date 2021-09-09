@@ -2,7 +2,7 @@ package it.uniroma1.textadv;
 
 import java.nio.file.Paths;
 
-import entita.Mondo;
+import it.uniroma1.textadv.entita.Mondo;
 
 public class Test{
 	public static void main(String[] args) throws Exception{

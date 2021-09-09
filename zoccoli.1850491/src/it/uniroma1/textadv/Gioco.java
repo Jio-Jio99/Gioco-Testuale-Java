@@ -6,12 +6,12 @@ import java.util.Scanner;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import entita.Mondo;
-import entita.personaggio.concreto.Giocatore;
-import utilita.azione.AnalizzaComando;
-import utilita.azione.eccezioni.AzioneException;
-import utilita.creazione.eccezioni.GiocatoreException;
-import utilita.interfaccie.FilesMethod;
+import it.uniroma1.textadv.entita.Mondo;
+import it.uniroma1.textadv.entita.personaggio.concreto.Giocatore;
+import it.uniroma1.textadv.utilita.azione.AnalizzaComando;
+import it.uniroma1.textadv.utilita.azione.eccezioni.AzioneException;
+import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
+import it.uniroma1.textadv.utilita.interfaccie.FilesMethod;
 
 public class Gioco {
 	public static final Scanner scan = new Scanner(System.in);
