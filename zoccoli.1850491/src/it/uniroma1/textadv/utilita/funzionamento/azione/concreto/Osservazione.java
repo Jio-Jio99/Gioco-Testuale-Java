@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.Set;
 
 import it.uniroma1.textadv.entita.Entita;
+import it.uniroma1.textadv.entita.interfaccia.Description;
 import it.uniroma1.textadv.entita.personaggio.concreto.Giocatore;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.funzionamento.azione.Azione;
-import it.uniroma1.textadv.utilita.funzionamento.interfaccia.Description;
 
 public class Osservazione extends Azione{
 	public static final Set<String> COMANDI = Set.of("osserva", "guarda", "inventario");

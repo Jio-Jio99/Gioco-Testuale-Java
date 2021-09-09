@@ -1,6 +1,6 @@
 package it.uniroma1.textadv.utilita.enumerazioni;
 
-import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.PuntoCardinaleException;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.PuntoCardinaleException;
 
 /**
  * Enumerazione per la direzione: <p>

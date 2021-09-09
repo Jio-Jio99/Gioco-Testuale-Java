@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.PuntoCardinaleException;
 import it.uniroma1.textadv.utilita.enumerazioni.PuntoCardinale;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.PuntoCardinaleException;
 
 /**
  * Classe builder che costuisce la {@link Stanza}

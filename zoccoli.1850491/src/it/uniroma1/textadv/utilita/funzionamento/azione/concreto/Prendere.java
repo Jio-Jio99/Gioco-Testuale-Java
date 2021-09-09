@@ -3,12 +3,12 @@ package it.uniroma1.textadv.utilita.funzionamento.azione.concreto;
 import java.util.Set;
 
 import it.uniroma1.textadv.entita.Entita;
+import it.uniroma1.textadv.entita.interfaccia.Inventario;
 import it.uniroma1.textadv.entita.link.MezzoDiTrasporto;
 import it.uniroma1.textadv.entita.personaggio.concreto.Giocatore;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.funzionamento.azione.Azione;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
-import it.uniroma1.textadv.utilita.interfaccie.Inventario;
 
 public class Prendere extends Azione{
 	public static final Set<String> COMANDI = Set.of("prendi");

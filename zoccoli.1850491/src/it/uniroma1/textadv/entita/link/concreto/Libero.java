@@ -14,7 +14,8 @@ public class Libero extends Link{
 		aperto = true;
 	}
 	
-	public String getNomeStanzaVisibile() {
+	@Override
+	public String getNome() {
 		return nomeStanza;
 	}
 	
@@ -26,5 +27,10 @@ public class Libero extends Link{
 	@Override
 	public void apriCon(Oggetto o) {
 		System.out.println("È già aperto!");
+	}
+	
+	@Override
+	public String toString() {
+		return NOME;
 	}
 }

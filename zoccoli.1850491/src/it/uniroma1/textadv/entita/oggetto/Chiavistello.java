@@ -1,10 +1,10 @@
 package it.uniroma1.textadv.entita.oggetto;
 
+import it.uniroma1.textadv.entita.interfaccia.Inventario;
 import it.uniroma1.textadv.entita.link.Link;
 import it.uniroma1.textadv.utilita.creazione.AnalizzaFile;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.EntitaException;
 import it.uniroma1.textadv.utilita.creazione.interfaccia.Observer;
-import it.uniroma1.textadv.utilita.interfaccie.Inventario;
 
 public abstract class Chiavistello extends Oggetto implements Observer, Inventario{
 	protected Link porta;

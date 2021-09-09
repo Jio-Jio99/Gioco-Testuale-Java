@@ -7,11 +7,11 @@ import java.util.Optional;
 import java.util.Set;
 
 import it.uniroma1.textadv.entita.Entita;
+import it.uniroma1.textadv.entita.interfaccia.Inventario;
 import it.uniroma1.textadv.entita.stanza.Stanza;
 import it.uniroma1.textadv.utilita.creazione.AnalizzaFile;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.EntitaException;
 import it.uniroma1.textadv.utilita.creazione.interfaccia.Observer;
-import it.uniroma1.textadv.utilita.interfaccie.Inventario;
 
 /**
  * Ogni personaggio ha un nome. Un personaggio che dispone di un inventario di oggetti. Il

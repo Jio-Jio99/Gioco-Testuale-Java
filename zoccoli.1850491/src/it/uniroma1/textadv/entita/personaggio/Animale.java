@@ -1,6 +1,6 @@
 package it.uniroma1.textadv.entita.personaggio;
 
-import it.uniroma1.textadv.utilita.interfaccie.Inventario;
+import it.uniroma1.textadv.entita.interfaccia.Inventario;
 
 public abstract class Animale extends Personaggio implements Inventario{
 	protected String verso;

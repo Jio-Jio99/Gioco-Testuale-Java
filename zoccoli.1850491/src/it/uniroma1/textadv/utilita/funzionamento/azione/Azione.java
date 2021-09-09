@@ -14,6 +14,7 @@ import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Osservazione;
 import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Prendere;
 import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Usare;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.ExitException;
 
 public abstract class Azione implements Iterable<Azione>{
 	/**
@@ -26,6 +27,10 @@ public abstract class Azione implements Iterable<Azione>{
 															new Osservazione(),
 															new Prendere(),
 															new Usare());
+	/**
+	 * Comandi esterni al gioco per poter uscire o altro
+	 */
+	public static final Set<String> comandoEsterno = Set.of("exit");
 	
 	protected static String comandoRicevuto;
 	private Set<String> setComandi;
@@ -41,8 +46,11 @@ public abstract class Azione implements Iterable<Azione>{
 	public abstract void active(Entita... entita) throws AzioneException, GiocatoreException;
 	
 	
-	public static Azione getAzione(String comando) {
+	public static Azione getAzione(String comando) throws ExitException {
 		comandoRicevuto = comando;
+		
+		if(comandoEsterno.contains(comando))
+			throw new ExitException();
 		
 		for(Azione e : listaAzioni) {
 			if(e.contains(comando))

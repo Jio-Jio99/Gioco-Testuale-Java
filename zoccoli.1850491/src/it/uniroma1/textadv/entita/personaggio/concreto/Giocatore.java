@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.stream.Collectors;
 
 import it.uniroma1.textadv.entita.Entita;
+import it.uniroma1.textadv.entita.interfaccia.Description;
+import it.uniroma1.textadv.entita.interfaccia.Inventario;
 import it.uniroma1.textadv.entita.link.Link;
 import it.uniroma1.textadv.entita.link.MezzoDiTrasporto;
 import it.uniroma1.textadv.entita.oggetto.Contenitore;
@@ -14,8 +16,6 @@ import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.GiocatoreNomeDiv
 import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.GiocatoreNonInstanziatoException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.LinkChiusoException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.OggettoNonInInventarioException;
-import it.uniroma1.textadv.utilita.funzionamento.interfaccia.Description;
-import it.uniroma1.textadv.utilita.interfaccie.Inventario;
 
 public class Giocatore extends Personaggio{
 	private static Giocatore instanza;

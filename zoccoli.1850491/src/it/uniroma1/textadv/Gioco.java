@@ -11,6 +11,7 @@ import it.uniroma1.textadv.entita.personaggio.concreto.Giocatore;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.funzionamento.AnalizzaComando;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.ExitException;
 import it.uniroma1.textadv.utilita.interfaccie.FilesMethod;
 
 public class Gioco {
@@ -54,10 +55,14 @@ public class Gioco {
 			try {
 				AnalizzaComando.analizzaComando(m, s);
 			}
+			catch(ExitException e) {
+				break;
+			}
 			catch(AzioneException e) {
 				System.out.println(e.getMessage());
 			}
 		}
+		
 		System.out.println("\n\t\t\tfine");
 		scan.close();
 	}

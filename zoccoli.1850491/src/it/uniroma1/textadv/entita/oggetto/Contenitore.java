@@ -1,11 +1,11 @@
 package it.uniroma1.textadv.entita.oggetto;
 
 
+import it.uniroma1.textadv.entita.interfaccia.Apribile;
 import it.uniroma1.textadv.utilita.creazione.AnalizzaFile;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.EntitaException;
 import it.uniroma1.textadv.utilita.creazione.interfaccia.Observer;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.ContenitoreChiusoException;
-import it.uniroma1.textadv.utilita.funzionamento.interfaccia.Apribile;
 
 public abstract class Contenitore extends Oggetto implements Observer, Apribile{
 	protected Oggetto inventario;
