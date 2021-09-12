@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.stream.Collectors;
 
 import it.uniroma1.textadv.entita.Entita;
+import it.uniroma1.textadv.entita.StatoGioco;
 import it.uniroma1.textadv.entita.interfaccia.Description;
 import it.uniroma1.textadv.entita.interfaccia.Inventario;
 import it.uniroma1.textadv.entita.link.Link;
@@ -19,6 +20,7 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.OggettoNonIn
 
 public class Giocatore extends Personaggio{
 	private static Giocatore instanza;
+	public static String keyForWin = "tesoro";
 	
 	private Giocatore(String nome) {
 		super(nome);
@@ -113,6 +115,20 @@ public class Giocatore extends Personaggio{
 	
 	public void usa(Oggetto o1, Oggetto o2) {
 		
+	}
+	//ALTRO
+	
+	
+	public Entita getEntita(String nome) {
+		return (Entita) inventario.get(nome);
+	}
+	
+	
+	public StatoGioco getStato() {
+		if(getInventario().containsKey(keyForWin))
+			return StatoGioco.VINTO;
+		
+		return StatoGioco.IN_GIOCO;
 	}
 	
 	/**

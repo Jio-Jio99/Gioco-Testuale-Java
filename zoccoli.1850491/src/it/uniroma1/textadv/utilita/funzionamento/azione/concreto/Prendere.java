@@ -13,6 +13,7 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 
 public class Prendere extends Azione{
 	public static final Set<String> COMANDI = Set.of("prendi");
+	public static final String DA = "da";
 	
 	public Prendere() {
 		super(COMANDI);

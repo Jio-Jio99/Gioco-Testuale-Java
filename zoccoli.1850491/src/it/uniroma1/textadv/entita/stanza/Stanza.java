@@ -126,6 +126,10 @@ public class Stanza extends Entita implements Observer, Description{
 		return entita;
 	}
 	
+	public Entita getEntita(String nome) {
+		return entita.stream().filter(x -> nome.equals(x.getNome())).findAny().orElse(null);
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if(o == null || !o.getClass().equals(getClass())) 

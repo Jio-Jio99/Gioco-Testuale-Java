@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import it.uniroma1.textadv.entita.Mondo;
+import it.uniroma1.textadv.entita.StatoGioco;
 import it.uniroma1.textadv.entita.personaggio.concreto.Giocatore;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.funzionamento.AnalizzaComando;
@@ -18,6 +19,8 @@ public class Gioco {
 	public static final Scanner scan = new Scanner(System.in);
 	private static List<String> azioni;
 	private static int index;
+	private AnalizzaComando analizzatoreComandi;
+	private Mondo mondo;
 	
 	/**
 	 * Metodo che mette in azione il gioco tramite uno script
@@ -27,7 +30,8 @@ public class Gioco {
 	 */
 	public void play(Mondo m, Path scriptDiGioco) throws Exception {
 		azioni = FilesMethod.lettura(scriptDiGioco).stream().map(x -> x.split("//")[0].strip()).collect(Collectors.toList());
-		play(m, Gioco::inputDaLista);
+		setMondo(m);
+		play(Gioco::inputDaScript);
 	}
 	
 	/**
@@ -36,7 +40,8 @@ public class Gioco {
 	 * @throws Exception
 	 */
 	public void play(Mondo m) throws Exception {
-		play(m, Gioco::input);
+		setMondo(m);
+		play(Gioco::input);
 	}
 	
 	/**
@@ -45,15 +50,17 @@ public class Gioco {
 	 * @param funzioneInput = quale input ricevere (se da tastiera o da script)
 	 * @throws GiocatoreException
 	 */
-	private void play(Mondo m, Supplier<String> funzioneInput) throws GiocatoreException{
-		//ciclo di comandi
-		System.out.println(m.guarda());
+	private void play(Supplier<String> funzioneInput) throws GiocatoreException{
+		System.out.println(mondo.guarda());
+		StatoGioco stato = StatoGioco.IN_GIOCO;
+		
 		String s = "";
-		while(!Giocatore.getInstance().getInventario().containsKey("tesoro")) {
+		//ciclo di comandi
+		while(stato == StatoGioco.IN_GIOCO) {
 			s = funzioneInput.get();
 			
 			try {
-				AnalizzaComando.analizzaComando(m, s);
+				analizzatoreComandi.analizzaComando(s);
 			}
 			catch(ExitException e) {
 				break;
@@ -61,9 +68,15 @@ public class Gioco {
 			catch(AzioneException e) {
 				System.out.println(e.getMessage());
 			}
+			
+			
+			stato = Giocatore.getInstance().getStato();
 		}
 		
-		System.out.println("\n\t\t\tfine");
+		if(stato == StatoGioco.VINTO)
+			easterEgg();
+		
+		System.out.println("\n\t\t\tFINE");
 		scan.close();
 	}
 	
@@ -76,9 +89,20 @@ public class Gioco {
 		return scan.nextLine();
 	}
 	
-	private static String inputDaLista() {
+	private static String inputDaScript() {
 		String s = azioni.get(index++);
-		System.out.print("\n>> " + s);
+		System.out.println("\n>> " + s);
 		return s;
 	}
+	
+	private void setMondo(Mondo m) {
+		mondo = m;
+		analizzatoreComandi = new AnalizzaComando(m);
+	}
+	
+	
+	private void easterEgg() {
+		System.out.println("EASTER EGG");
+	}
+	
 }
