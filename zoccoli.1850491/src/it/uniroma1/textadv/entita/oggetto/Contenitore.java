@@ -34,6 +34,11 @@ public abstract class Contenitore extends Oggetto implements Observer, Apribile,
 		return inventario;
 	}
 	
+	
+	public String getOggettoString() {
+		return inventarioString;
+	}
+	
 	public Oggetto getOggetto(String nomeOggetto) throws AzioneException {
 		if(aperto) {
 			if(nomeOggetto.equals(inventarioString) && !vuoto) {
@@ -51,7 +56,7 @@ public abstract class Contenitore extends Oggetto implements Observer, Apribile,
 	//METODI PER INTERAGIRE
 	@Override
 	public Inventario dai(String nomeInventario) throws AzioneException {
-		if(aperto)
+		if(aperto) 
 			return (Inventario) getOggetto(nomeInventario);
 
 		throw new ChiusoException(this);
@@ -59,7 +64,7 @@ public abstract class Contenitore extends Oggetto implements Observer, Apribile,
 	
 	@Override
 	public String guarda() {
-		return aperto ? "Scrivania aperta, trovi: " + (inventario == null ? "ops... nulla" : inventario) : "È un " + getNome() + " chiuso/a";
+		return aperto ? "Scrivania aperta, trovi: " + (vuoto ? "ops... nulla" : inventario) : "È un " + getNome() + " chiuso/a";
 	}	
 	
 	@Override
@@ -85,5 +90,10 @@ public abstract class Contenitore extends Oggetto implements Observer, Apribile,
 	public void sblocca() {
 		chiusoConChiave = true;
 		aperto = true;
+	}
+	
+	@Override 
+	public void chiudi() {
+		aperto = false;
 	}
 }

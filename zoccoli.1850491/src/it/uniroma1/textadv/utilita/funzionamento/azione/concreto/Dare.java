@@ -12,7 +12,7 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 
 public class Dare extends Azione{
 	public static final Set<String> COMANDI = Set.of("dai");
-	
+	public static final String A = "a";
 	public Dare() {
 		super(COMANDI);
 	}

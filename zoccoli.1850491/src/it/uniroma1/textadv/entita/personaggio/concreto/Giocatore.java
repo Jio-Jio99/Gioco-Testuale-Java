@@ -8,8 +8,7 @@ import it.uniroma1.textadv.entita.StatoGioco;
 import it.uniroma1.textadv.entita.interfaccia.Description;
 import it.uniroma1.textadv.entita.interfaccia.Inventario;
 import it.uniroma1.textadv.entita.link.Link;
-import it.uniroma1.textadv.entita.oggetto.Contenitore;
-import it.uniroma1.textadv.entita.oggetto.Oggetto;
+import it.uniroma1.textadv.entita.link.MezzoDiTrasporto;
 import it.uniroma1.textadv.entita.oggetto.concreto.Tesoro;
 import it.uniroma1.textadv.entita.personaggio.Personaggio;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
@@ -49,7 +48,7 @@ public class Giocatore extends Personaggio{
 	 * Metodo per vedere cosa si ha nell'inventario
 	 */
 	public void inventario() {
-		String stringa = inventario.isEmpty() ? "Zaino vuoto!" : "Nello zaino: " + inventario.keySet().stream().collect(Collectors.joining(","));
+		String stringa = inventario.isEmpty() ? "Zaino vuoto!" : "Nello zaino: " + inventario.keySet().stream().collect(Collectors.joining(", "));
 		System.out.println(stringa);
 	}
 	
@@ -68,18 +67,6 @@ public class Giocatore extends Personaggio{
 			System.out.println("Ehm...già lo hai nello zaino... perché rimetterlo dentro?");
 	}
 	
-//	public void prendi(MezzoDiTrasporto mezzo) throws LinkChiusoException {
-//		vai(mezzo);
-//		System.out.println("In partenza!");
-//	}
-	
-	public void prendi(Inventario o, Personaggio p) {
-		
-	}
-	
-	public void prendi(Inventario o, Contenitore c) {
-		
-	}
 	
 	//MOVIMENTO
 	/**
@@ -91,7 +78,10 @@ public class Giocatore extends Personaggio{
 		if(!accesso.passaggio(this)) 
 			throw new LinkChiusoException();
 		
-		System.out.println("Passato!");
+		if(accesso instanceof MezzoDiTrasporto)
+			System.out.println("Bruuum!");
+		else
+			System.out.println("Passato!");
 	}
 	
 	
@@ -113,22 +103,6 @@ public class Giocatore extends Personaggio{
 	public void parla(Personaggio p) {
 		p.interazione();
 	}
-	
-	
-	//METODI DI INTERAZIONE CON GLI OGGETTI
-	public void apri(Link l, Oggetto o) {
-		
-	}
-	
-	public void apri(Contenitore c, Oggetto o) {
-		
-	}
-	
-	
-	public void usa(Oggetto o1, Oggetto o2) {
-		
-	}
-	
 	
 	//ALTRO
 	/**

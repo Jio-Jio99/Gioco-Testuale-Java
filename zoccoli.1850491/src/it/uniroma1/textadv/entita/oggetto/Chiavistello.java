@@ -27,6 +27,7 @@ public abstract class Chiavistello extends Oggetto implements Observer, Inventar
 	public void usa(Apribile e) throws ChiaveNonCorrispondenteException {
 		if(e.equals(porta)) {
 			e.sblocca();
+			System.out.println("Aperto!");;
 			return;
 		}
 		
@@ -35,7 +36,9 @@ public abstract class Chiavistello extends Oggetto implements Observer, Inventar
 	
 	@Override
 	public void converti() throws EntitaException {
-		if(portaString != null)
+		if(portaString != null) {
 			porta = (Apribile) AnalizzaFile.convertitore(portaString);
+			porta.chiudi();
+		}
 	}
 }

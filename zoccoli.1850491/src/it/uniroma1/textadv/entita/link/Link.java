@@ -79,10 +79,9 @@ public abstract class Link extends Entita implements Observer, Description, Apri
 	@Override
 	public void apri() throws ChiusoException {
 		if(aperto)
-			System.out.println("È già aperto!");
+			System.out.println("È aperto!");
 		
 		else if(!chiusoAChiave) {
-			System.out.println(chiusoAChiave);
 			aperto = true;
 			System.out.println(getNome() + " aperto!");
 		}
@@ -94,6 +93,11 @@ public abstract class Link extends Entita implements Observer, Description, Apri
 	public void sblocca() {
 		chiusoAChiave = true;
 		aperto = true;
+	}
+	
+	@Override
+	public void chiudi() {
+		aperto = false;
 	}
 	
 	//METODI DI MOVIMENTO

@@ -37,9 +37,9 @@ public class Vite extends Chiavistello implements Utilizzato{
 
 	@Override
 	public void effetto(Utilizzatore e) throws AzioneException {
-		if(e instanceof Cacciavite) {
-			if(!usabile)
+		if(e instanceof Cacciavite && !usabile) {
 				usabile = true;
+				porta.sblocca();
 			return;
 		}
 		

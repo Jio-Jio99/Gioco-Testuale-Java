@@ -23,8 +23,9 @@ public class Prendere extends Azione{
 	public void active(Entita prendere, Entita... daChi) throws AzioneException, GiocatoreException {
 		if(prendere instanceof MezzoDiTrasporto) 
 			new Movimento().active(prendere, daChi);
-
-		Inventario in = (Inventario) ((Datore) daChi[0]).dai(prendere.getNome());
-		Giocatore.getInstance().prendi(in);
+		else {
+			Inventario in = (Inventario) ((Datore) daChi[0]).dai(prendere.getNome());
+			Giocatore.getInstance().prendi(in);
+		}
 	}
 }

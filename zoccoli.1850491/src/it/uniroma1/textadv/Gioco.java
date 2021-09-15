@@ -91,7 +91,13 @@ public class Gioco {
 	}
 	
 	private static String inputDaScript() {
-		String s = azioni.get(index++);
+		String s = "";
+		
+		if(index < azioni.size())
+			s = azioni.get(index++);
+		else 
+			s = "exit";
+		
 		System.out.println("\n>> " + s);
 		return s;
 	}

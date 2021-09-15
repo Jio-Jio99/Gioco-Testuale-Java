@@ -20,7 +20,7 @@ public class Aprire extends Azione{
 	@Override
 	public void active(Entita entita1, Entita... entita2) throws AzioneException, GiocatoreException {
 		Apribile ap = (Apribile) entita1;
-
+		
 		if(entita2.length <= 1) 
 			ap.apri();
 		else 

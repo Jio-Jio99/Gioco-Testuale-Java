@@ -13,4 +13,6 @@ public class Botola extends Link {
 	public String guarda() {
 		return "È una " + getNome().toLowerCase();
 	}
+	
+	
 }

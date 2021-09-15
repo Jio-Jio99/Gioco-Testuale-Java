@@ -6,4 +6,5 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.ChiusoExcept
 public interface Apribile {
 	public void apri() throws ChiusoException;
 	public void sblocca() throws ChiaveNonCorrispondenteException;
+	public void chiudi();
 }

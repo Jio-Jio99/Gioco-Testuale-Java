@@ -41,6 +41,7 @@ public class Stanza extends Entita implements Observer, Description, Datore{
 	private Map<String, Personaggio> personaggi;
 	private Map<PuntoCardinale, Link> accessi;
 	private Set<String> entita;
+	private Map<String, Contenitore> entitaNascoste;
 	
 	//Corrispettivi in stringhe
 	private Set<String> oggettiString;
@@ -54,6 +55,8 @@ public class Stanza extends Entita implements Observer, Description, Datore{
 		this.personaggi = new HashMap<>();
 		this.accessi = new HashMap<>();
 		entita = new HashSet<>();
+		entitaNascoste = new HashMap<>();
+
 		
 		//inizializzo gli insiemi delle stringhe
 		this.oggettiString = oggettiString;
@@ -90,9 +93,21 @@ public class Stanza extends Entita implements Observer, Description, Datore{
 			accessi.put(m.getKey(), l);
 		}
 		
-		entita.addAll(getNomi(oggetti.values()));
 		entita.addAll(getNomi(personaggi.values()));
 		entita.addAll(getNomi(accessi.values()));
+		
+		for(Oggetto og : oggetti.values()) {
+			entita.add(og.getNome());
+			
+			if(og instanceof Contenitore ) {
+				Contenitore i = (Contenitore) og;
+				entitaNascoste.put(i.getOggettoString(), i);
+			}
+		}
+	}
+	
+	public Contenitore entitaNascosta(String nome) {
+		return entitaNascoste.get(nome);
 	}
 	
 	@Override
@@ -146,6 +161,27 @@ public class Stanza extends Entita implements Observer, Description, Datore{
 		return entita;
 	}
 	
+	public void removeOggetto(String nome) {
+		oggetti.remove(nome);
+		entita.remove(nome);
+	}
+	
+	public void removePersonaggio(String nome) {
+		personaggi.remove(nome);
+		entita.remove(nome);
+	}
+	
+	public void aggiungiElemento(Oggetto oggetto){
+		oggetti.put(oggetto.getNome(), oggetto);
+		entita.add(oggetto.getNome());
+	}
+	
+	public void aggingiElemento(Personaggio p) {
+		personaggi.put(p.getNome(), p);
+		entita.add(p.getNome());
+	}
+	
+	
 	public boolean getEntita(String nome) {
 		return entita.stream().anyMatch(x -> x.equals(nome)) || oggetti.values().stream().filter(x -> x instanceof Contenitore).anyMatch(x -> ((Contenitore)x).getOggetto().getNome().equals(nome));
 	}
@@ -185,11 +221,11 @@ public class Stanza extends Entita implements Observer, Description, Datore{
 		
 		if(og == null) {
 			in = (Inventario) per;
-			personaggi.remove(nomeInventario);
+			removePersonaggio(nomeInventario);
 		}
 		else{
 			in = (Inventario) og;
-			oggetti.remove(nomeInventario);
+			removeOggetto(nomeInventario);
 		}
 		
 		if(in == null)

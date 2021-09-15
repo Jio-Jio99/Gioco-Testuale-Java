@@ -12,11 +12,13 @@ import java.util.stream.Collectors;
 import it.uniroma1.textadv.entita.Entita;
 import it.uniroma1.textadv.entita.Mondo;
 import it.uniroma1.textadv.entita.PuntoCardinale;
+import it.uniroma1.textadv.entita.oggetto.Contenitore;
 import it.uniroma1.textadv.entita.personaggio.concreto.Giocatore;
 import it.uniroma1.textadv.entita.stanza.Stanza;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.funzionamento.azione.Azione;
 import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Aprire;
+import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Dare;
 import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Movimento;
 import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Osservazione;
 import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Prendere;
@@ -55,7 +57,13 @@ public class AnalizzaComando {
 	 * Stanza dove si trova il giocatore
 	 */
 	private Stanza stanza;
+	
+	/**
+	 * Azione che si sta analizzando
+	 */
 	private Azione azione;
+	
+	private static final List<String> SET_COMANDI = List.of(Aprire.CON, Dare.A, Usare.SU, Prendere.DA);
 	
 	public AnalizzaComando(Mondo mondoNuovo) {
 		mondo = mondoNuovo;
@@ -72,6 +80,9 @@ public class AnalizzaComando {
 	public void analizzaComando(String comandoString) throws AzioneException, GiocatoreException, PuntoCardinaleException {
 		stanza = Giocatore.getInstance().getPosizione();
 		comando = stringInList(comandoString);
+
+		if(comando.isEmpty())
+			throw new ComandoNonRiconosciutoException();
 		
 		//prendo l'azione da fare tramite la prima parola
 		azione = Azione.getAzione(comando.get(0));
@@ -92,9 +103,9 @@ public class AnalizzaComando {
 			else
 				throw new EntitaNonDiQuestoMondoException();
 		}
-		
-		entita.add(stanza);
-		
+		else
+			entita.add(stanza);
+
 		try{
 			azione.active(entita.get(0), entita.subList(1, entita.size()).toArray(Entita[]::new));
 		}
@@ -111,15 +122,8 @@ public class AnalizzaComando {
 	private List<Entita> cercaEntita() throws GiocatoreException {
 		List<Entita> lista = new LinkedList<>();
 		
-		int entita2 = Collections.indexOfSubList(comando, List.of(Aprire.CON));
-		
-		if(entita2 == -1) {
-			entita2 = Collections.indexOfSubList(comando, List.of(Usare.SU));
-			
-			if(entita2 == -1)
-				entita2 = Collections.indexOfSubList(comando, List.of(Prendere.DA));
-		}
-		
+		int entita2 = SET_COMANDI.stream().map(x -> Collections.indexOfSubList(comando, List.of(x))).filter(x -> x !=-1).findAny().orElse(-1);
+
 		if(entita2 != -1) {
 			entita(comando.subList(0, entita2)).ifPresent(x -> lista.add(x));
 			entita(comando.subList(entita2, comando.size())).ifPresent(x -> lista.add(x));
@@ -155,15 +159,19 @@ public class AnalizzaComando {
 	private List<Entita> entitaDisponibili(List<Entita> entitaTrovate) throws GiocatoreException, AzioneException {
 		String nomeEntita = "";
 		List<Entita> lista = new LinkedList<>();
+		Contenitore c = null;
 		
 		for(Entita entita : entitaTrovate) {
 			nomeEntita = entita.getNome();
-			
-			if(entita instanceof Stanza && stanza.verificaAccessoLibero(nomeEntita))
-					lista.add(stanza.getAccessoLibero(nomeEntita));
+			c = stanza.entitaNascosta(nomeEntita);
+
+			if(c != null) 
+				lista.addAll(List.of(entita, c));
+			else if(entita instanceof Stanza && stanza.verificaAccessoLibero(nomeEntita))
+				lista.add(stanza.getAccessoLibero(nomeEntita));
 			else if(stanza.getEntita(nomeEntita) || Giocatore.getInstance().getEntita(nomeEntita)) 
 				lista.add(entita);
-			else 
+			else
 				throw new OggettoNonInStanzaException(nomeEntita);
 		}
 		
