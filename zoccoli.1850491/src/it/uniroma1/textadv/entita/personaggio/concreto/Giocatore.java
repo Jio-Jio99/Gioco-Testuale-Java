@@ -8,9 +8,9 @@ import it.uniroma1.textadv.entita.StatoGioco;
 import it.uniroma1.textadv.entita.interfaccia.Description;
 import it.uniroma1.textadv.entita.interfaccia.Inventario;
 import it.uniroma1.textadv.entita.link.Link;
-import it.uniroma1.textadv.entita.link.MezzoDiTrasporto;
 import it.uniroma1.textadv.entita.oggetto.Contenitore;
 import it.uniroma1.textadv.entita.oggetto.Oggetto;
+import it.uniroma1.textadv.entita.oggetto.concreto.Tesoro;
 import it.uniroma1.textadv.entita.personaggio.Personaggio;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.GiocatoreNomeDiversoException;
@@ -20,7 +20,6 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.OggettoNonIn
 
 public class Giocatore extends Personaggio{
 	private static Giocatore instanza;
-	public static String keyForWin = "tesoro";
 	
 	private Giocatore(String nome) {
 		super(nome);
@@ -29,7 +28,6 @@ public class Giocatore extends Personaggio{
 	
 	
 	//METODI PER LE AZIONI
-	
 	//GUARDA
 	/**
 	 * Metodo che descrive cosa si sta guardando
@@ -70,16 +68,30 @@ public class Giocatore extends Personaggio{
 			System.out.println("Ehm...già lo hai nello zaino... perché rimetterlo dentro?");
 	}
 	
-	public void prendi(MezzoDiTrasporto mezzo) throws LinkChiusoException {
-		vai(mezzo);
-		System.out.println("In partenza!");
+//	public void prendi(MezzoDiTrasporto mezzo) throws LinkChiusoException {
+//		vai(mezzo);
+//		System.out.println("In partenza!");
+//	}
+	
+	public void prendi(Inventario o, Personaggio p) {
+		
 	}
 	
+	public void prendi(Inventario o, Contenitore c) {
+		
+	}
 	
 	//MOVIMENTO
+	/**
+	 * Metodo che sposta il giocatore da un luogo ad un altro tramite i link, se essi sono aperti
+	 * @param accesso
+	 * @throws LinkChiusoException
+	 */
 	public void vai(Link accesso) throws LinkChiusoException {
 		if(!accesso.passaggio(this)) 
 			throw new LinkChiusoException();
+		
+		System.out.println("Passato!");
 	}
 	
 	
@@ -116,16 +128,24 @@ public class Giocatore extends Personaggio{
 	public void usa(Oggetto o1, Oggetto o2) {
 		
 	}
+	
+	
 	//ALTRO
-	
-	
-	public Entita getEntita(String nome) {
-		return (Entita) inventario.get(nome);
+	/**
+	 * Metodo che restituisce l'entita presente nell'inventario del Giocatore
+	 * @param nome
+	 * @return
+	 */
+	public boolean getEntita(String nome) {
+		return inventario.get(nome) == null ? false : true;
 	}
 	
-	
+	/**
+	 * Metodo che ritorna se il Giocatore ha trovato il tesoro e quindi ha vinto la partita o meno
+	 * @return
+	 */
 	public StatoGioco getStato() {
-		if(getInventario().containsKey(keyForWin))
+		if(getInventario().values().stream().anyMatch(x -> x instanceof Tesoro))
 			return StatoGioco.VINTO;
 		
 		return StatoGioco.IN_GIOCO;

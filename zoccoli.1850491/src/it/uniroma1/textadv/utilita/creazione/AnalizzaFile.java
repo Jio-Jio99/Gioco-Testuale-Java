@@ -113,9 +113,6 @@ public abstract class AnalizzaFile implements Observable{
 	public static Mondo analizzaLista(List<String> lista) throws ErroreCaricamentoException {
 		dizionario_entita = new HashMap<>();
 		
-		if(lista.isEmpty())
-			throw new ErroreFileException("File vuoto!");
-		
 		/**
 		 * Unisco tutte le linee splittate sul carattere \n durante la lettura del file, perch� le divider� tramite il carattere [
 		 * ed eliminer� evenuntuali linee vuote nel file

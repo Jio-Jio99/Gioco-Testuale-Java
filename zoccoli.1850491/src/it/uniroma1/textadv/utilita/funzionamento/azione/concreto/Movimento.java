@@ -45,10 +45,10 @@ public class Movimento extends Azione{
 	}
 	
 	@Override
-	public void active(List<Entita> entita) throws AzioneException, GiocatoreException {
-		if(entita.isEmpty())
+	public void active(Entita entita1, Entita... entita2) throws AzioneException, GiocatoreException {
+		if(entita1 == null)
 			throw new AccessoNonDisponibileException();
 		
-		Giocatore.getInstance().vai((Link) entita.get(0));
+		Giocatore.getInstance().vai((Link) entita1);
 	}
 }

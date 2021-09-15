@@ -25,7 +25,7 @@ public interface FilesMethod {
 	 * @param fileName = percorso del file
 	 * @return {@link Optional}
 	 */
-	public static ArrayList<String> lettura(String fileName) {
+	public static Optional<ArrayList<String>> lettura(String fileName) {
 		return lettura(Paths.get(fileName));
 	}
 	
@@ -34,16 +34,14 @@ public interface FilesMethod {
 	 * @param fileName = {@link Path}
 	 * @return {@link Optional}
 	 */
-	public static ArrayList<String> lettura(Path fileName) {
+	public static Optional<ArrayList<String>> lettura(Path fileName) {
 		
 		try(BufferedReader br = Files.newBufferedReader(fileName)){
-			return br.lines().collect(Collectors.toCollection(ArrayList::new));
+			return Optional.of(br.lines().collect(Collectors.toCollection(ArrayList::new)));
 		}
 		catch(IOException e) {
-			e.printStackTrace();
+			return Optional.empty();
 		}
-		
-		return new ArrayList<>();
 	}
 	
 	

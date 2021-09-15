@@ -1,22 +1,29 @@
 package it.uniroma1.textadv.entita.stanza;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import it.uniroma1.textadv.entita.Entita;
 import it.uniroma1.textadv.entita.PuntoCardinale;
+import it.uniroma1.textadv.entita.interfaccia.Datore;
 import it.uniroma1.textadv.entita.interfaccia.Description;
+import it.uniroma1.textadv.entita.interfaccia.Inventario;
 import it.uniroma1.textadv.entita.link.Link;
 import it.uniroma1.textadv.entita.link.concreto.Libero;
+import it.uniroma1.textadv.entita.oggetto.Contenitore;
 import it.uniroma1.textadv.entita.oggetto.Oggetto;
 import it.uniroma1.textadv.entita.personaggio.Personaggio;
 import it.uniroma1.textadv.utilita.creazione.AnalizzaFile;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.EntitaException;
 import it.uniroma1.textadv.utilita.creazione.interfaccia.Observer;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.AccessoNonDisponibileException;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.OggettoNonInStanzaException;
 
 /**
  * La stanza è l’elemento base del mondo. Ogni stanza ha un nome, una descrizione testuale
@@ -28,12 +35,12 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.AccessoNonDi
  * </pre>
  * @author gioele
  */
-public class Stanza extends Entita implements Observer, Description{
+public class Stanza extends Entita implements Observer, Description, Datore{
 	private String DESCRIZIONE_STANZA;
 	private Map<String, Oggetto> oggetti;
 	private Map<String, Personaggio> personaggi;
 	private Map<PuntoCardinale, Link> accessi;
-	private Set<Entita> entita;
+	private Set<String> entita;
 	
 	//Corrispettivi in stringhe
 	private Set<String> oggettiString;
@@ -56,11 +63,17 @@ public class Stanza extends Entita implements Observer, Description{
 	
 	@Override
 	public void converti() throws EntitaException {
+		Oggetto oggetto = null;
 		
-		if(oggettiString != null)
-			for(String s : oggettiString) 
-				oggetti.put(s, (Oggetto) AnalizzaFile.convertitore(s));
-				
+		if(oggettiString != null) {
+			for(String s : oggettiString) {
+				oggetto = (Oggetto) AnalizzaFile.convertitore(s);
+				oggetti.put(s, oggetto);
+				if(oggetto instanceof Contenitore)
+					entita.add(s);
+			}
+		}
+		
 		if(personaggiString != null) 
 			for(String s : personaggiString) 
 				personaggi.put(s, (Personaggio) AnalizzaFile.convertitore(s));
@@ -77,9 +90,9 @@ public class Stanza extends Entita implements Observer, Description{
 			accessi.put(m.getKey(), l);
 		}
 		
-		entita.addAll(oggetti.values());
-		entita.addAll(accessi.values());
-		entita.addAll(personaggi.values());
+		entita.addAll(getNomi(oggetti.values()));
+		entita.addAll(getNomi(personaggi.values()));
+		entita.addAll(getNomi(accessi.values()));
 	}
 	
 	@Override
@@ -112,9 +125,16 @@ public class Stanza extends Entita implements Observer, Description{
 		return l;
 	}
 	
+	public boolean verificaAccessoLibero(String nomeAccesso) {
+		return accessi.values().stream().anyMatch(x -> x.getNome().equals(nomeAccesso));
+	}
+	
+	public Link getAccessoLibero(String nomeAccesso) throws AccessoNonDisponibileException {
+		return accessi.values().stream().filter(x -> x instanceof Libero && x.getNome().equals(nomeAccesso)).findAny().orElseThrow(AccessoNonDisponibileException::new);
+	}
+	
 	public Oggetto getOggetto(String nome) {
 		Oggetto o = oggetti.get(nome);
-		oggetti.remove(o.getNome());
 		return o;
 	}
 	
@@ -122,12 +142,12 @@ public class Stanza extends Entita implements Observer, Description{
 		return personaggi.get(nome);
 	}
 	
-	public Set<Entita> getEntita(){
+	public Set<String> getEntita(){
 		return entita;
 	}
 	
-	public Entita getEntita(String nome) {
-		return entita.stream().filter(x -> nome.equals(x.getNome())).findAny().orElse(null);
+	public boolean getEntita(String nome) {
+		return entita.stream().anyMatch(x -> x.equals(nome)) || oggetti.values().stream().filter(x -> x instanceof Contenitore).anyMatch(x -> ((Contenitore)x).getOggetto().getNome().equals(nome));
 	}
 	
 	@Override
@@ -151,5 +171,30 @@ public class Stanza extends Entita implements Observer, Description{
 	@Override
 	public int hashCode() {
 		return Objects.hash(NOME, DESCRIZIONE_STANZA);
+	}
+	
+	private Set<String> getNomi(Collection<? extends Entita> set){
+		return set.stream().map(x -> x.getNome()).collect(Collectors.toSet());
+	}
+
+	@Override
+	public Inventario dai(String nomeInventario) throws AzioneException {
+		Inventario in = null;
+		Oggetto og =  getOggetto(nomeInventario);
+		Personaggio per = getPersonaggio(nomeInventario);
+		
+		if(og == null) {
+			in = (Inventario) per;
+			personaggi.remove(nomeInventario);
+		}
+		else{
+			in = (Inventario) og;
+			oggetti.remove(nomeInventario);
+		}
+		
+		if(in == null)
+			throw new OggettoNonInStanzaException();
+		
+		return in;
 	}
 }

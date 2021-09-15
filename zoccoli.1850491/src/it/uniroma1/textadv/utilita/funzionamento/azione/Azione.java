@@ -43,7 +43,7 @@ public abstract class Azione implements Iterable<Azione>{
 	 * Metodo che attiva l'azione a seconda del tipo di azione da fare
 	 * @param entita = {@link Entita} ricevute da analizzare
 	 */
-	public abstract void active(List<Entita> entita) throws AzioneException, GiocatoreException;
+	public abstract void active(Entita entita1, Entita... entita2) throws AzioneException, GiocatoreException;
 	
 	
 	public static Azione getAzione(String comando) throws ExitException {

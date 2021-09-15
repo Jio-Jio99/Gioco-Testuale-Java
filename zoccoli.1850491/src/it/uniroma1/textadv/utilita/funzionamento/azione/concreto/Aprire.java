@@ -1,6 +1,5 @@
 package it.uniroma1.textadv.utilita.funzionamento.azione.concreto;
 
-import java.util.List;
 import java.util.Set;
 
 import it.uniroma1.textadv.entita.Entita;
@@ -17,14 +16,14 @@ public class Aprire extends Azione{
 	public Aprire() {
 		super(COMANDI);
 	}
-	
+
 	@Override
-	public void active(List<Entita> entita) throws AzioneException, GiocatoreException {
-		Apribile ap = (Apribile) entita.get(0);
-		
-		if(entita.size() == 1) 
+	public void active(Entita entita1, Entita... entita2) throws AzioneException, GiocatoreException {
+		Apribile ap = (Apribile) entita1;
+
+		if(entita2.length <= 1) 
 			ap.apri();
 		else 
-			((Chiavistello) entita.get(1)).usa(ap);
+			((Chiavistello) entita2[0]).usa(ap);
 	}
 }

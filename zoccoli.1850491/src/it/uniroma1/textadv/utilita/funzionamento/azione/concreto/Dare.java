@@ -1,6 +1,5 @@
 package it.uniroma1.textadv.utilita.funzionamento.azione.concreto;
 
-import java.util.List;
 import java.util.Set;
 
 import it.uniroma1.textadv.entita.Entita;
@@ -9,7 +8,7 @@ import it.uniroma1.textadv.entita.personaggio.Personaggio;
 import it.uniroma1.textadv.entita.personaggio.concreto.Giocatore;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.funzionamento.azione.Azione;
-import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.OggettoNonInInventarioException;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 
 public class Dare extends Azione{
 	public static final Set<String> COMANDI = Set.of("dai");
@@ -17,9 +16,9 @@ public class Dare extends Azione{
 	public Dare() {
 		super(COMANDI);
 	}
-	
+
 	@Override
-	public void active(List<Entita> entita) throws OggettoNonInInventarioException, GiocatoreException {
-		Giocatore.getInstance().dai((Inventario) entita.get(1), (Personaggio) entita.get(0));
+	public void active(Entita entita1, Entita... entita2) throws AzioneException, GiocatoreException {
+		Giocatore.getInstance().dai((Inventario) entita1, (Personaggio) entita2[0]);
 	}
 }

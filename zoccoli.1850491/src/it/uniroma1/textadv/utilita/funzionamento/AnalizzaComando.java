@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Osservazione;
 import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Prendere;
 import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Usare;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.AccessoNonDisponibileException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.ComandoNonRiconosciutoException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.ComandoScrittoNonCorrettamenteException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.EntitaNonDiQuestoMondoException;
@@ -42,7 +44,7 @@ public class AnalizzaComando {
 	/**
 	 * i nomi di tutte le entita del mondo in cui si gioca
 	 */
-	private static Set<List<String>> entitaNelMondo;
+	private static Set<Entita> entitaNelMondo;
 	
 	/**
 	 * Mondo in cui si gioca
@@ -53,10 +55,11 @@ public class AnalizzaComando {
 	 * Stanza dove si trova il giocatore
 	 */
 	private Stanza stanza;
+	private Azione azione;
 	
 	public AnalizzaComando(Mondo mondoNuovo) {
 		mondo = mondoNuovo;
-		entitaNelMondo = mondo.getEntitaString();
+		entitaNelMondo = mondo.getEntita();
 	}
 	
 	/**
@@ -71,12 +74,12 @@ public class AnalizzaComando {
 		comando = stringInList(comandoString);
 		
 		//prendo l'azione da fare tramite la prima parola
-		Azione azione = Azione.getAzione(comando.get(0));
+		azione = Azione.getAzione(comando.get(0));
 		
 		if(azione == null)
 			throw new ComandoNonRiconosciutoException();
 
-		List<Entita> entita = trasformaString(cercaEntita());
+		List<Entita> entita = entitaDisponibili(cercaEntita());
 
 		if(entita.isEmpty() && !(azione instanceof Osservazione)) {
 			if(azione instanceof Movimento) {
@@ -90,11 +93,13 @@ public class AnalizzaComando {
 				throw new EntitaNonDiQuestoMondoException();
 		}
 		
+		entita.add(stanza);
+		
 		try{
-			azione.active(entita);
+			azione.active(entita.get(0), entita.subList(1, entita.size()).toArray(Entita[]::new));
 		}
 		catch(ClassCastException e) {
-			throw new IncoerenzaEntitaAzioneException();
+			throw new IncoerenzaEntitaAzioneException(azione, entita);
 		}
 	}
 	
@@ -103,8 +108,8 @@ public class AnalizzaComando {
 	 * @return
 	 * @throws GiocatoreException
 	 */
-	private List<String> cercaEntita() throws GiocatoreException {
-		List<String> lista = new LinkedList<>();
+	private List<Entita> cercaEntita() throws GiocatoreException {
+		List<Entita> lista = new LinkedList<>();
 		
 		int entita2 = Collections.indexOfSubList(comando, List.of(Aprire.CON));
 		
@@ -116,13 +121,11 @@ public class AnalizzaComando {
 		}
 		
 		if(entita2 != -1) {
-			lista.add(entita(comando.subList(0, entita2)));
-			lista.add(entita(comando.subList(entita2, comando.size())));
+			entita(comando.subList(0, entita2)).ifPresent(x -> lista.add(x));
+			entita(comando.subList(entita2, comando.size())).ifPresent(x -> lista.add(x));
 		}
 		else
-			lista.add(entita(comando));
-		
-		lista.removeAll(List.of(""));
+			entita(comando).ifPresent(x -> lista.add(x));
 		
 		return lista;
 	}
@@ -132,36 +135,36 @@ public class AnalizzaComando {
 	 * @param parteDiComando
 	 * @return
 	 */
-	private String entita(List<String> parteDiComando) {
-		for(List<String> nomeEntita : entitaNelMondo) {
-			if(Collections.indexOfSubList(parteDiComando, nomeEntita) != -1) 
-				return nomeEntita.stream().collect(Collectors.joining(" "));
+	private Optional<Entita> entita(List<String> parteDiComando) {
+		for(Entita entita : entitaNelMondo) {
+			if(Collections.indexOfSubList(parteDiComando, stringInList(entita.getNome())) != -1) 
+				return Optional.of(entita);
 		}
 		
-		return "";
+		return Optional.empty();
 	}
 	
 	/**
-	 * Metodo che presa una lista di nomi di entita, ne ritorna una lista con i riferimenti delle entita
+	 * Metodo che presa una lista di entita, controlla se sono presenti nella stanza, altrimenti lancia un eccezione
 	 * @param nomiEntita
 	 * @return
 	 * @throws GiocatoreException
 	 * @throws OggettoNonInStanzaException
+	 * @throws AccessoNonDisponibileException 
 	 */
-	private List<Entita> trasformaString(List<String> nomiEntita) throws GiocatoreException, OggettoNonInStanzaException {
+	private List<Entita> entitaDisponibili(List<Entita> entitaTrovate) throws GiocatoreException, AzioneException {
+		String nomeEntita = "";
 		List<Entita> lista = new LinkedList<>();
-		Entita e = null;
 		
-		for(String nome : nomiEntita) {
-			e = stanza.getEntita(nome);
+		for(Entita entita : entitaTrovate) {
+			nomeEntita = entita.getNome();
 			
-			if(e == null)
-				e = Giocatore.getInstance().getEntita(nome);
-			
-			if(e == null)
-				throw new OggettoNonInStanzaException(nome);
-			
-			lista.add(e);
+			if(entita instanceof Stanza && stanza.verificaAccessoLibero(nomeEntita))
+					lista.add(stanza.getAccessoLibero(nomeEntita));
+			else if(stanza.getEntita(nomeEntita) || Giocatore.getInstance().getEntita(nomeEntita)) 
+				lista.add(entita);
+			else 
+				throw new OggettoNonInStanzaException(nomeEntita);
 		}
 		
 		return lista;

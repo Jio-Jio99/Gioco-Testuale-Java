@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import it.uniroma1.textadv.entita.Mondo;
 import it.uniroma1.textadv.entita.StatoGioco;
 import it.uniroma1.textadv.entita.personaggio.concreto.Giocatore;
+import it.uniroma1.textadv.utilita.creazione.eccezioni.FileNonEsistenteOVuotoException;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.funzionamento.AnalizzaComando;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
@@ -29,7 +30,7 @@ public class Gioco {
 	 * @throws Exception
 	 */
 	public void play(Mondo m, Path scriptDiGioco) throws Exception {
-		azioni = FilesMethod.lettura(scriptDiGioco).stream().map(x -> x.split("//")[0].strip()).collect(Collectors.toList());
+		azioni = FilesMethod.lettura(scriptDiGioco).orElseThrow(FileNonEsistenteOVuotoException::new).stream().map(x -> x.split("//")[0].strip()).collect(Collectors.toList());
 		setMondo(m);
 		play(Gioco::inputDaScript);
 	}

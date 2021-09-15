@@ -7,11 +7,14 @@ import java.util.Optional;
 import java.util.Set;
 
 import it.uniroma1.textadv.entita.Entita;
+import it.uniroma1.textadv.entita.interfaccia.Datore;
 import it.uniroma1.textadv.entita.interfaccia.Inventario;
 import it.uniroma1.textadv.entita.stanza.Stanza;
 import it.uniroma1.textadv.utilita.creazione.AnalizzaFile;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.EntitaException;
 import it.uniroma1.textadv.utilita.creazione.interfaccia.Observer;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.OggettoNonInInventarioException;
 
 /**
  * Ogni personaggio ha un nome. Un personaggio che dispone di un inventario di oggetti. Il
@@ -20,7 +23,7 @@ cui si trova e con gli altri personaggi presenti nella stanza.
  * @author gioele
  *
  */
-public abstract class Personaggio extends Entita implements Observer{
+public abstract class Personaggio extends Entita implements Observer, Datore{
 	protected Map<String, Inventario> inventario;
 	private Set<String> inventarioString;
 	protected Stanza posizione;
@@ -64,12 +67,19 @@ public abstract class Personaggio extends Entita implements Observer{
 	public Map<String, Inventario> getInventario(){
 		return inventario;
 	}
+	
+	
 	//METODI PER INTERAZIONE 
 	public abstract void interazione();
 	
 	public void prendi(Inventario o) {
 		inventario.putIfAbsent(((Entita)o).getNome(), o);
 		System.out.println(getNome() + " ti ringrazia!");
+	}
+	
+	@Override 
+	public Inventario dai(String nomeInventario) throws AzioneException{
+		return getOggetto(nomeInventario).orElseThrow(OggettoNonInInventarioException::new);
 	}
 	
 	@Override

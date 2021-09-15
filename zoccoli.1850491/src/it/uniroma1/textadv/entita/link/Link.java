@@ -81,7 +81,7 @@ public abstract class Link extends Entita implements Observer, Description, Apri
 		if(aperto)
 			System.out.println("È già aperto!");
 		
-		if(!chiusoAChiave) {
+		else if(!chiusoAChiave) {
 			System.out.println(chiusoAChiave);
 			aperto = true;
 			System.out.println(getNome() + " aperto!");

@@ -1,9 +1,9 @@
 package it.uniroma1.textadv.utilita.funzionamento.azione.concreto;
 
-import java.util.List;
 import java.util.Set;
 
 import it.uniroma1.textadv.entita.Entita;
+import it.uniroma1.textadv.entita.interfaccia.Datore;
 import it.uniroma1.textadv.entita.interfaccia.Inventario;
 import it.uniroma1.textadv.entita.link.MezzoDiTrasporto;
 import it.uniroma1.textadv.entita.personaggio.concreto.Giocatore;
@@ -20,15 +20,11 @@ public class Prendere extends Azione{
 	}
 	
 	@Override
-	public void active(List<Entita> entita) throws AzioneException, GiocatoreException {
-		if(entita.get(0) instanceof MezzoDiTrasporto) {
-//			if(entita.length == 1)
-//				Giocatore.getInstance().prendi((MezzoDiTrasporto) entita[0]);
-//			else
-//				throw new IncoerenzaEntitaAzioneException();
-			new Movimento().active(entita);
-		}
+	public void active(Entita prendere, Entita... daChi) throws AzioneException, GiocatoreException {
+		if(prendere instanceof MezzoDiTrasporto) 
+			new Movimento().active(prendere, daChi);
 
-		Giocatore.getInstance().prendi((Inventario) entita.get(0));
+		Inventario in = (Inventario) ((Datore) daChi[0]).dai(prendere.getNome());
+		Giocatore.getInstance().prendi(in);
 	}
 }
