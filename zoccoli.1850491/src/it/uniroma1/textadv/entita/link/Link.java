@@ -35,7 +35,6 @@ public abstract class Link extends Entita implements Observer, Description, Apri
 	private Link(String nome) {
 		super(nome);
 		collegamento = new HashSet<>();
-		chiusoAChiave = true;
 	}
 	
 	/**

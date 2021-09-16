@@ -1,5 +1,6 @@
 package it.uniroma1.textadv.entita.oggetto;
 
+import it.uniroma1.textadv.entita.Entita;
 import it.uniroma1.textadv.entita.interfaccia.Apribile;
 import it.uniroma1.textadv.entita.interfaccia.Inventario;
 import it.uniroma1.textadv.utilita.creazione.AnalizzaFile;
@@ -25,6 +26,7 @@ public abstract class Chiavistello extends Oggetto implements Observer, Inventar
 	
 	//METODO PER INTERAZIONE
 	public void usa(Apribile e) throws ChiaveNonCorrispondenteException {
+		System.out.println(e + " con chiave " + this);
 		if(e.equals(porta)) {
 			e.sblocca();
 			System.out.println("Aperto!");;
@@ -36,9 +38,7 @@ public abstract class Chiavistello extends Oggetto implements Observer, Inventar
 	
 	@Override
 	public void converti() throws EntitaException {
-		if(portaString != null) {
+		if(portaString != null) 
 			porta = (Apribile) AnalizzaFile.convertitore(portaString);
-			porta.chiudi();
-		}
 	}
 }

@@ -103,11 +103,9 @@ public class AnalizzaComando {
 			else
 				throw new EntitaNonDiQuestoMondoException();
 		}
-		else
-			entita.add(stanza);
 
 		try{
-			azione.active(entita.get(0), entita.subList(1, entita.size()).toArray(Entita[]::new));
+			azione.active(entita.isEmpty() ? stanza : entita.get(0),entita.isEmpty() ? null : entita.subList(1, entita.size()).toArray(Entita[]::new));
 		}
 		catch(ClassCastException e) {
 			throw new IncoerenzaEntitaAzioneException(azione, entita);
@@ -159,14 +157,12 @@ public class AnalizzaComando {
 	private List<Entita> entitaDisponibili(List<Entita> entitaTrovate) throws GiocatoreException, AzioneException {
 		String nomeEntita = "";
 		List<Entita> lista = new LinkedList<>();
-		Contenitore c = null;
 		
 		for(Entita entita : entitaTrovate) {
 			nomeEntita = entita.getNome();
-			c = stanza.entitaNascosta(nomeEntita);
-
-			if(c != null) 
-				lista.addAll(List.of(entita, c));
+			
+			if(azione instanceof Prendere && !comando.contains(Prendere.DA)) 
+				lista.addAll(List.of(entita, Prendere.daChi(stanza, nomeEntita)));
 			else if(entita instanceof Stanza && stanza.verificaAccessoLibero(nomeEntita))
 				lista.add(stanza.getAccessoLibero(nomeEntita));
 			else if(stanza.getEntita(nomeEntita) || Giocatore.getInstance().getEntita(nomeEntita)) 

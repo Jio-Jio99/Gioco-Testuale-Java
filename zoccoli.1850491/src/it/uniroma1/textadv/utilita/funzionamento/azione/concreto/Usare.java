@@ -21,7 +21,6 @@ public class Usare extends Azione{
 
 	@Override
 	public void active(Entita entita1, Entita... entita2) throws AzioneException, GiocatoreException {
-
 		if(entita1 instanceof Chiavistello && entita2.length > 0) {
 			new Aprire().active(entita2[0], entita1);
 			return;
@@ -30,9 +29,6 @@ public class Usare extends Azione{
 			new Movimento().active(entita1, entita2);
 			return;
 		}
-		
-		if(entita2.length == 0)
-			throw new AzioneException("Devi usare qualcosa su qualcos'altro per fare l'azione!");
 		
 		if(entita1 instanceof Utilizzato && entita2.length != 2) 
 			((Utilizzato) entita1).effetto(null);

@@ -7,6 +7,7 @@ public class Botola extends Link {
 
 	public Botola(String nome, String stanza1, String stanza2) throws LinkFileException {
 		super(nome, stanza1, stanza2);
+		chiusoAChiave = true;
 	}
 
 	@Override

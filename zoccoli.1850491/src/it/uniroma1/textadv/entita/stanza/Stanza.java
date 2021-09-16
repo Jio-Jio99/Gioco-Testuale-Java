@@ -77,9 +77,14 @@ public class Stanza extends Entita implements Observer, Description, Datore{
 			}
 		}
 		
-		if(personaggiString != null) 
-			for(String s : personaggiString) 
-				personaggi.put(s, (Personaggio) AnalizzaFile.convertitore(s));
+		Personaggio p = null;
+		if(personaggiString != null) {
+			for(String s : personaggiString) {
+				p = (Personaggio) AnalizzaFile.convertitore(s);
+				personaggi.put(s, p);
+				p.setPosizione(this);
+			}
+		}
 		
 		Link l = null;
 		Stanza stanza = null;

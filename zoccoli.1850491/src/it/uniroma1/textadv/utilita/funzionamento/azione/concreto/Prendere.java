@@ -7,6 +7,7 @@ import it.uniroma1.textadv.entita.interfaccia.Datore;
 import it.uniroma1.textadv.entita.interfaccia.Inventario;
 import it.uniroma1.textadv.entita.link.MezzoDiTrasporto;
 import it.uniroma1.textadv.entita.personaggio.concreto.Giocatore;
+import it.uniroma1.textadv.entita.stanza.Stanza;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.funzionamento.azione.Azione;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
@@ -17,6 +18,19 @@ public class Prendere extends Azione{
 	
 	public Prendere() {
 		super(COMANDI);
+	}
+	
+	public static Entita daChi(Stanza stanza, String nomeOggetto) {
+		Entita daChi = null;
+		daChi = stanza.getPersonaggi().values().stream().filter(x -> x.containsOggetto(nomeOggetto)).findAny().orElse(null);
+		
+		if(daChi == null)
+			daChi = stanza.entitaNascosta(nomeOggetto);
+
+		if(daChi == null)
+			daChi = stanza;
+	
+		return daChi;
 	}
 	
 	@Override

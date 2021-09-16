@@ -56,9 +56,16 @@ public abstract class Personaggio extends Entita implements Observer, Datore{
 			return Optional.empty();
 		
 		removeOggetto(oggetto);
+			
+		posizione.removeOggetto(o);
 		
 		return Optional.of(oggetto);
 	}
+	
+	public boolean containsOggetto(String nomeOggetto) {
+		return inventario.containsKey(nomeOggetto);
+	}
+	
 	
 	public Stanza getPosizione() {
 		return posizione;
@@ -80,6 +87,12 @@ public abstract class Personaggio extends Entita implements Observer, Datore{
 	@Override 
 	public Inventario dai(String nomeInventario) throws AzioneException{
 		return getOggetto(nomeInventario).orElseThrow(OggettoNonInInventarioException::new);
+	}
+	
+	@Override 
+	public void daiA(String nomeInventario, Personaggio p) throws AzioneException{
+		Inventario o = (Inventario) getOggetto(nomeInventario).orElseThrow(OggettoNonInInventarioException::new);
+		p.prendi(o);
 	}
 	
 	@Override
