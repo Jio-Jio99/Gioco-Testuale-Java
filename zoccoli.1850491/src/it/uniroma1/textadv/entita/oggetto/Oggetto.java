@@ -7,6 +7,15 @@ import it.uniroma1.textadv.entita.interfaccia.Description;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.EntitaException;
 import it.uniroma1.textadv.utilita.creazione.interfaccia.Observer;
 
+/**
+ * Classe che rappresenta tutte le entita inanimate del mondo con particolari funzioni:
+ *<pre>
+ *- {@link Chiavistello}
+ *- {@link Contenitore}
+ *</pre>
+ * @author gioele
+ *
+ */
 public abstract class Oggetto extends Entita implements Observer, Description{
 	
 	public Oggetto(String nome) {
@@ -28,9 +37,6 @@ public abstract class Oggetto extends Entita implements Observer, Description{
 	}
 	
 	@Override
-	public void converti() throws EntitaException{}
-	
-	@Override
 	public int hashCode() {
 		return Objects.hash(NOME);
 	}
@@ -39,4 +45,10 @@ public abstract class Oggetto extends Entita implements Observer, Description{
 	public String guarda() {
 		return "È un " +  getNome().toLowerCase();
 	}
+	
+	@Override
+	/**
+	 * Solo i contenitori hanno bisogno di conversioni, altrimenti non fa nulla
+	 */
+	public void converti() throws EntitaException{}
 }

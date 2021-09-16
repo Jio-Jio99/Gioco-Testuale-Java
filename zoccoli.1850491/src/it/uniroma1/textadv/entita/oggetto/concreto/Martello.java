@@ -6,6 +6,11 @@ import it.uniroma1.textadv.entita.interfaccia.Utilizzatore;
 import it.uniroma1.textadv.entita.oggetto.Oggetto;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 
+/**
+ * Classe che rappresenta il Martello
+ * @author gioele
+ *
+ */
 public class Martello extends Oggetto implements Inventario,Utilizzatore{
 
 	public Martello(String nome) {

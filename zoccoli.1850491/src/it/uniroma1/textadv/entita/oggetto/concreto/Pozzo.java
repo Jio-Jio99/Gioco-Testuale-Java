@@ -6,6 +6,11 @@ import it.uniroma1.textadv.entita.oggetto.Oggetto;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.UsabileException;
 
+/**
+ * Classe che rappresenta il Pozzo
+ * @author gioele
+ *
+ */
 public class Pozzo extends Oggetto implements Utilizzato{
 
 	public Pozzo(String nome) {

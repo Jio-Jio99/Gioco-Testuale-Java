@@ -7,6 +7,11 @@ import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.LinkFileExceptio
 import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Movimento;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 
+/**
+ * Classe teletrasporto, particolare link che conette due stanze, anche spazzialmente distanti e in caso di apertura si passa direttamente
+ * @author gioele
+ *
+ */
 public class Teletrasporto extends Link{
 
 	public Teletrasporto(String nome, String stanza1, String stanza2) throws LinkFileException {

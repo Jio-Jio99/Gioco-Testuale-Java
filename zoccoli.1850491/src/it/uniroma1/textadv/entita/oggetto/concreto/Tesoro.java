@@ -10,6 +10,11 @@ import it.uniroma1.textadv.entita.personaggio.concreto.Giocatore;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.interfaccieSupporto.FilesMethod;
 
+/**
+ * Classe che rappresenta il Tesoro, oggetto finale per la vittoria
+ * @author gioele
+ *
+ */
 public class Tesoro extends Contenitore implements Inventario {
 
 	public Tesoro(String nome) {
@@ -32,6 +37,10 @@ public class Tesoro extends Contenitore implements Inventario {
 		}
 	}
 	
+	/**
+	 * Funzione che all'apertura del tesoro avvia un piccolo easter egg
+	 * @throws GiocatoreException
+	 */
 	private void apriPrivato() throws GiocatoreException {
 		List<String> discorso = FilesMethod.lettura(Paths.get("resourse", "easterEgg.txt")).orElseThrow();
 		String frase = discorso.get(3);

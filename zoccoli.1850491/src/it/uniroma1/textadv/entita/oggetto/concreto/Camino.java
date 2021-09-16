@@ -8,6 +8,11 @@ import it.uniroma1.textadv.entita.oggetto.Oggetto;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.CaminoException;
 
+/**
+ * Classe che rappresenta l'{@link Utilizzato}  Camino
+ * @author gioele
+ *
+ */
 public class Camino extends Contenitore implements Utilizzato {
 	private boolean acceso;
 	

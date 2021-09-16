@@ -9,6 +9,11 @@ import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.EntitaException;
 import it.uniroma1.textadv.utilita.creazione.interfaccia.Observer;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.ChiaveNonCorrispondenteException;
 
+/**
+ * Classe astratta che rappresenta tutti gli oggetti che fungono da Chiavi per aprire un {@link Apribile}
+ * @author gioele
+ *
+ */
 public abstract class Chiavistello extends Oggetto implements Observer, Inventario{
 	protected Apribile porta;
 	protected String portaString;
@@ -16,6 +21,7 @@ public abstract class Chiavistello extends Oggetto implements Observer, Inventar
 	public Chiavistello(String nome) {
 		super(nome);
 	}
+	
 	
 	public void setPorta(String nomePorta) {
 		portaString = nomePorta.strip();
@@ -26,6 +32,11 @@ public abstract class Chiavistello extends Oggetto implements Observer, Inventar
 	}
 	
 	//METODO PER INTERAZIONE
+	/**
+	 * Metodo che usa la chiave sulla porta per sbloccarla, se corrispondente a quella contenuta
+	 * @param e
+	 * @throws ChiaveNonCorrispondenteException
+	 */
 	public void usa(Apribile e) throws ChiaveNonCorrispondenteException {
 		if(e.equals(porta)) {
 			e.sblocca();

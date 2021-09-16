@@ -23,6 +23,7 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.ChiusoExcept
  * <pre>
  *  - Nome
  *  - un set delle due stanze collegate da questo link
+ *  - se è aperto o meno
  * 
  * @author gioele
  */
@@ -40,7 +41,7 @@ public abstract class Link extends Entita implements Observer, Description, Apri
 	}
 	
 	/**
-	 * Costruttore del Link con gi� presenti le stanze
+	 * Costruttore del Link con già presenti le stanze
 	 * @param nome
 	 * @param stanza1
 	 * @param stanza2
@@ -69,6 +70,7 @@ public abstract class Link extends Entita implements Observer, Description, Apri
 	}
 	
 	
+	//METODI GET
 	/**
 	 * Metodo che restituisce la mappa delle stanze
 	 * @return {@link Map<{@link Stanza}>}
@@ -77,6 +79,27 @@ public abstract class Link extends Entita implements Observer, Description, Apri
 		return collegamento;
 	}
 	
+	//METODI DI VERIFICA
+	/**
+	 * Metodo che verifica se la stanza � effettivamente collegata da questo link
+	 * @param stanza
+	 * @return boolean
+	 */
+	public boolean connected(Stanza stanza) {
+		return collegamento.contains(stanza);
+	}
+	
+	/**
+	 * Metodo per verificare se il link � tra la stanza1 e la stanza2
+	 * @param stanza1
+	 * @param stanza2
+	 * @return boolean
+	 */
+	public boolean connected(Stanza stanza1, Stanza stanza2) {
+		return connected(stanza1) && connected(stanza2);
+	}
+	
+	//METODI PER APRIBILE
 	@Override
 	public void apri() throws ChiusoException {
 		if(aperto)
@@ -122,27 +145,7 @@ public abstract class Link extends Entita implements Observer, Description, Apri
 		return false;
 	}
 	
-	
-	//METODI DI VERIFICA
-	/**
-	 * Metodo che verifica se la stanza � effettivamente collegata da questo link
-	 * @param stanza
-	 * @return boolean
-	 */
-	public boolean connected(Stanza stanza) {
-		return collegamento.contains(stanza);
-	}
-	
-	/**
-	 * Metodo per verificare se il link � tra la stanza1 e la stanza2
-	 * @param stanza1
-	 * @param stanza2
-	 * @return boolean
-	 */
-	public boolean connected(Stanza stanza1, Stanza stanza2) {
-		return connected(stanza1) && connected(stanza2);
-	}
-	
+	//METODI DI DEFAULT
 	@Override
 	public boolean equals(Object o) {
 		if(o == null || !o.getClass().equals(getClass())) 
@@ -169,5 +172,4 @@ public abstract class Link extends Entita implements Observer, Description, Apri
 		for(String stanza : nomeStanze)
 			collegamento.add((Stanza) AnalizzaFile.convertitore(stanza));
 	}
-
 }

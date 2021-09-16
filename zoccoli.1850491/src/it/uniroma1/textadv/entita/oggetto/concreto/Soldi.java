@@ -3,6 +3,11 @@ package it.uniroma1.textadv.entita.oggetto.concreto;
 import it.uniroma1.textadv.entita.interfaccia.Inventario;
 import it.uniroma1.textadv.entita.oggetto.Oggetto;
 
+/**
+ * Classe Soldi
+ * @author gioele
+ *
+ */
 public class Soldi extends Oggetto implements Inventario {
 
 	public Soldi(String nome) {

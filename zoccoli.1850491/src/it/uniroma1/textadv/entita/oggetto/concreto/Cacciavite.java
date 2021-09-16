@@ -7,6 +7,11 @@ import it.uniroma1.textadv.entita.oggetto.Oggetto;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.UsabileException;
 
+/**
+ * Classe che rappresenta l'Utilizzatore Cacciavite
+ * @author gioele
+ *
+ */
 public class Cacciavite extends Oggetto implements Inventario, Utilizzatore{
 
 	public Cacciavite(String nome) {

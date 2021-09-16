@@ -9,6 +9,11 @@ import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.UsabileException;
 
+/**
+ * Classe che rappresenta il Salvadanaio, Contenitore speciale, poiché è anche Utilizzato, poiché può essere usato 1 sola volta e con  1 solo tipo di oggetto
+ * @author gioele
+ *
+ */
 public class Salvadanaio extends Contenitore implements Utilizzato{
 	private String nome;
 	

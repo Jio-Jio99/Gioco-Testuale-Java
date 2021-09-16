@@ -6,7 +6,11 @@ import it.uniroma1.textadv.entita.interfaccia.Utilizzatore;
 import it.uniroma1.textadv.entita.oggetto.Oggetto;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 
-//inizialmente vuoto
+/**
+ * Classe Secchio, Utilizzatore 
+ * @author gioele
+ *
+ */
 public class Secchio extends Oggetto implements Inventario, Utilizzatore{
 	private boolean acqua;
 	
@@ -14,15 +18,24 @@ public class Secchio extends Oggetto implements Inventario, Utilizzatore{
 		super(nome);
 	}
 	
-	
+	/**
+	 * Metodo che ritorna se il secchio è pieno o meno
+	 * @return
+	 */
 	public boolean getStato() {
 		return acqua;
 	}
 
+	/**
+	 * Metodo che riempe il Secchio
+	 */
 	public void riempi() {
 		acqua = true;
 	}
 
+	/**
+	 * Metodo che svuota il secchio
+	 */
 	public void svuota() {
 		acqua = false;
 	}

@@ -8,6 +8,11 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.ChiaveNonCorrispondenteException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.UsabileException;
 
+/**
+ * Classe vite, Chiavistello speciale, poiché attivo solo se utilizzato prima dal cacciavite
+ * @author gioele
+ *
+ */
 public class Vite extends Chiavistello implements Utilizzato{
 	private boolean usabile;
 	
@@ -15,15 +20,14 @@ public class Vite extends Chiavistello implements Utilizzato{
 		super(nome);
 	}
 	
+	/**
+	 * ritorna se la vite è stata avvitata
+	 * @return
+	 */
 	public boolean getStato() {
 		return usabile;
 	}
 	
-	@Override
-	public String guarda() {
-		return "È una " + getNome().toLowerCase();
-	}
-
 
 	@Override
 	public void usa(Apribile e) throws ChiaveNonCorrispondenteException {
@@ -44,5 +48,10 @@ public class Vite extends Chiavistello implements Utilizzato{
 		}
 		
 		throw new UsabileException(e, this);
+	}
+
+	@Override
+	public String guarda() {
+		return "È una " + getNome().toLowerCase();
 	}
 }

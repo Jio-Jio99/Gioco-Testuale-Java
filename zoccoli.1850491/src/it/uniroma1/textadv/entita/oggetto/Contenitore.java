@@ -10,6 +10,12 @@ import it.uniroma1.textadv.utilita.creazione.interfaccia.Observer;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.ChiusoException;
 
+/**
+ * Metodo che classfica tutti gli oggetti che nel loro interno possono contenerne degli altri, il funzionamento è simile a quello dei {@link Link},<p>
+ * con la differenza che essi restituiranno un oggetto
+ * @author gioele
+ *
+ */
 public abstract class Contenitore extends Oggetto implements Observer, Apribile, Datore{
 	protected Oggetto inventario;
 	private String inventarioString;
@@ -22,23 +28,36 @@ public abstract class Contenitore extends Oggetto implements Observer, Apribile,
 		chiusoAChiave = true;
 	}
 	
-	public boolean vuoto(){
-		return vuoto;
-	}
-	
+	/**
+	 * Metodo per settare l'inventario durante la creazione dell'oggetto contenitore
+	 * @param inventario
+	 */
 	public void setInventario(String inventario) {
 		inventarioString = inventario;
 	}
 	
+	/**
+	 * Metodo che ritorna l'oggetto contenuto
+	 * @return
+	 */
 	public Oggetto getOggetto() {
 		return inventario;
 	}
 	
-	
+	/**
+	 * Metodo per ricevere la stringa dell'oggetto contenuto
+	 * @return
+	 */
 	public String getOggettoString() {
 		return inventarioString;
 	}
 	
+	/**
+	 * Metodo usato per ricevere l'oggetto contenuto, dato il suo nome, rispettando i criteri per un contenitore
+	 * @param nomeOggetto
+	 * @return
+	 * @throws AzioneException
+	 */
 	public Oggetto getOggetto(String nomeOggetto) throws AzioneException {
 		if(aperto) {
 			if(nomeOggetto.equals(inventarioString) && !vuoto) {
@@ -54,6 +73,9 @@ public abstract class Contenitore extends Oggetto implements Observer, Apribile,
 	}
 	
 	//METODI PER INTERAGIRE
+	/**
+	 * Se aperto restituisce l'oggetto contenuto in esso
+	 */
 	@Override
 	public Inventario dai(String nomeInventario) throws AzioneException {
 		if(aperto) 
@@ -66,13 +88,8 @@ public abstract class Contenitore extends Oggetto implements Observer, Apribile,
 	public String guarda() {
 		return aperto ? getClass().getSimpleName() + " aperto/a, trovi: " + (vuoto ? "ops... nulla" : inventario) : "È un " + getNome() + " chiuso/a";
 	}	
-	
-	@Override
-	public void converti() throws EntitaException{
-		if(inventarioString != null)
-			inventario = (Oggetto) AnalizzaFile.convertitore(inventarioString);
-	}
-	
+
+	//METODI APRIBILE
 	@Override
 	public void apri() throws ChiusoException {
 		if(aperto)
@@ -96,5 +113,11 @@ public abstract class Contenitore extends Oggetto implements Observer, Apribile,
 	@Override 
 	public void chiudi() {
 		aperto = false;
+	}
+	
+	@Override
+	public void converti() throws EntitaException{
+		if(inventarioString != null)
+			inventario = (Oggetto) AnalizzaFile.convertitore(inventarioString);
 	}
 }
