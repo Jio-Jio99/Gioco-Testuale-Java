@@ -188,11 +188,11 @@ public class Stanza extends Entita implements Observer, Description, Datore{
 	
 	
 	public boolean getEntita(String nome) {
-		System.out.println(stanza.getEntita(nomeEntita) || Giocatore.getInstance().getEntita(nomeEntita));
 		for(String e : entita) 
 			if(e.equals(nome))
 				return true;
-		return false;
+		
+		return entitaNascoste.containsKey(nome);	
 	}
 	
 	@Override
