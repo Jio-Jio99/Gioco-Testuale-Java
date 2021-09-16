@@ -188,7 +188,11 @@ public class Stanza extends Entita implements Observer, Description, Datore{
 	
 	
 	public boolean getEntita(String nome) {
-		return entita.stream().anyMatch(x -> x.equals(nome)) || oggetti.values().stream().filter(x -> x instanceof Contenitore).anyMatch(x -> ((Contenitore)x).getOggetto().getNome().equals(nome));
+		System.out.println(stanza.getEntita(nomeEntita) || Giocatore.getInstance().getEntita(nomeEntita));
+		for(String e : entita) 
+			if(e.equals(nome))
+				return true;
+		return false;
 	}
 	
 	@Override

@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import it.uniroma1.textadv.entita.Entita;
 import it.uniroma1.textadv.entita.Mondo;
 import it.uniroma1.textadv.entita.PuntoCardinale;
-import it.uniroma1.textadv.entita.oggetto.Contenitore;
 import it.uniroma1.textadv.entita.personaggio.concreto.Giocatore;
 import it.uniroma1.textadv.entita.stanza.Stanza;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
@@ -39,7 +38,7 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.PuntoCardina
  */
 public class AnalizzaComando {
 	/**
-	 * Comando ricevuto splittato in parole
+	 * Comando ricevuto splittato in nonHoOggetto
 	 */
 	private static List<String> comando;
 	
@@ -103,7 +102,7 @@ public class AnalizzaComando {
 			else
 				throw new EntitaNonDiQuestoMondoException();
 		}
-
+		
 		try{
 			azione.active(entita.isEmpty() ? stanza : entita.get(0),entita.isEmpty() ? null : entita.subList(1, entita.size()).toArray(Entita[]::new));
 		}
@@ -161,21 +160,23 @@ public class AnalizzaComando {
 		for(Entita entita : entitaTrovate) {
 			nomeEntita = entita.getNome();
 			
+			System.out.println(stanza.getEntita(nomeEntita) || Giocatore.getInstance().getEntita(nomeEntita));
+			
 			if(azione instanceof Prendere && !comando.contains(Prendere.DA)) 
 				lista.addAll(List.of(entita, Prendere.daChi(stanza, nomeEntita)));
-			else if(entita instanceof Stanza && stanza.verificaAccessoLibero(nomeEntita))
+			else if(entita instanceof Stanza && stanza.verificaAccessoLibero(nomeEntita)) 
 				lista.add(stanza.getAccessoLibero(nomeEntita));
 			else if(stanza.getEntita(nomeEntita) || Giocatore.getInstance().getEntita(nomeEntita)) 
 				lista.add(entita);
 			else
 				throw new OggettoNonInStanzaException(nomeEntita);
 		}
-		
+
 		return lista;
 	}
 	
 	/**
-	 * Metodo che trasforma una stringa nella lista di parole contenute
+	 * Metodo che trasforma una stringa nella lista di nonHoOggetto contenute
 	 * @param stringa 
 	 * @return
 	 */

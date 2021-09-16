@@ -10,6 +10,7 @@ import it.uniroma1.textadv.entita.interfaccia.Inventario;
 import it.uniroma1.textadv.entita.link.Link;
 import it.uniroma1.textadv.entita.link.MezzoDiTrasporto;
 import it.uniroma1.textadv.entita.oggetto.concreto.Tesoro;
+import it.uniroma1.textadv.entita.personaggio.Animale;
 import it.uniroma1.textadv.entita.personaggio.Personaggio;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.GiocatoreNomeDiversoException;
@@ -60,11 +61,10 @@ public class Giocatore extends Personaggio{
 	 */
 	@Override
 	public void prendi(Inventario o) {
-		if(inventario.putIfAbsent(((Entita)o).getNome(), o) == null) {
-			System.out.println(o + " aggiunto all'inventario!");
-		}
+		if(inventario.putIfAbsent(((Entita)o).getNome(), o) == null) 
+			System.out.println(o instanceof Animale ? o + "... ti segue!" : o + " aggiunto all'inventario!");
 		else 
-			System.out.println("Ehm...già lo hai nello zaino... perché rimetterlo dentro?");
+			System.out.println("Ehm...già lo hai... perché rimetterlo dentro?");
 	}
 	
 	

@@ -3,7 +3,6 @@ package it.uniroma1.textadv.entita.personaggio.concreto;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import it.uniroma1.textadv.Gioco;
 import it.uniroma1.textadv.entita.Entita;
