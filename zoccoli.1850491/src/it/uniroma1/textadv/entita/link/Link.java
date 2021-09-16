@@ -101,6 +101,11 @@ public abstract class Link extends Entita implements Observer, Description, Apri
 		aperto = false;
 	}
 	
+	public void chiudiAchiave() {
+		chiusoAChiave = true;
+		aperto = false;
+	}
+	
 	//METODI DI MOVIMENTO
 	/**
 	 * Metodo che preso un personaggio, se il link è aperto setta la nuova posizione del personaggio nell'altrea stanza, 
@@ -164,4 +169,5 @@ public abstract class Link extends Entita implements Observer, Description, Apri
 		for(String stanza : nomeStanze)
 			collegamento.add((Stanza) AnalizzaFile.convertitore(stanza));
 	}
+
 }

@@ -7,6 +7,7 @@ public class Porta extends Link{
 
 	public Porta(String nome, String stanza1, String stanza2) throws LinkFileException {
 		super(nome, stanza1, stanza2);
+		chiusoAChiave = false;
 	}
 	
 	@Override
