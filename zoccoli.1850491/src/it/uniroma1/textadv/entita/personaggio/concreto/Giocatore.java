@@ -116,7 +116,7 @@ public class Giocatore extends Personaggio{
 	}
 	
 	public void dai(Inventario oggetto, Personaggio p) throws OggettoNonInInventarioException {
-		dai(oggetto.toString(), p);
+		dai(((Entita)oggetto).getNome(), p);
 	}
 	
 	/**
