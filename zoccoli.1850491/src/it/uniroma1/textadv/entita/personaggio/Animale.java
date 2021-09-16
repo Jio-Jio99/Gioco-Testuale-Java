@@ -3,6 +3,11 @@ package it.uniroma1.textadv.entita.personaggio;
 import it.uniroma1.textadv.entita.interfaccia.Inventario;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 
+/**
+ * Classe di personaggi: Animali
+ * @author gioele
+ *
+ */
 public abstract class Animale extends Personaggio implements Inventario{
 	protected String verso;
 	

@@ -18,6 +18,11 @@ import it.uniroma1.textadv.utilita.creazione.eccezioni.concreto.GiocatoreNonInst
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.LinkChiusoException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.OggettoNonInInventarioException;
 
+/**
+ * Classe del Giocatore, che rappresenta l'utente ed esegue le azioni richieste 
+ * @author gioele
+ *
+ */
 public class Giocatore extends Personaggio{
 	private static Giocatore instanza;
 	
@@ -26,23 +31,36 @@ public class Giocatore extends Personaggio{
 		setInventario(new HashSet<>());
 	}
 	
+	//METODI GET
+	/**
+	 * Metodo che restituisce l'entita presente nell'inventario del Giocatore
+	 * @param nome
+	 * @return
+	 */
+	public boolean getEntita(String nome) {
+		return inventario.get(nome) == null ? false : true;
+	}
+	
+	/**
+	 * Metodo che ritorna se il Giocatore ha trovato il tesoro e quindi ha vinto la partita o meno
+	 * @return
+	 */
+	public StatoGioco getStato() {
+		if(getInventario().values().stream().anyMatch(x -> x instanceof Tesoro))
+			return StatoGioco.VINTO;
+		
+		return StatoGioco.IN_GIOCO;
+	}
+	
 	
 	//METODI PER LE AZIONI
 	//GUARDA
 	/**
 	 * Metodo che descrive cosa si sta guardando
-	 * @param e = it.uniroma1.textadv.entita in osservazione
+	 * @param e = entita in osservazione
 	 */
 	public void guarda(Description e) {
 		System.out.println(e.guarda());	
-	}
-	
-	/**
-	 * Metodo che descrive la stanza in cui si è
-	 * @param e = it.uniroma1.textadv.entita in osservazione
-	 */
-	public void guarda() {
-		guarda(getPosizione());
 	}
 	
 	/**
@@ -86,45 +104,30 @@ public class Giocatore extends Personaggio{
 	
 	
 	//INTERAZIONE CON ALTRI PERSONAGGI
+	/**
+	 * Metodo per dare ad un Personaggio specifico l'oggetto richiesto
+	 * @param oggetto
+	 * @param p
+	 * @throws OggettoNonInInventarioException
+	 */
 	public void dai(String oggetto, Personaggio p) throws OggettoNonInInventarioException {
 		Inventario in = getOggetto(oggetto).orElseThrow(OggettoNonInInventarioException::new);
 		p.prendi(in);
 	}
 	
 	public void dai(Inventario oggetto, Personaggio p) throws OggettoNonInInventarioException {
-		dai(((Entita)oggetto).getNome(), p);
+		dai(oggetto.toString(), p);
 	}
 	
+	/**
+	 * Interazione con se stesso... beh.. non fa nulla se non le domande della vita volendo parlare con se stesso
+	 */
 	@Override
 	public void interazione() {
 		System.out.println("Ehm..sogno o son desto? Son sempre io? Perché esisto? E altre domande di cui non sapremo mai la verita'");
 	}
 	
-	public void parla(Personaggio p) {
-		p.interazione();
-	}
-	
-	//ALTRO
-	/**
-	 * Metodo che restituisce l'entita presente nell'inventario del Giocatore
-	 * @param nome
-	 * @return
-	 */
-	public boolean getEntita(String nome) {
-		return inventario.get(nome) == null ? false : true;
-	}
-	
-	/**
-	 * Metodo che ritorna se il Giocatore ha trovato il tesoro e quindi ha vinto la partita o meno
-	 * @return
-	 */
-	public StatoGioco getStato() {
-		if(getInventario().values().stream().anyMatch(x -> x instanceof Tesoro))
-			return StatoGioco.VINTO;
-		
-		return StatoGioco.IN_GIOCO;
-	}
-	
+	//METODI PER L'INSTANZA
 	/**
 	 * Metodo che instanzia il Giocatore, se non instanziato precedentemnte, altrmenti restituisce la stessa instanza
 	 * @param nome = nome che si vuole dare al Giocatore

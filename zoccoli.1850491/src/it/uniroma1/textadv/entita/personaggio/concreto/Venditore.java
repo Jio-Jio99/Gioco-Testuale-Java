@@ -12,7 +12,15 @@ import it.uniroma1.textadv.entita.personaggio.Umano;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 
+/**
+ * Classe Venditore, derivata dal Personaggio e specificata per questa categoria affinchè quando prendi o dia ci sia uno scambio di denaro, altriemnti non da nulla
+ * @author gioele
+ *
+ */
 public class Venditore extends Umano{
+	/**
+	 * Oggetti richiesti prima di pagamento
+	 */
 	private Set<String> oggettiRichiesti;
 	
 	public Venditore(String nome) {

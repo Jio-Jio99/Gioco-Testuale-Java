@@ -3,6 +3,11 @@ package it.uniroma1.textadv.entita.personaggio;
 import it.uniroma1.textadv.entita.personaggio.concreto.Giocatore;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 
+/**
+ * Classe di personaggio: Umano
+ * @author gioele
+ *
+ */
 public class Umano extends Personaggio {
 
 	public Umano(String nome) {

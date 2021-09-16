@@ -17,9 +17,7 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.OggettoNonInInventarioException;
 
 /**
- * Ogni personaggio ha un nome. Un personaggio che dispone di un inventario di oggetti. Il
-personaggio dispone di una serie di metodi che gli permettono di interagire con la stanza in
-cui si trova e con gli altri personaggi presenti nella stanza.
+ * Classe astratta che rappresenta tutti i personaggi del gioco, con un possibile inventario, e un modo di interagiere con il giocatore 
  * @author gioele
  *
  */
@@ -49,6 +47,11 @@ public abstract class Personaggio extends Entita implements Observer, Datore{
 	
 	
 	//METODI GET
+	/**
+	 * Metodo che restituisce l'oggetto richiesto se prensente, e successivamente lo rimuove
+	 * @param o
+	 * @return
+	 */
 	public Optional<Inventario> getOggetto(String o) {
 		Inventario oggetto = inventario.get(o);
 		
@@ -62,11 +65,6 @@ public abstract class Personaggio extends Entita implements Observer, Datore{
 		return Optional.of(oggetto);
 	}
 	
-	public boolean containsOggetto(String nomeOggetto) {
-		return inventario.containsKey(nomeOggetto);
-	}
-	
-	
 	public Stanza getPosizione() {
 		return posizione;
 	}
@@ -76,13 +74,32 @@ public abstract class Personaggio extends Entita implements Observer, Datore{
 	}
 	
 	
+	//METODI DI VERIFICA
+	/**
+	 * Metodo che controlla se l'oggetto è presente
+	 * @param nomeOggetto
+	 * @return
+	 */
+	public boolean containsOggetto(String nomeOggetto) {
+		return inventario.containsKey(nomeOggetto);
+	}
+	
 	//METODI PER INTERAZIONE 
+	/**
+	 * Metodo che permette l'interazione tra i personaggi e il giocatore
+	 */
 	public abstract void interazione();
 	
+	/**
+	 * Metodo per prendere un oggetto e inserirlo nell'inventario
+	 * @param o
+	 */
 	public void prendi(Inventario o) {
 		inventario.putIfAbsent(((Entita)o).getNome(), o);
 	}
 	
+	
+	//METODI IN OVERRIDE
 	@Override 
 	public Inventario dai(String nomeInventario) throws AzioneException{
 		return getOggetto(nomeInventario).orElseThrow(OggettoNonInInventarioException::new);

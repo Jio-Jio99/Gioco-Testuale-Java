@@ -29,7 +29,7 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.OggettoNonIn
  * La stanza è l’elemento base del mondo. Ogni stanza ha un nome, una descrizione testuale
  * e mantiene informazioni su:
  * <pre>
- *  - oggetti contenuti nella stanza;
+ *  - oggetti contenuti nella stanza (anche nascosti);
  *  - personaggi e/o giocatore presenti nella stanza;
  *  - punti di accesso ad altre stanze (link).
  * </pre>
@@ -64,6 +64,183 @@ public class Stanza extends Entita implements Observer, Description, Datore{
 		this.accessiString = accessiString;
 	}
 	
+	
+	//METODO PER LA DESCRIPTION
+	@Override
+	public String guarda() {
+		return 	"Nome della stanza: " + getNome() +", " +
+				DESCRIZIONE_STANZA + 
+				(oggetti.isEmpty() ? "" : "\n-Oggetti in vista: " + oggetti.values().toString().replaceAll("[\\[\\]]", ""))+ 
+				(personaggi.isEmpty() ? "" : "\n-Guarda chi c'è! " + personaggi.values().toString().replaceAll("[\\[\\]]", "")) + 
+				"\n-Accessi: " + accessi.toString().replaceAll("[{}]"," ");
+				
+	}
+	
+	//METODI GET
+	public Map<String, Personaggio> getPersonaggi(){
+		return personaggi;
+	}
+	
+	public Map<String, Oggetto> getInventario(){
+		return oggetti;
+	}
+	
+	public Map<PuntoCardinale, Link> getAccessi(){
+		return accessi;
+	}
+	
+	/**
+	 * Metodo che restituisce l'accesso libero corrisponte richiesto
+	 * @param nomeAccesso
+	 * @return
+	 * @throws AccessoNonDisponibileException
+	 */
+	public Link getAccessoLibero(String nomeAccesso) throws AccessoNonDisponibileException {
+		return accessi.values().stream().filter(x -> x instanceof Libero && x.getNome().equals(nomeAccesso)).findAny().orElseThrow(AccessoNonDisponibileException::new);
+	}
+	
+	/**
+	 * Metodo che restituisce il link corrispondente al punto cardinale richiesto
+	 * @param p
+	 * @return
+	 * @throws AccessoNonDisponibileException
+	 */
+	public Link getAccesso(PuntoCardinale p) throws AccessoNonDisponibileException {
+		Link l = accessi.get(p);
+		if(l == null)
+			throw new AccessoNonDisponibileException();
+		
+		return l;
+	}
+	
+	/**
+	 * Metodo che restituisce l'oggetto richiesto
+	 * @param nome
+	 * @return
+	 */
+	public Oggetto getOggetto(String nome) {
+		return oggetti.get(nome);
+	}
+	
+	/**
+	 * Metodo che restituisce il personaggio richiesto
+	 * @param nome
+	 * @return
+	 */
+	public Personaggio getPersonaggio(String nome) {
+		return personaggi.get(nome);
+	}
+	
+	/**
+	 * Metodo che restituisce un set contenente tutti i nomi delle entita nella stanza
+	 * @return
+	 */
+	public Set<String> getEntita(){
+		return entita;
+	}
+	
+	/**
+	 * Metodo che dato un oggetto nascosto contenuto nella stanza, ne restituisce il contenitore della stanza
+	 * @param nome
+	 * @return Contenitore
+	 */
+	public Contenitore entitaNascosta(String nome) {
+		return entitaNascoste.get(nome);
+	}
+	
+	//METODI DI VERIFICA
+	/**
+	 * Metodo che verifica se la stanza ha un tipo di accesso {@link Libero}, e se sì se corrisponde al nome dato
+	 * @param nomeAccesso
+	 * @return {@link boolean}
+	 */
+	public boolean verificaAccessoLibero(String nomeAccesso) {
+		return accessi.values().stream().anyMatch(x -> x.getNome().equals(nomeAccesso));
+	}
+	
+	/**
+	 * Metodo che verifica se quell'entita richiesta è presente nella stanza, anche come oggetto nascosto nei contenitori
+	 * @param nome
+	 * @return {@link boolean}
+	 */
+	public boolean getEntita(String nome) {
+		for(String e : entita) 
+			if(e.equals(nome))
+				return true;
+		
+		return entitaNascoste.containsKey(nome);	
+	}
+	
+	//METODI DI SUPPORTO
+	/**
+	 * Metodo che rimuove un oggetto dalla stanza
+	 * @param nome
+	 */
+	public void removeOggetto(String nome) {
+		oggetti.remove(nome);
+		entita.remove(nome);
+	}
+	
+	/**
+	 * Metodo che rimuove un personaggio dalla stanza
+	 * @param nome
+	 */
+	public void removePersonaggio(String nome) {
+		personaggi.remove(nome);
+		entita.remove(nome);
+	}
+	
+	/**
+	 * Metodo che aggiunge un oggetto nella stanza
+	 * @param oggetto
+	 */
+	public void aggiungiElemento(Oggetto oggetto){
+		oggetti.put(oggetto.getNome(), oggetto);
+		entita.add(oggetto.getNome());
+	}
+	
+	/**
+	 * Metodo che aggiunge un personaggio nella stanza
+	 * @param p
+	 */
+	public void aggingiElemento(Personaggio p) {
+		personaggi.put(p.getNome(), p);
+		entita.add(p.getNome());
+	}
+	
+	/**
+	 * Metodo che preso una Collection di entita, crea un set con i soli nomi di essi
+	 * @param Collection<Entita>
+	 * @return Set<String>
+	 */
+	private Set<String> getNomi(Collection<? extends Entita> set){
+		return set.stream().map(x -> x.getNome()).collect(Collectors.toSet());
+	}
+	
+	
+	//METODO PER IL TIPO DATORE
+	@Override
+	public Inventario dai(String nomeInventario) throws AzioneException {
+		Inventario in = null;
+		Oggetto og =  getOggetto(nomeInventario);
+		Personaggio per = getPersonaggio(nomeInventario);
+		
+		if(og == null) {
+			in = (Inventario) per;
+			removePersonaggio(nomeInventario);
+		}
+		else{
+			in = (Inventario) og;
+			removeOggetto(nomeInventario);
+		}
+		
+		if(in == null)
+			throw new OggettoNonInStanzaException();
+		
+		return in;
+	}
+	
+	//METODO DI CONVERSIONE
 	@Override
 	public void converti() throws EntitaException {
 		Oggetto oggetto = null;
@@ -111,90 +288,7 @@ public class Stanza extends Entita implements Observer, Description, Datore{
 		}
 	}
 	
-	public Contenitore entitaNascosta(String nome) {
-		return entitaNascoste.get(nome);
-	}
-	
-	@Override
-	public String guarda() {
-		return 	"Nome della stanza: " + getNome() +", " +
-				DESCRIZIONE_STANZA + 
-				(oggetti.isEmpty() ? "" : "\n-Oggetti in vista: " + oggetti.values().toString().replaceAll("[\\[\\]]", ""))+ 
-				(personaggi.isEmpty() ? "" : "\n-Guarda chi c'è! " + personaggi.values().toString().replaceAll("[\\[\\]]", "")) + 
-				"\n-Accessi: " + accessi.toString().replaceAll("[{}]"," ");
-				
-	}
-	
-	public Map<String, Personaggio> getPersonaggi(){
-		return personaggi;
-	}
-	
-	public Map<String, Oggetto> getInventario(){
-		return oggetti;
-	}
-	
-	public Map<PuntoCardinale, Link> getAccessi(){
-		return accessi;
-	}
-	
-	public Link getAccesso(PuntoCardinale p) throws AccessoNonDisponibileException {
-		Link l = accessi.get(p);
-		if(l == null)
-			throw new AccessoNonDisponibileException();
-		
-		return l;
-	}
-	
-	public boolean verificaAccessoLibero(String nomeAccesso) {
-		return accessi.values().stream().anyMatch(x -> x.getNome().equals(nomeAccesso));
-	}
-	
-	public Link getAccessoLibero(String nomeAccesso) throws AccessoNonDisponibileException {
-		return accessi.values().stream().filter(x -> x instanceof Libero && x.getNome().equals(nomeAccesso)).findAny().orElseThrow(AccessoNonDisponibileException::new);
-	}
-	
-	public Oggetto getOggetto(String nome) {
-		Oggetto o = oggetti.get(nome);
-		return o;
-	}
-	
-	public Personaggio getPersonaggio(String nome) {
-		return personaggi.get(nome);
-	}
-	
-	public Set<String> getEntita(){
-		return entita;
-	}
-	
-	public void removeOggetto(String nome) {
-		oggetti.remove(nome);
-		entita.remove(nome);
-	}
-	
-	public void removePersonaggio(String nome) {
-		personaggi.remove(nome);
-		entita.remove(nome);
-	}
-	
-	public void aggiungiElemento(Oggetto oggetto){
-		oggetti.put(oggetto.getNome(), oggetto);
-		entita.add(oggetto.getNome());
-	}
-	
-	public void aggingiElemento(Personaggio p) {
-		personaggi.put(p.getNome(), p);
-		entita.add(p.getNome());
-	}
-	
-	
-	public boolean getEntita(String nome) {
-		for(String e : entita) 
-			if(e.equals(nome))
-				return true;
-		
-		return entitaNascoste.containsKey(nome);	
-	}
-	
+	//METODI EQUALS E HASHCODE
 	@Override
 	public boolean equals(Object o) {
 		if(o == null || !o.getClass().equals(getClass())) 
@@ -216,30 +310,5 @@ public class Stanza extends Entita implements Observer, Description, Datore{
 	@Override
 	public int hashCode() {
 		return Objects.hash(NOME, DESCRIZIONE_STANZA);
-	}
-	
-	private Set<String> getNomi(Collection<? extends Entita> set){
-		return set.stream().map(x -> x.getNome()).collect(Collectors.toSet());
-	}
-
-	@Override
-	public Inventario dai(String nomeInventario) throws AzioneException {
-		Inventario in = null;
-		Oggetto og =  getOggetto(nomeInventario);
-		Personaggio per = getPersonaggio(nomeInventario);
-		
-		if(og == null) {
-			in = (Inventario) per;
-			removePersonaggio(nomeInventario);
-		}
-		else{
-			in = (Inventario) og;
-			removeOggetto(nomeInventario);
-		}
-		
-		if(in == null)
-			throw new OggettoNonInStanzaException();
-		
-		return in;
 	}
 }

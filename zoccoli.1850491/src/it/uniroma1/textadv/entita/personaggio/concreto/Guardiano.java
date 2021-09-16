@@ -4,6 +4,11 @@ import it.uniroma1.textadv.entita.interfaccia.Inventario;
 import it.uniroma1.textadv.entita.personaggio.Umano;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 
+/**
+ * Classe che rappresenta la guardia dell'oggetto finale
+ * @author gioele
+ *
+ */
 public class Guardiano extends Umano {
 	private boolean distratto;
 	
@@ -24,6 +29,9 @@ public class Guardiano extends Umano {
 		throw new AzioneException("Guardiano: «HEY TU!! SE CI RIPROVI...!! TI AMMAZZO!»");
 	}
 	
+	/**
+	 * Override del metodo prendi, se il guardiano riceve il gatto, si distrae e puoi prendere ciò che custodisce
+	 */
 	@Override 
 	public void prendi(Inventario o) {
 		super.prendi(o);
