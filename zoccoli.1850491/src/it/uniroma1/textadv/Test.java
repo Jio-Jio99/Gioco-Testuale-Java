@@ -8,7 +8,7 @@ public class Test{
 	public static void main(String[] args) throws Exception{
 		Gioco g = new Gioco();
 		Mondo m = Mondo.fromFile(Paths.get("resourse","minizak.game"));
-//		g.play(m, Paths.get("resourse","minizak.ff"));
-		g.play(m);
+		g.play(m, Paths.get("resourse","minizak.ff"));
+//		g.play(m);
 	}
 }

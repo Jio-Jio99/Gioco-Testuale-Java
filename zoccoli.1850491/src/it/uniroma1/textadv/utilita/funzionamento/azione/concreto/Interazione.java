@@ -15,8 +15,11 @@ public class Interazione extends Azione{
 		super(COMANDI);
 	}
 
+	/**
+	 * Metodo che riceve un personaggio e ne attiva l'interazione con il giocatore
+	 */
 	@Override
-	public void active(Entita entita1, Entita...entita2) throws AzioneException, GiocatoreException {
-		((Personaggio) entita1).interazione();
+	public void active(Entita personaggio, Entita...entita2) throws AzioneException, GiocatoreException {
+		((Personaggio) personaggio).interazione();
 	}
 }

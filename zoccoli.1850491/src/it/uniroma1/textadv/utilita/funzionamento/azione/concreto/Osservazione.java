@@ -9,6 +9,11 @@ import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.funzionamento.azione.Azione;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 
+/**
+ * Questa classe rappresenta i veri e propri occhi del giocatore, descrive tutto ciò che gli sta attorno, tramite i {@link Description}
+ * @author gioele
+ *
+ */
 public class Osservazione extends Azione{
 	public static final Set<String> COMANDI = Set.of("osserva", "guarda", "inventario");
 	
@@ -16,6 +21,10 @@ public class Osservazione extends Azione{
 		super(COMANDI);
 	}
 	
+	/**
+	 * Metodo che dato un {@link Description} ne restituisce la sua descrizione, altrimenti se il giocatore vuole visionare solamente 
+	 * l'inventario apre lo zaino 
+	 */
 	@Override
 	public void active(Entita entita1, Entita... entita2) throws GiocatoreException, AzioneException {
 		if(comandoRicevuto.equals("inventario")) { 

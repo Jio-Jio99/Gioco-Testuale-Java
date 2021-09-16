@@ -16,9 +16,14 @@ import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Usare;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.ExitException;
 
+/**
+ * Classe astratta che generalizza tutte le azioni, e fa si che possano specificare il suo metodo astratto active()
+ * @author gioele
+ *
+ */
 public abstract class Azione implements Iterable<Azione>{
 	/**
-	 * Lista delle classi concrete che permettono l'azione nel gioco
+	 * Lista delle classi concrete che permettono l'azione nel gioco, da scorrere per individuare l'azione
 	 */
 	public static final List<Azione> listaAzioni = List.of(	new Interazione(),
 															new Aprire(),
@@ -40,12 +45,17 @@ public abstract class Azione implements Iterable<Azione>{
 	}
 	
 	/**
-	 * Metodo che attiva l'azione a seconda del tipo di azione da fare
+	 * Metodo che attiva l'azione a seconda del tipo ricevento almeno 1 entita
 	 * @param entita = {@link Entita} ricevute da analizzare
 	 */
 	public abstract void active(Entita entita1, Entita... entita2) throws AzioneException, GiocatoreException;
 	
-	
+	/**
+	 * Metodo statico che restituisce la tipologia di azione da eseguire indiviuandola dalla prima parole del comando
+	 * @param comando
+	 * @return una classe concreta di Azione, null se non esiste
+	 * @throws ExitException
+	 */
 	public static Azione getAzione(String comando) throws ExitException {
 		comandoRicevuto = comando;
 		
@@ -60,6 +70,11 @@ public abstract class Azione implements Iterable<Azione>{
 		return null;
 	}
 	
+	/**
+	 * Metodo che controlla se la parola è contenuta nel set di parole per quella determinata azione
+	 * @param parola
+	 * @return {@link boolean}
+	 */
 	public boolean contains(String parola) {
 		return setComandi.contains(parola);
 	}

@@ -13,6 +13,11 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.AccessoNonDisponibileException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.PuntoCardinaleException;
 
+/**
+ * Classe per l'azione del Movimento, per spostare i personaggi tra i vari luoghi
+ * @author gioele
+ *
+ */
 public class Movimento extends Azione{
 	public static final Set<String> COMANDI = Set.of("vai", "entra");
 	
@@ -20,6 +25,12 @@ public class Movimento extends Azione{
 		super(COMANDI);
 	}
 	
+	/**
+	 * Metodo che dà la direzione ricevuta la lista di comandi
+	 * @param comando
+	 * @return
+	 * @throws PuntoCardinaleException
+	 */
 	public PuntoCardinale getDirezione(List<String> comando) throws PuntoCardinaleException {
 		for(String s : comando) {
 			try {
@@ -30,6 +41,9 @@ public class Movimento extends Azione{
 		throw new PuntoCardinaleException();
 	}
 	
+	/**
+	 * Override del metodo contains padre, per controllare se oltre alle parole di default, non vi siano solamente delle coordinate
+	 */
 	@Override
 	public boolean contains(String parola) {
 		if(super.contains(parola))
@@ -44,11 +58,14 @@ public class Movimento extends Azione{
 		}
 	}
 	
+	/**
+	 * Metodo che dato un link ne esegue l'effetto sul giocatore
+	 */
 	@Override
-	public void active(Entita entita1, Entita... entita2) throws AzioneException, GiocatoreException {
-		if(entita1 == null)
+	public void active(Entita link, Entita... entita2) throws AzioneException, GiocatoreException {
+		if(link == null)
 			throw new AccessoNonDisponibileException();
 		
-		Giocatore.getInstance().vai((Link) entita1);
+		Giocatore.getInstance().vai((Link) link);
 	}
 }

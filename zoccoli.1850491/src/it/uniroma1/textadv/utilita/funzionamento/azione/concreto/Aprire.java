@@ -9,6 +9,11 @@ import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.funzionamento.azione.Azione;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 
+/**
+ * Classe per l'azione dell'aprire, per tutte le entita che sono {@link Apribile}
+ * @author gioele
+ *
+ */
 public class Aprire extends Azione{
 	public static final Set<String> COMANDI = Set.of("apri");
 	public static final String 	APRI = "apri",
@@ -17,13 +22,16 @@ public class Aprire extends Azione{
 		super(COMANDI);
 	}
 
+	/**
+	 * Metodo che apre gli Apribili (EX Link e Contenitori), ricevento un entita da aprire, e nel caso sia chiuso a chiave il suo corrispondente chiavistello
+	 */
 	@Override
-	public void active(Entita entita1, Entita... entita2) throws AzioneException, GiocatoreException {
-		Apribile ap = (Apribile) entita1;
+	public void active(Entita daAprire, Entita... chiavistello) throws AzioneException, GiocatoreException {
+		Apribile ap = (Apribile) daAprire;
 		
-		if(entita2.length < 1)
+		if(chiavistello.length < 1)
 			ap.apri();
 		else 
-			((Chiavistello) entita2[0]).usa(ap);
+			((Chiavistello) chiavistello[0]).usa(ap);
 	}
 }

@@ -17,6 +17,11 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.ExitException;
 import it.uniroma1.textadv.utilita.interfaccieSupporto.FilesMethod;
 
+/**
+ * Classe che mette in moto il gioco, e controlla lo stato del gioco, se si è raggiunta la meta o meno (ex trovato il tesoro)
+ * @author gioele
+ *
+ */
 public class Gioco {
 	public static final Scanner scan = new Scanner(System.in);
 	private static List<String> azioni;
@@ -92,6 +97,10 @@ public class Gioco {
 		return scan.nextLine();
 	}
 	
+	/**
+	 * Metodo che prende l'input da un file script e lo fa eseguire come fosse un input da utente
+	 * @return
+	 */
 	private static String inputDaScript() {
 		String s = "";
 		
@@ -104,12 +113,18 @@ public class Gioco {
 		return s;
 	}
 	
+	/**
+	 * Metodo che setta il mondo di default del gioco che si sta avviando
+	 * @param m
+	 */
 	private void setMondo(Mondo m) {
 		mondo = m;
 		analizzatoreComandi = new AnalizzaComando(m);
 	}
 	
-	
+	/**
+	 * In caso di vittoria, questo metodo avvia una nuova piccola ricerca come un 'mini gioco' con citazioni
+	 */
 	private void easterEgg(){
 		System.out.println("\nHAI VINTO!!! Ma... non vorresti aprire il tesoro?");
 		

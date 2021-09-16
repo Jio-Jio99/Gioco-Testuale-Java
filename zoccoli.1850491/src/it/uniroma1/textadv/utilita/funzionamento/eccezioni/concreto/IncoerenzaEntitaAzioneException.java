@@ -6,6 +6,11 @@ import it.uniroma1.textadv.entita.Entita;
 import it.uniroma1.textadv.utilita.funzionamento.azione.Azione;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 
+/**
+ * Eccezione lanciata in caso in cui l'azione non sia possibile con l'entita selezionate
+ * @author gioele
+ *
+ */
 public class IncoerenzaEntitaAzioneException extends AzioneException{
 	
 	public IncoerenzaEntitaAzioneException(Azione azione, List<Entita> entita) {

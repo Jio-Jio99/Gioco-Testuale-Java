@@ -12,7 +12,7 @@ import it.uniroma1.textadv.entita.stanza.Stanza;
 import it.uniroma1.textadv.utilita.creazione.AnalizzaFile;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.ErroreCaricamentoException;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.FileNonEsistenteOVuotoException;
-import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.StanzaNonPresenteException;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.EntitaNonDiQuestoMondoException;
 import it.uniroma1.textadv.utilita.interfaccieSupporto.FilesMethod;
 
 /**
@@ -59,13 +59,13 @@ public class Mondo extends Entita implements Description{
 	 * Metodo che dato in input un nome di una stanza, ne ritorna il suo riferimento se presente in questo mondo
 	 * @param nomeStanza
 	 * @return Stanza
-	 * @throws StanzaNonPresenteException
+	 * @throws EntitaNonDiQuestoMondoException
 	 */
-	public Stanza getStanza(String nomeStanza) throws StanzaNonPresenteException{
+	public Stanza getStanza(String nomeStanza) throws EntitaNonDiQuestoMondoException{
 		Stanza s = stanze.get(nomeStanza);
 		
 		if(s == null)
-			throw new StanzaNonPresenteException();
+			throw new EntitaNonDiQuestoMondoException();
 		
 		return s;
 	}
