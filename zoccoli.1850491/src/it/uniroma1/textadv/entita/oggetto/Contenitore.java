@@ -14,12 +14,12 @@ public abstract class Contenitore extends Oggetto implements Observer, Apribile,
 	protected Oggetto inventario;
 	private String inventarioString;
 	protected boolean aperto;
-	protected boolean chiusoConChiave;
-	private boolean vuoto;
+	protected boolean chiusoAChiave;
+	protected boolean vuoto;
 	
 	public Contenitore(String nome) {
 		super(nome);
-		chiusoConChiave = true;
+		chiusoAChiave = true;
 	}
 	
 	public boolean vuoto(){
@@ -50,7 +50,7 @@ public abstract class Contenitore extends Oggetto implements Observer, Apribile,
 			else
 				throw new AzioneException("Errore! Non puoi prendere questo oggetto qui");
 		}
-		throw new ChiusoException(this);
+		throw new ChiusoException(this, chiusoAChiave);
 	}
 	
 	//METODI PER INTERAGIRE
@@ -59,12 +59,12 @@ public abstract class Contenitore extends Oggetto implements Observer, Apribile,
 		if(aperto) 
 			return (Inventario) getOggetto(nomeInventario);
 
-		throw new ChiusoException(this);
+		throw new ChiusoException(this, chiusoAChiave);
 	}
 	
 	@Override
 	public String guarda() {
-		return aperto ? "Scrivania aperta, trovi: " + (vuoto ? "ops... nulla" : inventario) : "È un " + getNome() + " chiuso/a";
+		return aperto ? getClass().getSimpleName() + " aperto/a, trovi: " + (vuoto ? "ops... nulla" : inventario) : "È un " + getNome() + " chiuso/a";
 	}	
 	
 	@Override
@@ -78,17 +78,18 @@ public abstract class Contenitore extends Oggetto implements Observer, Apribile,
 		if(aperto)
 			System.out.println("È già aperto!");
 		
-		else if(!chiusoConChiave) {
+		else if(!chiusoAChiave) {
 			aperto = true;
 			System.out.println(getNome() + " aperto!");
+			return;
 		}
-		else 
-			throw new ChiusoException(this);
+
+		throw new ChiusoException(this, chiusoAChiave);
 	}
 	
 	@Override
 	public void sblocca() {
-		chiusoConChiave = true;
+		chiusoAChiave = false;
 		aperto = true;
 	}
 	

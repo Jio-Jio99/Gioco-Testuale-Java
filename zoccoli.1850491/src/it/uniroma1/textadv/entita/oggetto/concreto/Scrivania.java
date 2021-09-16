@@ -6,6 +6,6 @@ public class Scrivania extends Contenitore{
 
 	public Scrivania(String nome) {
 		super(nome);
-		chiusoConChiave = false;
+		chiusoAChiave = false;
 	}
 }

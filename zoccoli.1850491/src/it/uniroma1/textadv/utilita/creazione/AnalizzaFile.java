@@ -244,9 +244,8 @@ public abstract class AnalizzaFile implements Observable{
 		String nome = "";
 		
 		for(String personaggio : pattern) {
-			parti = Arrays.asList(personaggio.split(TAB));
-			parti = parti.stream().map(String::strip).collect(Collectors.toList());
-
+			parti = pulisciEntitaString(personaggio);
+			
 			if(parti.size() <= 0)
 				throw new FormattazioneFileException("personaggio errato" +  parti);
 			
@@ -292,8 +291,7 @@ public abstract class AnalizzaFile implements Observable{
 		String nome = "";
 		
 		for(String oggetto : pattern) {
-			parti = Arrays.asList(oggetto.split(TAB));
-			parti = parti.stream().map(String::strip).collect(Collectors.toList());
+			parti = pulisciEntitaString(oggetto);
 			
 			if(parti.size() > (PARTI_OG-1) && parti.size() < PARTI_OG) 
 				throw new FormattazioneFileException("oggetto non corretto" + parti);
@@ -346,8 +344,7 @@ public abstract class AnalizzaFile implements Observable{
 		String nome = "";
 		
 		for(String link : pattern) {
-			parti = Arrays.asList(link.split(TAB));
-			parti = parti.stream().map(String::strip).collect(Collectors.toList());
+			parti = pulisciEntitaString(link);
 			
 			if(parti.size() != PARTI_LINK) 
 				throw new FormattazioneFileException("link non corretto");
@@ -381,6 +378,16 @@ public abstract class AnalizzaFile implements Observable{
 	private static void inserimentoInMappa(String key, Entita e) {
 		osservatori.add((Observer) e);
 		dizionario_entita.get(key).put(e.getNome(), e);
+	}
+	
+	/**
+	 * Metodo che dato una stringa che rappresenta un entita con tutti le sue caratteristiche, restituisce una lista delle parti divisa e pulita dai commenti
+	 * @param entitaString
+	 * @return List<String>
+	 */
+	private static List<String> pulisciEntitaString(String entitaString) {
+		List<String> listaCaratteristiche = Arrays.asList(entitaString.split(TAB));
+		return listaCaratteristiche.stream().map(x -> x.split(S)[0].strip()).collect(Collectors.toList());
 	}
 
 	/**

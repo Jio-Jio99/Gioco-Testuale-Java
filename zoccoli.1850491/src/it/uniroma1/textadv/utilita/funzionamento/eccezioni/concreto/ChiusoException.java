@@ -5,8 +5,9 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 
 public class ChiusoException extends AzioneException{
 	public static final String ERRORE = " è chiuso!";
-	
-	public ChiusoException(Apribile nome) {
-		super(nome +  ERRORE);
+	public static final String ERRORE_CHIAVE = " è chiuso a chiave!";
+
+	public ChiusoException(Apribile nome, boolean chiave) {
+		super(nome + (chiave ? ERRORE_CHIAVE : ERRORE));
 	}
 }

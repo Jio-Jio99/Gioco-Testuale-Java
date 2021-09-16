@@ -3,6 +3,7 @@ package it.uniroma1.textadv;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -77,8 +78,9 @@ public class Gioco {
 		if(stato == StatoGioco.VINTO)
 			easterEgg();
 		
-		System.out.println("\n\t\t\tFINE");
 		scan.close();
+		
+		System.out.println("\n\t\t\t\tFINE");
 	}
 	
 	/**
@@ -108,8 +110,32 @@ public class Gioco {
 	}
 	
 	
-	private void easterEgg() {
-		System.out.println("EASTER EGG");
+	private void easterEgg(){
+		System.out.println("\nHAI VINTO!!! Ma... non vorresti aprire il tesoro?");
+		
+		if(Set.of("si", "sì").contains(input().toLowerCase())) {
+			System.out.println("Allora aprilo!!");
+			String input = "";
+			
+			while(true) {
+				input = input().strip().toLowerCase();
+				
+				if(!"apri tesoro".equals(input))
+					System.out.println("Ehm... solo l'azione per aprire il tesoro puoi fare dai!! Non ti perdere! Sono quasi più curioso di te");
+				
+				else {
+					try {
+						analizzatoreComandi.analizzaComando(input);
+					} catch (GiocatoreException | AzioneException e) {
+						e.printStackTrace();
+					}
+					
+					break;
+				}
+			}
+		}
+		else 
+			System.out.println("Lo prendo come un no! Peccato! Va beh ottima partita comunque!!! È stato un piacere giocare con te!");
 	}
 	
 }

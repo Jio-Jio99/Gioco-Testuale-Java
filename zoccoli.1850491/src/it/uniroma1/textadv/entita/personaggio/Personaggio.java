@@ -81,7 +81,6 @@ public abstract class Personaggio extends Entita implements Observer, Datore{
 	
 	public void prendi(Inventario o) {
 		inventario.putIfAbsent(((Entita)o).getNome(), o);
-		System.out.println(getNome() + " ti ringrazia!");
 	}
 	
 	@Override 

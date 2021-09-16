@@ -1,17 +1,46 @@
 package it.uniroma1.textadv.entita.oggetto.concreto;
 
+import java.nio.file.Paths;
+import java.util.List;
+
+import it.uniroma1.textadv.Gioco;
 import it.uniroma1.textadv.entita.interfaccia.Inventario;
 import it.uniroma1.textadv.entita.oggetto.Contenitore;
+import it.uniroma1.textadv.entita.personaggio.concreto.Giocatore;
+import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
+import it.uniroma1.textadv.utilita.interfaccieSupporto.FilesMethod;
 
 public class Tesoro extends Contenitore implements Inventario {
 
 	public Tesoro(String nome) {
 		super(nome);
-		chiusoConChiave = false;
+		chiusoAChiave = false;
 	}
 	
 	@Override
 	public String guarda() {
 		return "È IL TESOROOOOOO";
+	}
+	
+	@Override
+	public void apri() {
+		try {
+			apriPrivato();
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	private void apriPrivato() throws GiocatoreException {
+		List<String> discorso = FilesMethod.lettura(Paths.get("resourse", "easterEgg.txt")).orElseThrow();
+		String frase = discorso.get(3);
+		
+		System.out.println("\n" + discorso.get(0).replace("Vincent", Giocatore.getInstance().getNome()));
+		
+		if(!discorso.subList(1, 4).contains(Gioco.input())) 
+			frase = discorso.get(4);
+		
+		System.out.println(frase);
 	}
 }

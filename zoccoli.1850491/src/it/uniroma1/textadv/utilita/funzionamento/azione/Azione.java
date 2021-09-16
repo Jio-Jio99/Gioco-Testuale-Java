@@ -30,7 +30,7 @@ public abstract class Azione implements Iterable<Azione>{
 	/**
 	 * Comandi esterni al gioco per poter uscire o altro
 	 */
-	public static final Set<String> comandoEsterno = Set.of("exit");
+	public static final Set<String> comandoEsterno = Set.of("exit", "apri tesoro");
 	
 	protected static String comandoRicevuto;
 	private Set<String> setComandi;

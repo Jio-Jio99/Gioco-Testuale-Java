@@ -6,6 +6,6 @@ public class Cassetto extends Contenitore{
 
 	public Cassetto(String nome) {
 		super(nome);
-		chiusoConChiave = false;
+		chiusoAChiave = false;
 	}
 }

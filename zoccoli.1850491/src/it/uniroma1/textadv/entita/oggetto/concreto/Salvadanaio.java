@@ -10,9 +10,11 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.UsabileException;
 
 public class Salvadanaio extends Contenitore implements Utilizzato{
-
+	private String nome;
+	
 	public Salvadanaio(String nome) {
 		super(nome);
+		this.nome = nome;
 	}
 
 	@Override
@@ -25,7 +27,7 @@ public class Salvadanaio extends Contenitore implements Utilizzato{
 			try {
 				Stanza s = Giocatore.getInstance().getPosizione();
 				s.aggiungiElemento(inventario);
-				s.removeOggetto(getNome());
+				nome = getNome() + " rotto";
 
 			} catch (GiocatoreException e1) {
 				e1.printStackTrace();
@@ -34,8 +36,13 @@ public class Salvadanaio extends Contenitore implements Utilizzato{
 			System.out.println("Rotto!");
 		}
 		else if(aperto)
-			System.out.println("È già aperto!");
+			System.out.println("È rotto!");
 		else
 			throw new UsabileException(e, this);
+	}
+	
+	@Override 
+	public String toString() {
+		return nome;
 	}
 }

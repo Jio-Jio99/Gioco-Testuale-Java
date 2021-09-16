@@ -160,14 +160,14 @@ public class AnalizzaComando {
 		for(Entita entita : entitaTrovate) {
 			nomeEntita = entita.getNome();
 			
-			System.out.println(stanza.getEntita(nomeEntita) || Giocatore.getInstance().getEntita(nomeEntita));
-			
-			if(azione instanceof Prendere && !comando.contains(Prendere.DA)) 
-				lista.addAll(List.of(entita, Prendere.daChi(stanza, nomeEntita)));
-			else if(entita instanceof Stanza && stanza.verificaAccessoLibero(nomeEntita)) 
+			if(entita instanceof Stanza && stanza.verificaAccessoLibero(nomeEntita)) 
 				lista.add(stanza.getAccessoLibero(nomeEntita));
-			else if(stanza.getEntita(nomeEntita) || Giocatore.getInstance().getEntita(nomeEntita)) 
-				lista.add(entita);
+			else if(stanza.getEntita(nomeEntita) || Giocatore.getInstance().getEntita(nomeEntita)) {
+				if(azione instanceof Prendere && !comando.contains(Prendere.DA))
+					lista.addAll(List.of(entita, Prendere.daChi(stanza, nomeEntita)));
+				else
+					lista.add(entita);
+			}
 			else
 				throw new OggettoNonInStanzaException(nomeEntita);
 		}

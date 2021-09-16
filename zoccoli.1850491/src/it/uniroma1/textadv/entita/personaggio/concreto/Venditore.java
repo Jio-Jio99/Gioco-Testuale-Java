@@ -46,7 +46,7 @@ public class Venditore extends Umano{
 	@Override
 	public void prendi(Inventario o) {
 		super.prendi(o);
-		
+		System.out.println(getNome() + " ti ringrazia!");
 		if(o instanceof Soldi) {
 			oggettiRichiesti.stream().map(x ->(Entita) inventario.get(x)).forEach(x -> {
 				try {
@@ -55,6 +55,9 @@ public class Venditore extends Umano{
 					e.printStackTrace();
 				}
 			});
+			oggettiRichiesti.clear();
+			inventario.remove(o.toString());
 		}
+		
 	}
 }
