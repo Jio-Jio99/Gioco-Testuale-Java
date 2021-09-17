@@ -10,8 +10,18 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
  */
 public class ComandoScrittoNonCorrettamenteException extends AzioneException{
 	public static final String ERRORE = "Forse hai scritto male il comando, ho capito cosa dovrebbe fare ma non so con cosa";
+	public static final String ERRORE_CAPITO = "Comando riconosciuto che esguirò ugualmente, ma in default, poichè l'entita inserita non esiste";
+	private boolean compreso;
 	
-	public ComandoScrittoNonCorrettamenteException() {
-		super(ERRORE);
+	public ComandoScrittoNonCorrettamenteException() {}
+	
+	public ComandoScrittoNonCorrettamenteException(boolean compreso) {
+		this.compreso = compreso;
+	}
+	
+	
+	@Override
+	public String getMessage() {
+		return compreso ?  ERRORE_CAPITO : ERRORE;
 	}
 }

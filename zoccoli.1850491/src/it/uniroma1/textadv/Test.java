@@ -9,7 +9,7 @@ import it.uniroma1.textadv.utilita.creazione.eccezioni.FileNonEsistenteOVuotoExc
 import it.uniroma1.textadv.utilita.interfaccieSupporto.FilesMethod;
 
 public class Test{
-	public static final Path PATH_MONDO_DEFAULT = Paths.get("resourse","minizak.game");
+	public static final Path PATH_MONDO_DEFAULT = Paths.get("resourse","minizak2_0.game");
 	public static final Path PATH_SCRIPT_DEFAULT = Paths.get("resourse","minizak.ff");
 
 	public static void main(String[] args) throws Exception{

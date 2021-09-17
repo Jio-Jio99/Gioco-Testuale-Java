@@ -1,6 +1,7 @@
 package it.uniroma1.textadv.utilita.funzionamento.azione.concreto;
 
 import java.util.Set;
+import java.util.function.Predicate;
 
 import it.uniroma1.textadv.entita.Entita;
 import it.uniroma1.textadv.entita.interfaccia.Datore;
@@ -21,9 +22,10 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.IncoerenzaEn
 public class Prendere extends Azione{
 	public static final Set<String> COMANDI = Set.of("prendi");
 	public static final String DA = "da";
+	public static final Predicate<Entita> predicate  = x -> (x instanceof Inventario || x instanceof MezzoDiTrasporto || x instanceof Datore);
 	
 	public Prendere() {
-		super(COMANDI,x -> (x instanceof Inventario || x instanceof MezzoDiTrasporto || x instanceof Datore));
+		super(COMANDI, predicate, DA);
 	}
 	
 	/**

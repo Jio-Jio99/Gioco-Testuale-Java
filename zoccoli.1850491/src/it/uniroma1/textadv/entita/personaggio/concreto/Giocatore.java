@@ -69,6 +69,13 @@ public class Giocatore extends Personaggio{
 	}
 	
 	/**
+	 * Overrloading del metodo guarda, in caso in cui il giocatore si stia guardando intorno nella stanza
+	 */
+	public void guarda() {
+		System.out.println(getPosizione().guarda());	
+	}
+	
+	/**
 	 * Metodo per vedere cosa si ha nell'inventario
 	 */
 	public void inventario() {

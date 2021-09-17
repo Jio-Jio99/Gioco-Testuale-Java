@@ -1,6 +1,7 @@
 package it.uniroma1.textadv.utilita.funzionamento.azione.concreto;
 
 import java.util.Set;
+import java.util.function.Predicate;
 
 import it.uniroma1.textadv.entita.Entita;
 import it.uniroma1.textadv.entita.interfaccia.Apribile;
@@ -16,10 +17,11 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
  */
 public class Aprire extends Azione{
 	public static final Set<String> COMANDI = Set.of("apri");
-	public static final String 	APRI = "apri",
-								CON = "con";
+	public static final String 	CON = "con";
+	public static final Predicate<Entita> predicate = x -> (x instanceof Apribile || x instanceof Chiavistello);
+	
 	public Aprire() {
-		super(COMANDI, x -> (x instanceof Apribile || x instanceof Chiavistello));
+		super(COMANDI, predicate, CON);
 	}
 
 	/**

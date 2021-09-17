@@ -39,7 +39,7 @@ public class Tesoro extends Contenitore implements Inventario {
 	}
 	
 	/**
-	 * Funzione che all'apertura del tesoro avvia un piccolo easter egg
+	 * Funzione che all'apertura del tesoro avvia un piccolo easter egg se contiene qualcosa
 	 * @throws GiocatoreException
 	 */
 	private void apriPrivato() throws GiocatoreException {

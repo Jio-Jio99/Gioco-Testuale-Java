@@ -39,20 +39,39 @@ public abstract class Azione implements Iterable<Azione>{
 															new Prendere(),
 															new Usare());
 
-	private static final List<String> SET_COMANDI = List.of(Aprire.CON, Dare.A, Usare.SU, Prendere.DA);
-
 	/**
 	 * Comandi esterni al gioco per poter uscire o altro
 	 */
-	public static final Set<String> comandoEsterno = Set.of("exit", "apri tesoro");
+	public static final Set<String> comandoEsterno = Set.of("exit");
 	
+	/**
+	 * Prima parola per l'azione
+	 */
 	protected static String comandoRicevuto;
+	
+	/**
+	 * Set di parole chiavi per riconoscere l'azione
+	 */
 	private Set<String> setComandi;
+	
+	/**
+	 * Seconda parte per i comandi che agiscono su più entita
+	 */
+	private List<String> secondaParte;
+	
+	/**
+	 * Predicate che serve per vagliare quale tipo di entita servono per l'azione
+	 */
 	protected Predicate<Entita> predicate;
 
 	public Azione(Set<String> setComandi, Predicate<Entita> predicate) {
 		this.setComandi = setComandi;
 		this.predicate = predicate;
+	}
+	
+	public Azione(Set<String> setComandi, Predicate<Entita> predicate, String secondaParte) {
+		this(setComandi, predicate);
+		this.secondaParte = List.of(secondaParte);
 	}
 	
 	/**
@@ -95,17 +114,17 @@ public abstract class Azione implements Iterable<Azione>{
 	 * @param comando
 	 * @return
 	 */
-	public List<Entita> entita(List<String> comando, Set<Entita> set) {
+	public List<Entita> entitaInComando(List<String> comando, Set<Entita> set) throws AzioneException, GiocatoreException{
 		List<Entita> lista = new LinkedList<>();
 		
-		int secondaEntita =	SET_COMANDI.stream().map(x -> Collections.indexOfSubList(comando, List.of(x))).filter(x -> x !=-1).findAny().orElse(-1);
+		int secondaEntita =	secondaParte != null ? Collections.indexOfSubList(comando, secondaParte) : -1;
 		
 		if(secondaEntita != -1) {
-			cerca(comando.subList(0, secondaEntita), set).ifPresent(x -> lista.add(x));
-			cerca(comando.subList(secondaEntita, comando.size()), set).ifPresent(x -> lista.add(x));
+			cercaEntita(comando.subList(0, secondaEntita), set).ifPresent(x -> lista.add(x));
+			cercaEntita(comando.subList(secondaEntita, comando.size()), set).ifPresent(x -> lista.add(x));
 		}
 		else
-			cerca(comando, set).ifPresent(x -> lista.add(x));
+			cercaEntita(comando, set).ifPresent(x -> lista.add(x));
 		
 		return lista;
 	}
@@ -116,7 +135,7 @@ public abstract class Azione implements Iterable<Azione>{
 	 * @param set
 	 * @return
 	 */
-	public Optional<Entita> cerca(List<String> parteComando, Set<Entita> set) {
+	public Optional<Entita> cercaEntita(List<String> parteComando, Set<Entita> set) {
 		List<String> supporto = new ArrayList<>();
 		Entita supportoEntita = null;
 		int match = 0;

@@ -9,12 +9,10 @@ import java.util.stream.Collectors;
 
 import it.uniroma1.textadv.entita.Entita;
 import it.uniroma1.textadv.entita.Mondo;
-import it.uniroma1.textadv.entita.PuntoCardinale;
 import it.uniroma1.textadv.entita.personaggio.concreto.Giocatore;
 import it.uniroma1.textadv.entita.stanza.Stanza;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.funzionamento.azione.Azione;
-import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Movimento;
 import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Osservazione;
 import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Prendere;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
@@ -83,22 +81,22 @@ public class AnalizzaComando {
 		if(azione == null)
 			throw new ComandoNonRiconosciutoException();
 
-		List<Entita> entita = entitaDisponibili(azione.entita(comando, entitaNelMondo));
-
-		if(entita.isEmpty() && !(azione instanceof Osservazione)) {
-			if(azione instanceof Movimento) {
-				PuntoCardinale punto = ((Movimento)azione).getDirezione(comando);
-				entita.add(stanza.getAccesso(punto));
+		List<Entita> entita = entitaDisponibili(azione.entitaInComando(comando, entitaNelMondo));
+		
+		//Casi particolari per lanciare eccezioni di mancato completamento comando
+		if(entita.isEmpty()) {
+			if(!(azione instanceof Osservazione)) {
+				if(comando.size() == 1) 
+					throw new ComandoScrittoNonCorrettamenteException();
+				else
+					throw new EntitaNonDiQuestoMondoException();
 			}
-			else if(comando.size() == 1) {
-				throw new ComandoScrittoNonCorrettamenteException();
-			}
-			else
-				throw new EntitaNonDiQuestoMondoException();
+			else if(comando.size() > 1)
+				System.out.println(new ComandoScrittoNonCorrettamenteException(true).getMessage());
 		}
 		
 		try{
-			azione.active(entita.isEmpty() ? stanza : entita.get(0),entita.isEmpty() ? null : entita.subList(1, entita.size()).toArray(Entita[]::new));
+			azione.active(entita.isEmpty() ? stanza : entita.get(0), entita.isEmpty() ? null : entita.subList(1, entita.size()).toArray(Entita[]::new));
 		}
 		catch(ClassCastException e) {
 			throw new IncoerenzaEntitaAzioneException(azione, entita);

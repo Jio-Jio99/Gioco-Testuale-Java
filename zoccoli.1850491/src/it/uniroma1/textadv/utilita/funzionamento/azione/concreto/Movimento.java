@@ -2,6 +2,7 @@ package it.uniroma1.textadv.utilita.funzionamento.azione.concreto;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import it.uniroma1.textadv.entita.Entita;
 import it.uniroma1.textadv.entita.PuntoCardinale;
@@ -21,9 +22,10 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.PuntoCardina
  */
 public class Movimento extends Azione{
 	public static final Set<String> COMANDI = Set.of("vai", "entra");
+	public static final Predicate<Entita> predicate = x -> (x instanceof Link || x instanceof Stanza);
 	
 	public Movimento() {
-		super(COMANDI, x -> (x instanceof Link || x instanceof Stanza));
+		super(COMANDI, predicate);
 	}
 	
 	/**
@@ -42,16 +44,17 @@ public class Movimento extends Azione{
 		throw new PuntoCardinaleException();
 	}
 	
-//	@Override
-//	public Optional<Entita> cerca(List<String> parteComando, Set<Entita> set) {
-//		for(Entita entita : set) {
-//			if(predicate.test(entita))
-//				if(Collections.indexOfSubList(parteComando, AnalizzaComando.stringInList(entita.getNome())) != -1)
-//					return Optional.of(entita);
-//		}
-//		
-//		return Optional.empty();
-//	}
+	@Override
+	public List<Entita> entitaInComando(List<String> comando, Set<Entita> set) throws AzioneException, GiocatoreException {
+		List<Entita> lista = super.entitaInComando(comando, set);
+
+		if(lista.isEmpty()) {
+			PuntoCardinale punto = getDirezione(comando);
+			lista.add(Giocatore.getInstance().getPosizione().getAccesso(punto));
+		}
+		
+		return lista;
+	}
 	
 	/**
 	 * Override del metodo contains padre, per controllare se oltre alle parole di default, non vi siano solamente delle coordinate

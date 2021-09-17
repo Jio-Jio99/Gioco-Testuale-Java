@@ -128,14 +128,14 @@ public class Gioco {
 	}
 	
 	/**
-	 * In caso di vittoria, questo metodo avvia una nuova piccola ricerca come un 'mini gioco' con citazioni
+	 * In caso di vittoria, questo metodo avvia una nuova piccola ricerca come un 'mini gioco' di citazioni
 	 */
 	private void easterEgg(){
 		System.out.println("\nHAI VINTO!!! Ma... non vorresti aprire il tesoro? [digita sì per continuare]");
+		String input = input().toLowerCase().strip();
 		
-		if(Set.of("si", "sì").contains(input().toLowerCase().strip())) {
+		if(Set.of("si", "sì").contains(input)){
 			System.out.println("Allora aprilo!!");
-			String input = "";
 			
 			while(true) {
 				input = input().strip().toLowerCase();
@@ -147,15 +147,18 @@ public class Gioco {
 					try {
 						analizzatoreComandi.analizzaComando(input);
 					} catch (GiocatoreException | AzioneException e) {
-						e.printStackTrace();
+						System.out.println(e.getMessage());
 					}
 					
 					break;
 				}
 			}
 		}
-		else 
+		else if(!input.equals("no")){
 			System.out.println("Lo prendo come un no! Peccato! Va beh ottima partita comunque!!! È stato un piacere giocare con te!");
+		}
+		else
+			System.out.println("Ok! Peccato!");
 	}
 	
 }
