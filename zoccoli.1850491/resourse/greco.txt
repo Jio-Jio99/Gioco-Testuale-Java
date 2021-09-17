@@ -2,4 +2,4 @@
 Questo programma girerà su tutti i mondi che vorrai! Anche creati da te! Basta che rispettino le regole!
 - Per giocare ad "Il mondo di Zak" già presente nel gioco digita 'default'
 - Per uscrire 'exit'
-Altrimenti digita il Path del file del mondo con cui vuoi giocare:
+Altriementi digita il Path del file del mondo con cui vuoi giocare:

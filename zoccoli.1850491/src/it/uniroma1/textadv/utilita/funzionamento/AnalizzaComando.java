@@ -1,10 +1,8 @@
 package it.uniroma1.textadv.utilita.funzionamento;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -16,12 +14,9 @@ import it.uniroma1.textadv.entita.personaggio.concreto.Giocatore;
 import it.uniroma1.textadv.entita.stanza.Stanza;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.funzionamento.azione.Azione;
-import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Aprire;
-import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Dare;
 import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Movimento;
 import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Osservazione;
 import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Prendere;
-import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Usare;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.AccessoNonDisponibileException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.ComandoNonRiconosciutoException;
@@ -141,7 +136,7 @@ public class AnalizzaComando {
 	}
 	
 	/**
-	 * Metodo che trasforma una stringa nella lista di nonHoOggetto contenute
+	 * Metodo che trasforma una stringa nella lista di parole contenute
 	 * @param stringa 
 	 * @return
 	 */

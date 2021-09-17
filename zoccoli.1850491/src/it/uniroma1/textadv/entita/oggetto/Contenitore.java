@@ -26,6 +26,7 @@ public abstract class Contenitore extends Oggetto implements Observer, Apribile,
 	public Contenitore(String nome) {
 		super(nome);
 		chiusoAChiave = true;
+		vuoto = true;
 	}
 	
 	/**
@@ -34,6 +35,11 @@ public abstract class Contenitore extends Oggetto implements Observer, Apribile,
 	 */
 	public void setInventario(String inventario) {
 		inventarioString = inventario;
+		vuoto = false;
+	}
+	
+	public boolean vuoto() {
+		return vuoto;
 	}
 	
 	/**

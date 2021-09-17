@@ -120,17 +120,21 @@ public abstract class Azione implements Iterable<Azione>{
 		List<String> supporto = new ArrayList<>();
 		Entita supportoEntita = null;
 		int match = 0;
+		int matchCorretto = 0;
 		
 		for(Entita entita : set) {
 			match = 0;
+			
 			if(predicate.test(entita)) {
-				supporto = AnalizzaComando.stringInList(entita.getNome());
-				match = supporto.size();
-				if(Collections.indexOfSubList(parteComando, supporto) != -1) {
-					if(match )
-				}
-					
 				
+				supporto = AnalizzaComando.stringInList(entita.getNome());
+				
+				match = supporto.size();
+				
+				if(Collections.indexOfSubList(parteComando, supporto) != -1 && matchCorretto < match) {
+						matchCorretto = supporto.size(); 
+						supportoEntita = entita;
+				}
 			}
 		}
 		

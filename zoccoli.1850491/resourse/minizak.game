@@ -61,8 +61,8 @@ characters
 links	S:porta blu
 
 [room:stanza antica]
-description	Una stanza enorme ti si apre alla vista! Piena di scaffali di un antica libreria
-objects libro antico latino, libro antico greco
+description	Una stanza enorme ti si apre alla vista! Piena di scaffali di un'antica libreria
+objects	libro latino, libro greco
 links	E:porta antica
 
 [room:stanza del tesoro]
@@ -103,8 +103,8 @@ gemma verde	Chiave	porta verde
 grande chiave	Chiave	grande porta
 camino	Camino	gemma rossa // inizialmente acceso
 cassetto	Cassetto	grande chiave
-chiavistello antico	Chiave	porta antica
-tesoro	Tesoro	chiavistello antico
+chiave antica	Chiave	porta antica
+tesoro	Tesoro	chiave antica
 libro latino	Libro
 libro greco	Libro
 

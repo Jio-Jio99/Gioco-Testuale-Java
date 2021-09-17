@@ -25,7 +25,7 @@ public class Tesoro extends Contenitore implements Inventario {
 	
 	@Override
 	public String guarda() {
-		return aperto ? "Ha qualcosa dentro... oltre a tanti DIAMANTI...c'è " + inventario :"È IL TESOROOOOOO";
+		return aperto ? "Ha qualcosa dentro... oltre a tanti DIAMANTI...c'è " + (vuoto ? " nulla ":inventario) :"È IL TESOROOOOOO";
 	}
 	
 	@Override

@@ -60,16 +60,11 @@ objects	gemma verde
 characters
 links	S:porta blu
 
-[room:stanza antica]
-description	Una stanza enorme ti si apre alla vista! Piena di scaffali di un'antica libreria
-objects	libro latino, libro greco
-links	E:porta antica
-
 [room:stanza del tesoro]
 description	stanza in cui si trova finalmente il grande tesoro
 objects	tesoro
 characters	guardiano del tesoro
-links	N:porta verde,O:porta antica
+links	N:porta verde
 
 
 [links]
@@ -82,7 +77,6 @@ grande porta	Porta	stanza segreta	stanza cobalto
 porta rossa	Porta	stanza rosso fuoco	stanza blu verde
 porta blu	Porta	stanza blu verde	stanza smeraldo
 porta verde	Porta	stanza blu verde	stanza del tesoro
-porta antica	Porta	stanza del tesoro	stanza antica
 
 [objects]
 scrivania	Scrivania	chiave
@@ -103,10 +97,7 @@ gemma verde	Chiave	porta verde
 grande chiave	Chiave	grande porta
 camino	Camino	gemma rossa // inizialmente acceso
 cassetto	Cassetto	grande chiave
-chiave antica	Chiave	porta antica
-tesoro	Tesoro	chiave antica
-libro latino	Libro
-libro greco	Libro
+tesoro	Tesoro
 
 [characters]
 bob	Cane

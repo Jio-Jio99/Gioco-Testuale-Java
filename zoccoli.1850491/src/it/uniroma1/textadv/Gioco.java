@@ -71,6 +71,7 @@ public class Gioco {
 			}
 			catch(ExitException e) {
 				Giocatore.getInstance().setStato(StatoGioco.PERSO);
+				stato = StatoGioco.PERSO;
 				break;
 			}
 			catch(AzioneException e) {
@@ -79,15 +80,17 @@ public class Gioco {
 
 			stato = Giocatore.getInstance().getStato();
 			
-			if(stato == StatoGioco.VINTO) {
+			if(stato == StatoGioco.VINTO_CON_BONUS) {
 				easterEgg();
 				stato = Giocatore.getInstance().getStato();
 				funzioneInput = Gioco::input;
 			}
-			
 		}		
 		scan.close();
-		System.out.println("\n\t\t\t\tFINE");
+		
+		if(stato == StatoGioco.PERSO)
+			System.out.println("  Mi dispiace che tu abbia perso! Purtoppo non hai trovato il tesoro! Ma se vuoi potrai riprovarci in futuro!!!");
+		System.out.println("\n\t\t\tFINE");
 	}
 	
 	/**

@@ -79,15 +79,25 @@ public class Giocatore extends Personaggio{
 	
 	//PRENDI
 	/**
-	 * Metodo che aggiunge un oggetto all'Inventario se non è già presente
+	 * Metodo che aggiunge un oggetto all'Inventario se non è già presente, e se sta aggiungendo il tesoro, allora il Giocatore ha vinto, e 
+	 * a seconda del Mondo caricato può ricevere un mini bonus (se il tesoro contiene o meno un oggetto)
 	 * @param o
 	 */
 	@Override
 	public void prendi(Inventario o) {
 		if(inventario.putIfAbsent(((Entita)o).getNome(), o) == null) {
 			System.out.println(o instanceof Animale ? o + "... ti segue!" : o + " aggiunto all'inventario!");
-			if(o instanceof Tesoro)
-				setStato(StatoGioco.VINTO);
+			
+			if(o instanceof Tesoro) {
+				StatoGioco s = null;
+				
+				if(((Tesoro)o).vuoto())
+					s = StatoGioco.VINTO;
+				else
+					s = StatoGioco.VINTO_CON_BONUS;
+				
+				setStato(s);
+			}
 		}
 		else 
 			System.out.println("Ehm...già lo hai... perché rimetterlo dentro?");
