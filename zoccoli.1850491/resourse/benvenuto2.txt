@@ -1,4 +1,6 @@
 				Perfetto!
 Adesso vuoi giocare tu o farlo fare ad uno script? 
 (Ricorda che il file-script deve essere coerente con il mondo, altrimenti non si fa nulla!) ;-)
-Path file-script (digitare no per giocare in prima persona):
+- Per far giocare lo script di default digiate 'default'
+- Per giocare in prima persona digitare 'no' (o anche una directory sbagliata del file .ff constringerà il giocatore a giocare in I persona)
+Altrimenti di un nuovo Path file-script:

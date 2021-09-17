@@ -4,6 +4,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import it.uniroma1.textadv.Gioco;
+import it.uniroma1.textadv.entita.StatoGioco;
 import it.uniroma1.textadv.entita.interfaccia.Inventario;
 import it.uniroma1.textadv.entita.oggetto.Contenitore;
 import it.uniroma1.textadv.entita.personaggio.concreto.Giocatore;
@@ -24,7 +25,7 @@ public class Tesoro extends Contenitore implements Inventario {
 	
 	@Override
 	public String guarda() {
-		return "È IL TESOROOOOOO";
+		return aperto ? "Ha qualcosa dentro... oltre a tanti DIAMANTI...c'è " + inventario :"È IL TESOROOOOOO";
 	}
 	
 	@Override
@@ -43,13 +44,18 @@ public class Tesoro extends Contenitore implements Inventario {
 	 */
 	private void apriPrivato() throws GiocatoreException {
 		List<String> discorso = FilesMethod.lettura(Paths.get("resourse", "easterEgg.txt")).orElseThrow();
-		String frase = discorso.get(3);
+		boolean correttaCitazione = false;
 		
 		System.out.println("\n" + discorso.get(0).replace("Vincent", Giocatore.getInstance().getNome()));
 		
-		if(!discorso.subList(1, 4).contains(Gioco.input())) 
-			frase = discorso.get(4);
+		correttaCitazione = discorso.subList(1, 4).contains(Gioco.input());
 		
-		System.out.println(frase);
+		if(!correttaCitazione)
+			System.out.println(discorso.get(4));
+		else {
+			aperto = true;
+			System.out.println(discorso.get(3));
+			Giocatore.getInstance().setStato(StatoGioco.IN_GIOCO);
+		}
 	}
 }

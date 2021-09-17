@@ -1,5 +1,6 @@
 package it.uniroma1.textadv;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
 
@@ -8,34 +9,60 @@ import it.uniroma1.textadv.utilita.creazione.eccezioni.FileNonEsistenteOVuotoExc
 import it.uniroma1.textadv.utilita.interfaccieSupporto.FilesMethod;
 
 public class Test{
+	public static final Path PATH_MONDO_DEFAULT = Paths.get("resourse","minizak.game");
+	public static final Path PATH_SCRIPT_DEFAULT = Paths.get("resourse","minizak.ff");
+
 	public static void main(String[] args) throws Exception{
-		String path = "";
+		String pathString = "";
 		Gioco g = new Gioco();
 		Mondo m = null;
+		Path path = null;
 		
 		System.out.print(getMessage("benvenuto.txt"));
 		
-		while(!path.equals("exit")) {
-			path = Gioco.input();
+		while(!pathString.equals("exit")) {
+			pathString = Gioco.input().strip();
 			try {
-				m = Mondo.fromFile(Paths.get(path));
+				if(pathString.equals("default"))
+					path = PATH_MONDO_DEFAULT;
+				else
+					path = Paths.get(pathString);
+
+				m = Mondo.fromFile(path);
 				System.err.println("\n\t\t\tCARICATO CON SUCCESSO!");
 				break;
 			}
 			catch(FileNonEsistenteOVuotoException e) {
-				System.out.println(e + " Prova con un'altra directory!");
+				System.out.println(e.getMessage());
 			}
 		}
 		
-		if(!path.equals("exit")) {
+		if(!pathString.equals("exit")) {
 			System.out.println(getMessage("benvenuto2.txt"));
 			
-			path = Gioco.input();
-
-			if(path.equals("no"))
-				g.play(m);
-			else
-				g.play(m, Paths.get(path));
+			pathString = Gioco.input().strip();
+			
+			while(true) {
+				if(pathString.equals("no")) {
+					g.play(m);
+					break;
+				}
+				else {
+					if(pathString.equals("default"))
+						path = PATH_SCRIPT_DEFAULT;
+					else 
+						path = Paths.get(pathString);
+					
+					try {
+						g.play(m, path);
+						break;
+					}
+					catch(FileNonEsistenteOVuotoException e){
+						System.out.println(e.getMessage());
+						pathString = Gioco.input();
+					}
+				}
+			}
 		}
 	}
 	

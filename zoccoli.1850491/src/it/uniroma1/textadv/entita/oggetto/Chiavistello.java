@@ -50,11 +50,10 @@ public abstract class Chiavistello extends Oggetto implements Observer, Inventar
 	@Override
 	public void converti() throws EntitaException {
 		Entita e = null;
-		
 		if(portaString != null) {
 			e = AnalizzaFile.convertitore(portaString);
 			
-			if(e instanceof Porta)
+			if(e instanceof Porta) 
 				((Porta)e).chiudiAchiave();
 			
 			porta = (Apribile) e;

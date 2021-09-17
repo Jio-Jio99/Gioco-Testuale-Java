@@ -18,7 +18,10 @@ public class Guardiano extends Umano {
 	
 	@Override
 	public void interazione() {
-		System.out.println("Ti guarda dall'alto in basso...\n\t\t«TU... NON PUOI... PASSARE!»");
+		if(!distratto)
+			System.out.println("Ti guarda dall'alto in basso...\n\t\t«TU... NON PUOI... PASSARE!»");
+		else 
+			System.out.println("... sta ancora giocando con il gattino...");
 	}
 	
 	@Override

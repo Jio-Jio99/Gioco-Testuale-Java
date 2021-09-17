@@ -18,7 +18,7 @@ public class Osservazione extends Azione{
 	public static final Set<String> COMANDI = Set.of("osserva", "guarda", "inventario");
 	
 	public Osservazione() {
-		super(COMANDI);
+		super(COMANDI, x -> (x instanceof Description));
 	}
 	
 	/**

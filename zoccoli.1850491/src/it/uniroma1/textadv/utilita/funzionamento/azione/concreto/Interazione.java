@@ -12,7 +12,7 @@ public class Interazione extends Azione{
 	public static final Set<String> COMANDI = Set.of("parla", "accarezza", "interagisci");
 	
 	public Interazione() {
-		super(COMANDI);
+		super(COMANDI, x -> x instanceof Personaggio);
 	}
 
 	/**

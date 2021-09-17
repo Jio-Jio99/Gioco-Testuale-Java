@@ -12,8 +12,14 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
  *
  */
 public class IncoerenzaEntitaAzioneException extends AzioneException{
+	public static final String ERRORE = "Azione e entita insieme scorretti!!";
 	
 	public IncoerenzaEntitaAzioneException(Azione azione, List<Entita> entita) {
 		super("Non puoi eseguire l'azione di " + azione + " con " + entita.toString().replaceAll("[\\[\\]]", "") + "... mi sembra strano!");
+	}
+	
+	
+	public IncoerenzaEntitaAzioneException() {
+		super(ERRORE);
 	}
 }

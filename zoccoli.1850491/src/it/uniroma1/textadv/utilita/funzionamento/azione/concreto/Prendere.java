@@ -11,6 +11,7 @@ import it.uniroma1.textadv.entita.stanza.Stanza;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.funzionamento.azione.Azione;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.IncoerenzaEntitaAzioneException;
 
 /**
  * Classe per l'azione del prendere, dato un oggetto prendibile (vedi {@link Inventario}) esso lo prende da chi lo possiede per darlo al Giocatore
@@ -22,7 +23,7 @@ public class Prendere extends Azione{
 	public static final String DA = "da";
 	
 	public Prendere() {
-		super(COMANDI);
+		super(COMANDI,x -> (x instanceof Inventario || x instanceof MezzoDiTrasporto || x instanceof Datore));
 	}
 	
 	/**
@@ -40,7 +41,7 @@ public class Prendere extends Azione{
 
 		if(daChi == null)
 			daChi = stanza;
-	
+
 		return daChi;
 	}
 	
@@ -51,9 +52,12 @@ public class Prendere extends Azione{
 	public void active(Entita prendere, Entita... daChi) throws AzioneException, GiocatoreException {
 		if(prendere instanceof MezzoDiTrasporto) 
 			new Movimento().active(prendere, daChi);
-		else {
+		
+		else if(daChi.length != 0) {
 			Inventario in = (Inventario) ((Datore) daChi[0]).dai(prendere.getNome());
 			Giocatore.getInstance().prendi(in);
 		}
+		else
+			throw new IncoerenzaEntitaAzioneException();
 	}
 }

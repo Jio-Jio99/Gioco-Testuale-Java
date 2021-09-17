@@ -19,7 +19,7 @@ public class Aprire extends Azione{
 	public static final String 	APRI = "apri",
 								CON = "con";
 	public Aprire() {
-		super(COMANDI);
+		super(COMANDI, x -> (x instanceof Apribile || x instanceof Chiavistello));
 	}
 
 	/**

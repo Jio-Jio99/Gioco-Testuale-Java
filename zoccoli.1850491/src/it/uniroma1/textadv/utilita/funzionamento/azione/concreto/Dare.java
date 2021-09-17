@@ -20,7 +20,7 @@ public class Dare extends Azione{
 	public static final Set<String> COMANDI = Set.of("dai");
 	public static final String A = "a";
 	public Dare() {
-		super(COMANDI);
+		super(COMANDI, x -> (x instanceof Inventario || x instanceof Personaggio));
 	}
 
 	/**

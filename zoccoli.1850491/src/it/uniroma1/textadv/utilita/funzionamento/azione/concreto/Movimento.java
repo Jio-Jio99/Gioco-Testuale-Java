@@ -1,12 +1,15 @@
 package it.uniroma1.textadv.utilita.funzionamento.azione.concreto;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import it.uniroma1.textadv.entita.Entita;
 import it.uniroma1.textadv.entita.PuntoCardinale;
 import it.uniroma1.textadv.entita.link.Link;
 import it.uniroma1.textadv.entita.personaggio.concreto.Giocatore;
+import it.uniroma1.textadv.entita.stanza.Stanza;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.funzionamento.azione.Azione;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
@@ -22,7 +25,7 @@ public class Movimento extends Azione{
 	public static final Set<String> COMANDI = Set.of("vai", "entra");
 	
 	public Movimento() {
-		super(COMANDI);
+		super(COMANDI, x -> (x instanceof Link || x instanceof Stanza));
 	}
 	
 	/**
@@ -40,6 +43,17 @@ public class Movimento extends Azione{
 		
 		throw new PuntoCardinaleException();
 	}
+	
+//	@Override
+//	public Optional<Entita> cerca(List<String> parteComando, Set<Entita> set) {
+//		for(Entita entita : set) {
+//			if(predicate.test(entita))
+//				if(Collections.indexOfSubList(parteComando, AnalizzaComando.stringInList(entita.getNome())) != -1)
+//					return Optional.of(entita);
+//		}
+//		
+//		return Optional.empty();
+//	}
 	
 	/**
 	 * Override del metodo contains padre, per controllare se oltre alle parole di default, non vi siano solamente delle coordinate

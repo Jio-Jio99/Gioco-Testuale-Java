@@ -145,6 +145,14 @@ public abstract class Link extends Entita implements Observer, Description, Apri
 		return false;
 	}
 	
+	/**
+	 * Metodo che ritorna se il link è aperto o meno
+	 * @return
+	 */
+	public boolean getStato() {
+		return aperto;
+	}
+	
 	//METODI DI DEFAULT
 	@Override
 	public boolean equals(Object o) {

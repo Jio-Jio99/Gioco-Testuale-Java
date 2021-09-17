@@ -1,11 +1,17 @@
 package it.uniroma1.textadv.utilita.funzionamento.azione;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import it.uniroma1.textadv.entita.Entita;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
+import it.uniroma1.textadv.utilita.funzionamento.AnalizzaComando;
 import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Aprire;
 import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Dare;
 import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Interazione;
@@ -32,6 +38,9 @@ public abstract class Azione implements Iterable<Azione>{
 															new Osservazione(),
 															new Prendere(),
 															new Usare());
+
+	private static final List<String> SET_COMANDI = List.of(Aprire.CON, Dare.A, Usare.SU, Prendere.DA);
+
 	/**
 	 * Comandi esterni al gioco per poter uscire o altro
 	 */
@@ -39,9 +48,11 @@ public abstract class Azione implements Iterable<Azione>{
 	
 	protected static String comandoRicevuto;
 	private Set<String> setComandi;
+	protected Predicate<Entita> predicate;
 
-	public Azione(Set<String> setComandi) {
+	public Azione(Set<String> setComandi, Predicate<Entita> predicate) {
 		this.setComandi = setComandi;
+		this.predicate = predicate;
 	}
 	
 	/**
@@ -77,6 +88,56 @@ public abstract class Azione implements Iterable<Azione>{
 	 */
 	public boolean contains(String parola) {
 		return setComandi.contains(parola);
+	}
+	
+	/** 
+	 * Metodo che preso in input la lista di comandi, a seconda di quale azione è da fare seleziona gli oggetti e li cattura
+	 * @param comando
+	 * @return
+	 */
+	public List<Entita> entita(List<String> comando, Set<Entita> set) {
+		List<Entita> lista = new LinkedList<>();
+		
+		int secondaEntita =	SET_COMANDI.stream().map(x -> Collections.indexOfSubList(comando, List.of(x))).filter(x -> x !=-1).findAny().orElse(-1);
+		
+		if(secondaEntita != -1) {
+			cerca(comando.subList(0, secondaEntita), set).ifPresent(x -> lista.add(x));
+			cerca(comando.subList(secondaEntita, comando.size()), set).ifPresent(x -> lista.add(x));
+		}
+		else
+			cerca(comando, set).ifPresent(x -> lista.add(x));
+		
+		return lista;
+	}
+	
+	/**
+	 * Metodo vero e proprio che cattura l'entita 
+	 * @param parteComando
+	 * @param set
+	 * @return
+	 */
+	public Optional<Entita> cerca(List<String> parteComando, Set<Entita> set) {
+		List<String> supporto = new ArrayList<>();
+		Entita supportoEntita = null;
+		int match = 0;
+		
+		for(Entita entita : set) {
+			match = 0;
+			if(predicate.test(entita)) {
+				supporto = AnalizzaComando.stringInList(entita.getNome());
+				match = supporto.size();
+				if(Collections.indexOfSubList(parteComando, supporto) != -1) {
+					if(match )
+				}
+					
+				
+			}
+		}
+		
+		if(supportoEntita != null)
+			return Optional.of(supportoEntita);
+		
+		return Optional.empty();
 	}
 	
 	@Override

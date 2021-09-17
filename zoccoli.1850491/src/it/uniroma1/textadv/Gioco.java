@@ -70,21 +70,23 @@ public class Gioco {
 				analizzatoreComandi.analizzaComando(s);
 			}
 			catch(ExitException e) {
+				Giocatore.getInstance().setStato(StatoGioco.PERSO);
 				break;
 			}
 			catch(AzioneException e) {
 				System.out.println(e.getMessage());
 			}
-			
-			
+
 			stato = Giocatore.getInstance().getStato();
-		}
-		
-		if(stato == StatoGioco.VINTO)
-			easterEgg();
-		
+			
+			if(stato == StatoGioco.VINTO) {
+				easterEgg();
+				stato = Giocatore.getInstance().getStato();
+				funzioneInput = Gioco::input;
+			}
+			
+		}		
 		scan.close();
-		
 		System.out.println("\n\t\t\t\tFINE");
 	}
 	
@@ -126,9 +128,9 @@ public class Gioco {
 	 * In caso di vittoria, questo metodo avvia una nuova piccola ricerca come un 'mini gioco' con citazioni
 	 */
 	private void easterEgg(){
-		System.out.println("\nHAI VINTO!!! Ma... non vorresti aprire il tesoro?");
+		System.out.println("\nHAI VINTO!!! Ma... non vorresti aprire il tesoro? [digita sì per continuare]");
 		
-		if(Set.of("si", "sì").contains(input().toLowerCase())) {
+		if(Set.of("si", "sì").contains(input().toLowerCase().strip())) {
 			System.out.println("Allora aprilo!!");
 			String input = "";
 			

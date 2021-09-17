@@ -1,3 +1,5 @@
 		Hai voglia di giocare? Allora benvenuto in Mondo-JAVA!
 Questo programma girerà su tutti i mondi che vorrai! Anche creati da te! Basta che rispettino le regole!
-Digita qui il Path del file del mondo con cui vuoi giocare (altrimenti exit):
+- Per giocare ad "Il mondo di Zak" già presente nel gioco digita 'default'
+- Per uscrire 'exit'
+Altriementi digita il Path del file del mondo con cui vuoi giocare:

@@ -25,12 +25,14 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.OggettoNonIn
  */
 public class Giocatore extends Personaggio{
 	private static Giocatore instanza;
+	private static StatoGioco statoGioco;
 	
 	private Giocatore(String nome) {
 		super(nome);
 		setInventario(new HashSet<>());
+		statoGioco = StatoGioco.IN_GIOCO;
 	}
-	
+
 	//METODI GET
 	/**
 	 * Metodo che restituisce l'entita presente nell'inventario del Giocatore
@@ -46,12 +48,15 @@ public class Giocatore extends Personaggio{
 	 * @return
 	 */
 	public StatoGioco getStato() {
-		if(getInventario().values().stream().anyMatch(x -> x instanceof Tesoro))
-			return StatoGioco.VINTO;
-		
-		return StatoGioco.IN_GIOCO;
+		return statoGioco;
 	}
 	
+	/**
+	 * Metodo che setta lo stato del giocatore
+	 */
+	public void setStato(StatoGioco stato) {
+		statoGioco = stato;
+	}
 	
 	//METODI PER LE AZIONI
 	//GUARDA
@@ -67,7 +72,7 @@ public class Giocatore extends Personaggio{
 	 * Metodo per vedere cosa si ha nell'inventario
 	 */
 	public void inventario() {
-		String stringa = inventario.isEmpty() ? "Zaino vuoto!" : "Nello zaino: " + inventario.keySet().stream().collect(Collectors.joining(", "));
+		String stringa = inventario.isEmpty() ? "Zaino vuoto!" : "Nello zaino: " + inventario.keySet().stream().collect(Collectors.joining(",\n\t\t"));
 		System.out.println(stringa);
 	}
 	
@@ -79,8 +84,11 @@ public class Giocatore extends Personaggio{
 	 */
 	@Override
 	public void prendi(Inventario o) {
-		if(inventario.putIfAbsent(((Entita)o).getNome(), o) == null) 
+		if(inventario.putIfAbsent(((Entita)o).getNome(), o) == null) {
 			System.out.println(o instanceof Animale ? o + "... ti segue!" : o + " aggiunto all'inventario!");
+			if(o instanceof Tesoro)
+				setStato(StatoGioco.VINTO);
+		}
 		else 
 			System.out.println("Ehm...già lo hai... perché rimetterlo dentro?");
 	}

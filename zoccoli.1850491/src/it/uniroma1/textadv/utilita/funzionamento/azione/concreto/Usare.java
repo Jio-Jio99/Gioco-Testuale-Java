@@ -21,7 +21,7 @@ public class Usare extends Azione{
 	public static final String 	USA = "usa",
 								SU = "su";
 	public Usare() {
-		super(COMANDI);
+		super(COMANDI, x -> (x instanceof Chiavistello || x instanceof Utilizzatore || x instanceof Utilizzato || x instanceof Link));
 	}
 
 	/**

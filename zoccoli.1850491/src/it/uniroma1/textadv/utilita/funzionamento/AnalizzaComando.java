@@ -62,7 +62,6 @@ public class AnalizzaComando {
 	 */
 	private Azione azione;
 	
-	private static final List<String> SET_COMANDI = List.of(Aprire.CON, Dare.A, Usare.SU, Prendere.DA);
 	
 	public AnalizzaComando(Mondo mondoNuovo) {
 		mondo = mondoNuovo;
@@ -89,7 +88,7 @@ public class AnalizzaComando {
 		if(azione == null)
 			throw new ComandoNonRiconosciutoException();
 
-		List<Entita> entita = entitaDisponibili(cercaEntita());
+		List<Entita> entita = entitaDisponibili(azione.entita(comando, entitaNelMondo));
 
 		if(entita.isEmpty() && !(azione instanceof Osservazione)) {
 			if(azione instanceof Movimento) {
@@ -111,39 +110,6 @@ public class AnalizzaComando {
 		}
 	}
 	
-	/**
-	 * Metodo che cerca se vi sono nomi di entita nei comandi ricevuti, e ne restituisce una lista ordinata
-	 * @return
-	 * @throws GiocatoreException
-	 */
-	private List<Entita> cercaEntita() throws GiocatoreException {
-		List<Entita> lista = new LinkedList<>();
-		
-		int entita2 = SET_COMANDI.stream().map(x -> Collections.indexOfSubList(comando, List.of(x))).filter(x -> x !=-1).findAny().orElse(-1);
-
-		if(entita2 != -1) {
-			entita(comando.subList(0, entita2)).ifPresent(x -> lista.add(x));
-			entita(comando.subList(entita2, comando.size())).ifPresent(x -> lista.add(x));
-		}
-		else
-			entita(comando).ifPresent(x -> lista.add(x));
-		
-		return lista;
-	}
-	
-	/**
-	 * Metodo che analizza il comando ricevuto, e ne restituisce la prima entita riconosciuta
-	 * @param parteDiComando
-	 * @return
-	 */
-	private Optional<Entita> entita(List<String> parteDiComando) {
-		for(Entita entita : entitaNelMondo) {
-			if(Collections.indexOfSubList(parteDiComando, stringInList(entita.getNome())) != -1) 
-				return Optional.of(entita);
-		}
-		
-		return Optional.empty();
-	}
 	
 	/**
 	 * Metodo che presa una lista di entita, controlla se sono presenti nella stanza, altrimenti lancia un eccezione
@@ -156,10 +122,9 @@ public class AnalizzaComando {
 	private List<Entita> entitaDisponibili(List<Entita> entitaTrovate) throws GiocatoreException, AzioneException {
 		String nomeEntita = "";
 		List<Entita> lista = new LinkedList<>();
-		
+
 		for(Entita entita : entitaTrovate) {
 			nomeEntita = entita.getNome();
-			
 			if(entita instanceof Stanza && stanza.verificaAccessoLibero(nomeEntita)) 
 				lista.add(stanza.getAccessoLibero(nomeEntita));
 			else if(stanza.getEntita(nomeEntita) || Giocatore.getInstance().getEntita(nomeEntita)) {
