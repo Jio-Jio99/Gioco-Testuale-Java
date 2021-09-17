@@ -1,5 +1,7 @@
 package it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto;
 
+import it.uniroma1.textadv.entita.Entita;
+import it.uniroma1.textadv.entita.stanza.Stanza;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 
 /**
@@ -9,12 +11,19 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
  */
 public class OggettoNonInStanzaException extends AzioneException{
 	public static final String ERRORE = "L'entita richiesta non è in tuo possesso o non si trova nella stanza!";
+	public static final String ERRORE_2 = "Errore! Non puoi fare questa azione con questa stanza, esse sono solo visibili con 'guarda' o 'osserva'";
+	private static Entita entita;
 	
-	public OggettoNonInStanzaException(){
-		super(ERRORE + " Cerca meglio! Magari la troverai in altre stanze");
+	public OggettoNonInStanzaException(Entita entita) {
+		this.entita = entita;
 	}
 	
-	public OggettoNonInStanzaException(String nomeOggetto) {
-		super(ERRORE + " Forse troverai in altre stanze " + nomeOggetto + "!");
+	public OggettoNonInStanzaException() {
+		entita = null;
+	}
+	
+	@Override
+	public String getMessage() {
+		return entita instanceof Stanza ? ERRORE_2 : ERRORE; 
 	}
 }

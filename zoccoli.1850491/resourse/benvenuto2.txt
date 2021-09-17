@@ -1,0 +1,4 @@
+				Perfetto!
+Adesso vuoi giocare tu o farlo fare ad uno script? 
+(Ricorda che il file-script deve essere coerente con il mondo, altrimenti non si fa nulla!) ;-)
+Path file-script (digitare no per giocare in prima persona):

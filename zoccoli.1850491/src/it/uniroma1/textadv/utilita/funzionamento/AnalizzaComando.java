@@ -168,8 +168,8 @@ public class AnalizzaComando {
 				else
 					lista.add(entita);
 			}
-			else
-				throw new OggettoNonInStanzaException(nomeEntita);
+			else 
+				throw new OggettoNonInStanzaException(entita);
 		}
 
 		return lista;
