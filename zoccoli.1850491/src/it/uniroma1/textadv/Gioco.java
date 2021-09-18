@@ -48,9 +48,10 @@ public class Gioco {
 	
 	/**
 	 * Costruttore vuoto che da inizio ad un nuovo gioco, salutando l'utente
+	 * @throws FileNonEsistenteOVuotoException 
 	 */
-	public Gioco() {
-		System.out.println(FilesMethod.lettura(PATH_BENVENUTO).orElseThrow().stream().collect(Collectors.joining("\n")));
+	public Gioco() throws FileNonEsistenteOVuotoException {
+		System.out.println(FilesMethod.lettura(PATH_BENVENUTO).orElseThrow(FileNonEsistenteOVuotoException::new).stream().collect(Collectors.joining("\n")));
 	}
 	
 	
