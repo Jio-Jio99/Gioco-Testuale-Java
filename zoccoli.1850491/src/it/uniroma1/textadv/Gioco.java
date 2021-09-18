@@ -116,7 +116,8 @@ public class Gioco {
 		scan.close();
 		if(stato == StatoGioco.PERSO)
 			System.out.println("  Mi dispiace che tu abbia perso! Purtoppo non hai trovato il tesoro! Ma se vuoi potrai riprovarci in futuro!!!");
-		
+		else
+			System.out.println("\t\t\t\t Vittoria!!");
 		System.out.println("\n\t\t\t\t\tFINE");
 	}
 	

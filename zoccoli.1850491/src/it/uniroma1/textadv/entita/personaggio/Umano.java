@@ -8,7 +8,7 @@ import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
  * @author gioele
  *
  */
-public class Umano extends Personaggio {
+public abstract class Umano extends Personaggio {
 
 	public Umano(String nome) {
 		super(nome);

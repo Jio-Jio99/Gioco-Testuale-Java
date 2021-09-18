@@ -8,5 +8,10 @@ public class Cane extends Animale {
 		super(nome);
 		verso = "BAU BAU BAU... penso voglia ancora coccole!";
 	}
-
+	
+	
+	@Override
+	public String guarda() {
+		return "... ricambia lo sguardo e inclina la testa";
+	}
 }

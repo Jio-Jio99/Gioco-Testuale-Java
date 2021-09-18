@@ -8,5 +8,9 @@ public class Gatto extends Animale {
 		super(nome);
 		verso = "frrrrr.... ";
 	}
-
+	
+	@Override
+	public String guarda() {
+		return "... ti guarda con due occhioniiiii";
+	}
 }
