@@ -29,7 +29,7 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.PuntoCardina
  */
 public class AnalizzaComando {
 	/**
-	 * Comando ricevuto splittato in nonHoOggetto
+	 * Comando ricevuto splittato in parole
 	 */
 	private static List<String> comando;
 	
@@ -80,7 +80,7 @@ public class AnalizzaComando {
 			throw new ComandoNonRiconosciutoException();
 
 		List<Entita> entita = entitaDisponibili(azione.entitaInComando(comando, entitaNelMondo));
-		
+
 		//Casi particolari per lanciare eccezioni di mancato completamento comando
 		if(entita.isEmpty()) {
 			if(azione instanceof Osservazione) {
@@ -117,13 +117,13 @@ public class AnalizzaComando {
 
 		for(Entita entita : entitaTrovate) {
 			nomeEntita = entita.getNome();
-		
-			if((stanza.getEntita(nomeEntita) || Giocatore.getInstance().getEntita(nomeEntita)) || (entita instanceof Stanza && stanza.equals(stanza)))
+
+			if((entita instanceof Stanza && stanza.equals((Stanza) entita)))
 				lista.add(entita);
-			else {
-				System.err.println("Prova: " + entita);
+			else if(!(entita instanceof Stanza) && (stanza.getEntita(nomeEntita) || Giocatore.getInstance().getEntita(nomeEntita)))
+				lista.add(entita);
+			else 
 				throw new OggettoNonInStanzaException(entita);
-			}
 		}
 
 		return lista;
@@ -132,7 +132,7 @@ public class AnalizzaComando {
 	/**
 	 * Metodo che trasforma una stringa nella lista di parole contenute
 	 * @param stringa 
-	 * @return
+	 * @return Lista di String
 	 */
 	public static List<String> stringInList(String stringa){
 		return Arrays.asList(stringa.split(" ")).stream().map(String::strip).filter(Predicate.not(String::isBlank)).collect(Collectors.toList());
