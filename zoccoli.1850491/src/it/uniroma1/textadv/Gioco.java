@@ -1,6 +1,7 @@
 package it.uniroma1.textadv;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
@@ -23,10 +24,35 @@ import it.uniroma1.textadv.utilita.interfaccieSupporto.FilesMethod;
  */
 public class Gioco {
 	public static final Scanner scan = new Scanner(System.in);
+	
+	/**
+	 * variabile che contiene il path per il file di benvenuto nel gioco
+	 */
+	public static final Path PATH_BENVENUTO = Paths.get("resourse","benvenuto.txt");
+	
+	/**
+	 * Lista delle azioni dello script letto
+	 */
 	private static List<String> azioni;
+	
+	/**
+	 * Index dell'azione che stiamo svolgendo dello script
+	 */
 	private static int index;
+	
+	/**
+	 * Creo un solo analizzatore di comandi sul mondo instanziato da usare per tutta la classe
+	 */
 	private AnalizzaComando analizzatoreComandi;
 	private Mondo mondo;
+	
+	/**
+	 * Costruttore vuoto che da inizio ad un nuovo gioco, salutando l'utente
+	 */
+	public Gioco() {
+		System.out.println(FilesMethod.lettura(PATH_BENVENUTO).orElseThrow().stream().collect(Collectors.joining("\n")));
+	}
+	
 	
 	/**
 	 * Metodo che mette in azione il gioco tramite uno script
@@ -34,7 +60,7 @@ public class Gioco {
 	 * @param scriptDiGioco = script di gioco
 	 * @throws Exception
 	 */
-	public void play(Mondo m, Path scriptDiGioco) throws Exception {
+	public void play(Mondo m, String scriptDiGioco) throws Exception {
 		azioni = FilesMethod.lettura(scriptDiGioco).orElseThrow(FileNonEsistenteOVuotoException::new).stream().map(x -> x.split("//")[0].strip()).collect(Collectors.toList());
 		setMondo(m);
 		play(Gioco::inputDaScript);
