@@ -1,7 +1,6 @@
 package it.uniroma1.textadv.utilita.funzionamento.azione.concreto;
 
 import java.util.Set;
-import java.util.function.Predicate;
 
 import it.uniroma1.textadv.entita.Entita;
 import it.uniroma1.textadv.entita.interfaccia.Description;
@@ -17,10 +16,9 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
  */
 public class Osservazione extends Azione{
 	public static final Set<String> COMANDI = Set.of("osserva", "guarda", "inventario");
-	public static final Predicate<Entita> predicate = x -> (x instanceof Description);
 	
 	public Osservazione() {
-		super(COMANDI, predicate);
+		super(COMANDI);
 	}
 	
 	/**

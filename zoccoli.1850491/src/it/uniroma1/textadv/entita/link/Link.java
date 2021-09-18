@@ -180,4 +180,9 @@ public abstract class Link extends Entita implements Observer, Description, Apri
 		for(String stanza : nomeStanze)
 			collegamento.add((Stanza) AnalizzaFile.convertitore(stanza));
 	}
+	
+	@Override
+	public String toString() {
+		return getNome() + (aperto ?  " aperta" : " chiusa");
+	}
 }

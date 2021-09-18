@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Predicate;
 
 import it.uniroma1.textadv.entita.Entita;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
@@ -58,19 +57,13 @@ public abstract class Azione implements Iterable<Azione>{
 	 * Seconda parte per i comandi che agiscono su più entita
 	 */
 	private List<String> secondaParte;
-	
-	/**
-	 * Predicate che serve per vagliare quale tipo di entita servono per l'azione
-	 */
-	protected Predicate<Entita> predicate;
 
-	public Azione(Set<String> setComandi, Predicate<Entita> predicate) {
+	public Azione(Set<String> setComandi) {
 		this.setComandi = setComandi;
-		this.predicate = predicate;
 	}
 	
-	public Azione(Set<String> setComandi, Predicate<Entita> predicate, String secondaParte) {
-		this(setComandi, predicate);
+	public Azione(Set<String> setComandi, String secondaParte) {
+		this(setComandi);
 		this.secondaParte = List.of(secondaParte);
 	}
 	
@@ -142,18 +135,13 @@ public abstract class Azione implements Iterable<Azione>{
 		int matchCorretto = 0;
 		
 		for(Entita entita : set) {
-			match = 0;
-			
-			if(predicate.test(entita)) {
+			supporto = AnalizzaComando.stringInList(entita.getNome());
 				
-				supporto = AnalizzaComando.stringInList(entita.getNome());
+			match = supporto.size();
 				
-				match = supporto.size();
-				
-				if(Collections.indexOfSubList(parteComando, supporto) != -1 && matchCorretto < match) {
-						matchCorretto = supporto.size(); 
-						supportoEntita = entita;
-				}
+			if(Collections.indexOfSubList(parteComando, supporto) != -1 && matchCorretto < match) {
+				matchCorretto = supporto.size(); 
+				supportoEntita = entita;
 			}
 		}
 		

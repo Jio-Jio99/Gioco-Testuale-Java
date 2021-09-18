@@ -1,7 +1,6 @@
 package it.uniroma1.textadv.utilita.funzionamento.azione.concreto;
 
 import java.util.Set;
-import java.util.function.Predicate;
 
 import it.uniroma1.textadv.entita.Entita;
 import it.uniroma1.textadv.entita.interfaccia.Utilizzato;
@@ -20,10 +19,9 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 public class Usare extends Azione{
 	public static final Set<String> COMANDI = Set.of("usa", "rompi", "leggi");
 	public static final String 	SU = "su";
-	public static final Predicate<Entita> predicate = x -> (x instanceof Chiavistello || x instanceof Utilizzatore || x instanceof Utilizzato || x instanceof Link);
 	
 	public Usare() {
-		super(COMANDI, predicate, SU);
+		super(COMANDI, SU);
 	}
 
 	/**
