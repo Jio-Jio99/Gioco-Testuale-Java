@@ -30,7 +30,7 @@ public class Teletrasporto extends Link{
 			chiusoAChiave = true;
 			aperto = true;
 			new Movimento().active(this, new Entita[1]);
-			System.out.print(" e ");
+			System.out.print("e ");
 		} catch (GiocatoreException e) {
 			e.printStackTrace();
 		}
