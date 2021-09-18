@@ -5,3 +5,5 @@
  * Classe: {@link Mondo}, {@link it.uniroma1.textadv.entita.Entita}, {@link it.uniroma1.textadv.entita.PuntoCardinale}, {@link it.uniroma1.textadv.entita.StatoGioco} </pre>
  */
 package it.uniroma1.textadv.entita;
+
+import it.uniroma1.textadv.Mondo;

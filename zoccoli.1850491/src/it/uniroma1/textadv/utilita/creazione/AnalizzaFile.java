@@ -13,8 +13,8 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import it.uniroma1.textadv.Mondo;
 import it.uniroma1.textadv.entita.Entita;
-import it.uniroma1.textadv.entita.Mondo;
 import it.uniroma1.textadv.entita.link.Link;
 import it.uniroma1.textadv.entita.oggetto.Chiavistello;
 import it.uniroma1.textadv.entita.oggetto.Contenitore;

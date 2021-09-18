@@ -7,7 +7,6 @@ import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import it.uniroma1.textadv.entita.Mondo;
 import it.uniroma1.textadv.entita.StatoGioco;
 import it.uniroma1.textadv.entita.personaggio.concreto.Giocatore;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.FileNonEsistenteOVuotoException;

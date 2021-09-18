@@ -1,4 +1,4 @@
-package it.uniroma1.textadv.entita;
+package it.uniroma1.textadv;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import it.uniroma1.textadv.entita.Entita;
 import it.uniroma1.textadv.entita.interfaccia.Description;
 import it.uniroma1.textadv.entita.stanza.Stanza;
 import it.uniroma1.textadv.utilita.creazione.AnalizzaFile;

@@ -4,7 +4,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
 
-import it.uniroma1.textadv.entita.Mondo;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.FileNonEsistenteOVuotoException;
 import it.uniroma1.textadv.utilita.interfaccieSupporto.FilesMethod;
 
