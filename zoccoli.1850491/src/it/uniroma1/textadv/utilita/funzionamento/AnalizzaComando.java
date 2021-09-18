@@ -14,9 +14,7 @@ import it.uniroma1.textadv.entita.stanza.Stanza;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.funzionamento.azione.Azione;
 import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Osservazione;
-import it.uniroma1.textadv.utilita.funzionamento.azione.concreto.Prendere;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
-import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.AccessoNonDisponibileException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.ComandoNonRiconosciutoException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.ComandoScrittoNonCorrettamenteException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.EntitaNonDiQuestoMondoException;
@@ -85,32 +83,33 @@ public class AnalizzaComando {
 		
 		//Casi particolari per lanciare eccezioni di mancato completamento comando
 		if(entita.isEmpty()) {
-			if(!(azione instanceof Osservazione)) {
+			if(azione instanceof Osservazione) {
+				if(comando.size() != 1) 
+					System.out.println(new ComandoScrittoNonCorrettamenteException(true).getMessage());
+				
+				entita.add(stanza);
+			}
+			else{
 				if(comando.size() == 1) 
 					throw new ComandoScrittoNonCorrettamenteException();
 				else
 					throw new EntitaNonDiQuestoMondoException();
 			}
-			else if(comando.size() > 1)
-				System.out.println(new ComandoScrittoNonCorrettamenteException(true).getMessage());
 		}
 		
 		try{
-			azione.active(entita.isEmpty() ? stanza : entita.get(0), entita.isEmpty() ? null : entita.subList(1, entita.size()).toArray(Entita[]::new));
+			azione.active(entita.get(0), entita.subList(1, entita.size()).toArray(Entita[]::new));
 		}
 		catch(ClassCastException e) {
 			throw new IncoerenzaEntitaAzioneException(azione, entita);
 		}
 	}
 	
-	
 	/**
 	 * Metodo che presa una lista di entita, controlla se sono presenti nella stanza, altrimenti lancia un eccezione
 	 * @param nomiEntita
 	 * @return
-	 * @throws GiocatoreException
-	 * @throws OggettoNonInStanzaException
-	 * @throws AccessoNonDisponibileException 
+	 * @throws OggettoNonInStanzaException 
 	 */
 	private List<Entita> entitaDisponibili(List<Entita> entitaTrovate) throws GiocatoreException, AzioneException {
 		String nomeEntita = "";
@@ -118,16 +117,13 @@ public class AnalizzaComando {
 
 		for(Entita entita : entitaTrovate) {
 			nomeEntita = entita.getNome();
-			if(entita instanceof Stanza && stanza.verificaAccessoLibero(nomeEntita)) 
-				lista.add(stanza.getAccessoLibero(nomeEntita));
-			else if(stanza.getEntita(nomeEntita) || Giocatore.getInstance().getEntita(nomeEntita)) {
-				if(azione instanceof Prendere && !comando.contains(Prendere.DA))
-					lista.addAll(List.of(entita, Prendere.daChi(stanza, nomeEntita)));
-				else
-					lista.add(entita);
-			}
-			else 
+		
+			if((stanza.getEntita(nomeEntita) || Giocatore.getInstance().getEntita(nomeEntita)) || (entita instanceof Stanza && stanza.equals(stanza)))
+				lista.add(entita);
+			else {
+				System.err.println("Prova: " + entita);
 				throw new OggettoNonInStanzaException(entita);
+			}
 		}
 
 		return lista;

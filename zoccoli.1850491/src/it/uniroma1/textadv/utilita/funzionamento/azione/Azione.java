@@ -103,7 +103,7 @@ public abstract class Azione implements Iterable<Azione>{
 	}
 	
 	/** 
-	 * Metodo che preso in input la lista di comandi, a seconda di quale azione è da fare seleziona gli oggetti e li cattura
+	 * Metodo che preso in input la lista di comandi, a seconda di quale azione è da fare seleziona la parte di comando interessata per catturare in quella porzione l'entita
 	 * @param comando
 	 * @return
 	 */
@@ -123,7 +123,7 @@ public abstract class Azione implements Iterable<Azione>{
 	}
 	
 	/**
-	 * Metodo vero e proprio che cattura l'entita 
+	 * Metodo che cattura le singole entita del comando
 	 * @param parteComando
 	 * @param set
 	 * @return

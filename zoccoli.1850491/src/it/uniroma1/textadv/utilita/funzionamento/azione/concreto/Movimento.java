@@ -7,6 +7,7 @@ import it.uniroma1.textadv.entita.Entita;
 import it.uniroma1.textadv.entita.PuntoCardinale;
 import it.uniroma1.textadv.entita.link.Link;
 import it.uniroma1.textadv.entita.personaggio.concreto.Giocatore;
+import it.uniroma1.textadv.entita.stanza.Stanza;
 import it.uniroma1.textadv.utilita.creazione.eccezioni.GiocatoreException;
 import it.uniroma1.textadv.utilita.funzionamento.azione.Azione;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
@@ -44,10 +45,26 @@ public class Movimento extends Azione{
 	@Override
 	public List<Entita> entitaInComando(List<String> comando, Set<Entita> set) throws AzioneException, GiocatoreException {
 		List<Entita> lista = super.entitaInComando(comando, set);
-
+		Stanza stanza = Giocatore.getInstance().getPosizione();
+		
 		if(lista.isEmpty()) {
 			PuntoCardinale punto = getDirezione(comando);
-			lista.add(Giocatore.getInstance().getPosizione().getAccesso(punto));
+			lista.add(stanza.getAccesso(punto));
+		}
+		else {
+			//controllo se tra le entita è presente un nome di una stanza, quindi se è raggiungibile dalla stanza presente e se è un accesso libero
+			Entita e = null;
+			for(int i=0; i<lista.size(); i++) {
+				e = lista.get(i);
+				if(e instanceof Stanza) {
+					if(stanza.verificaAccessoLibero(e.getNome())) 
+						lista.set(i,stanza.getAccessoLibero(e.getNome()));
+					else if(e.equals(stanza))
+						throw new AzioneException("Già ci sei in questa stanza!");
+					else
+						throw new AccessoNonDisponibileException();
+				}
+			}
 		}
 		
 		return lista;

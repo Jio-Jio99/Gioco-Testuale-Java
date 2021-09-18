@@ -37,7 +37,5 @@ public class Osservazione extends Azione{
 			Description d = (Description) entita1;
 			Giocatore.getInstance().guarda(d);
 		}
-		else 
-			Giocatore.getInstance().guarda();
 	}
 }

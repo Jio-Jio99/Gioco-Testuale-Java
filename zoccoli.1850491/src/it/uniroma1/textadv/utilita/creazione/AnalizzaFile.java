@@ -104,6 +104,9 @@ public abstract class AnalizzaFile implements Observable{
 	 */
 	private static List<Observer> osservatori = new ArrayList<>();
 
+	
+	private static Set<Entita> entitaCreate;
+	
 	/**
 	 * Metodo che analizza il file del gioco e crea il mondo
 	 * @param lista = Lista di String, dalla lettura del file
@@ -112,6 +115,7 @@ public abstract class AnalizzaFile implements Observable{
 	 */
 	public static Mondo analizzaLista(List<String> lista) throws ErroreCaricamentoException {
 		dizionario_entita = new HashMap<>();
+		entitaCreate = new HashSet<>();
 		
 		/**
 		 * Unisco tutte le linee splittate sul carattere \n durante la lettura del file, perch� le divider� tramite il carattere [
@@ -166,6 +170,8 @@ public abstract class AnalizzaFile implements Observable{
 			oss.converti();
 		
 		controllo();
+		
+		entitaCreate = dizionario_entita.values().stream().flatMap(x -> x.values().stream()).collect(Collectors.toSet());
 		
 		return new Mondo(nomeMondo, descriptionMondo, dizionario_entita.get(STANZA));
 	}
@@ -456,8 +462,12 @@ public abstract class AnalizzaFile implements Observable{
 	}
 	
 	//METODI GET
+	/**
+	 * Metodo che ritorna tutti le entita create dal file
+	 * @return
+	 */
 	public static Set<Entita> getEntita(){
-		return dizionario_entita.values().stream().flatMap(x -> x.values().stream()).collect(Collectors.toSet());
+		return entitaCreate;
 	}
 	
 	//METODI PER GESTIRE GLI OBSERVER

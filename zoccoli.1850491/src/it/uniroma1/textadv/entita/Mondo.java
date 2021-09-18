@@ -70,6 +70,10 @@ public class Mondo extends Entita implements Description{
 		return s;
 	}
 	
+	/**
+	 * Metodo che ritorna il set delle entita create da file
+	 * @return
+	 */
 	public Set<Entita> getEntita(){
 		return entita;
 	}

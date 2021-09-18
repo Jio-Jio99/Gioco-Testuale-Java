@@ -1,5 +1,6 @@
 package it.uniroma1.textadv.utilita.funzionamento.azione.concreto;
 
+import java.util.List;
 import java.util.Set;
 
 import it.uniroma1.textadv.entita.Entita;
@@ -45,6 +46,17 @@ public class Prendere extends Azione{
 		return daChi;
 	}
 	
+	@Override
+	public List<Entita> entitaInComando(List<String> comando, Set<Entita> set) throws AzioneException, GiocatoreException {
+		List<Entita> lista = super.entitaInComando(comando, set);
+		Stanza stanza = Giocatore.getInstance().getPosizione();
+
+		if(lista.size() == 1) 
+			lista.add(Prendere.daChi(stanza, lista.get(0).getNome()));
+		
+		return lista;
+	}
+	
 	/**
 	 * Metodo che prende un oggetto e il suo possessore, per farlo interagire con il giocatore tramite l'azione dare del {@link Datore}
 	 */
@@ -52,6 +64,7 @@ public class Prendere extends Azione{
 	public void active(Entita prendere, Entita... daChi) throws AzioneException, GiocatoreException {
 		if(prendere instanceof MezzoDiTrasporto) 
 			new Movimento().active(prendere, daChi);
+		
 		
 		else if(daChi.length != 0) {
 			Inventario in = (Inventario) ((Datore) daChi[0]).dai(prendere.getNome());

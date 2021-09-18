@@ -85,12 +85,14 @@ public class Gioco {
 				stato = Giocatore.getInstance().getStato();
 				funzioneInput = Gioco::input;
 			}
+			
 		}		
+
 		scan.close();
-		
 		if(stato == StatoGioco.PERSO)
 			System.out.println("  Mi dispiace che tu abbia perso! Purtoppo non hai trovato il tesoro! Ma se vuoi potrai riprovarci in futuro!!!");
-		System.out.println("\n\t\t\tFINE");
+		
+		System.out.println("\n\t\t\t\t\tFINE");
 	}
 	
 	/**
