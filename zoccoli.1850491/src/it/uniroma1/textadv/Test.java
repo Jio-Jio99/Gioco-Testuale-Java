@@ -4,7 +4,7 @@ public class Test{
 	/**
 	 * Directory del file del mondo di default
 	 */
-	public static final String PATH_MONDO = "minizak.game";
+	public static final String PATH_MONDO = "resourse/minizak2_0.game";
 	
 	/**
 	 * Directory del file dello script di default

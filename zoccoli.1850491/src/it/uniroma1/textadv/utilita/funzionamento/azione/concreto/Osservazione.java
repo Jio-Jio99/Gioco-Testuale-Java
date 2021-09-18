@@ -28,7 +28,8 @@ public class Osservazione extends Azione{
 	@Override
 	public void active(Entita entita1, Entita... entita2) throws GiocatoreException, AzioneException {
 		if(comandoRicevuto.equals("inventario")) { 
-			if(entita2 != null)
+
+			if(entita2.length > 1)
 				throw new AzioneException("Non puo eseguire il comando inventario con altre entita!");
 			
 			Giocatore.getInstance().inventario();

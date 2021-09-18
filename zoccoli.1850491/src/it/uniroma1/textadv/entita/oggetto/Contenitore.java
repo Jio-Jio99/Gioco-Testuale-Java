@@ -106,8 +106,8 @@ public abstract class Contenitore extends Oggetto implements Observer, Apribile,
 			System.out.println(getNome() + " aperto!");
 			return;
 		}
-
-		throw new ChiusoException(this, chiusoAChiave);
+		else
+			throw new ChiusoException(this, chiusoAChiave);
 	}
 	
 	@Override
