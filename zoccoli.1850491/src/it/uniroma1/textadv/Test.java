@@ -4,7 +4,12 @@ public class Test{
 	/**
 	 * Directory del file del mondo di default
 	 */
-	public static final String PATH_MONDO = "resourse/minizak2_0.game";
+	public static final String PATH_MONDO = "minizak.game";
+	
+	/**
+	 * Directory del file del mondo con easter egg attivo
+	 */
+	public static final String PATH_MONDO2 = "resourse/minizak2_0.game";
 	
 	/**
 	 * Directory del file dello script di default
@@ -14,7 +19,7 @@ public class Test{
 	public static void main(String[] args) throws Exception
 	{
 		Gioco g = new Gioco();
-		Mondo m = Mondo.fromFile(PATH_MONDO);
+		Mondo m = Mondo.fromFile(PATH_MONDO2);
 		
 		System.out.println("-Vuoi giocare in prima persona? [digita 'si' per giocare in prima persona, altrimenti si attiverà lo script di default] ");
 		
