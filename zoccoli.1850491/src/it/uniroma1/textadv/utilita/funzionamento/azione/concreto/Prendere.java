@@ -65,12 +65,11 @@ public class Prendere extends Azione{
 		if(prendere instanceof MezzoDiTrasporto) 
 			new Movimento().active(prendere, daChi);
 		
-		
 		else if(daChi.length != 0) {
 			Inventario in = (Inventario) ((Datore) daChi[0]).dai(prendere.getNome());
 			Giocatore.getInstance().prendi(in);
 		}
-		else
+		else 
 			throw new IncoerenzaEntitaAzioneException();
 	}
 }

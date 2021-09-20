@@ -24,6 +24,7 @@ import it.uniroma1.textadv.utilita.creazione.interfaccia.Observer;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.AccessoNonDisponibileException;
 import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.OggettoNonInStanzaException;
+import it.uniroma1.textadv.utilita.funzionamento.eccezioni.concreto.SpostatoEntitaException;
 
 /**
  * La stanza è l’elemento base del mondo. Ogni stanza ha un nome, una descrizione testuale
@@ -234,7 +235,10 @@ public class Stanza extends Entita implements Observer, Description, Datore{
 			removeOggetto(nomeInventario);
 		}
 		
-		if(in == null)
+		if((oggettiString.contains(nomeInventario) || personaggiString.contains(nomeInventario)) && in == null)
+			throw new SpostatoEntitaException();
+		
+		else if(in == null) 
 			throw new OggettoNonInStanzaException();
 		
 		return in;

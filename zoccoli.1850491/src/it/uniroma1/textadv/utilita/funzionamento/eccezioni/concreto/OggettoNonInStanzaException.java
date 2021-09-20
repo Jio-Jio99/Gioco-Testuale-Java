@@ -10,7 +10,7 @@ import it.uniroma1.textadv.utilita.funzionamento.eccezioni.AzioneException;
  *
  */
 public class OggettoNonInStanzaException extends AzioneException{
-	public static final String ERRORE = "L'entita richiesta non è in tuo possesso o non si trova nella stanza!";
+	public static final String ERRORE = "L'entita richiesta non si trova nella stanza!";
 	public static final String ERRORE_2 = "Errore! Non puoi fare questa azione con questa stanza, esse sono solo visibili con 'guarda' o 'osserva'";
 	private static Entita entita;
 	
