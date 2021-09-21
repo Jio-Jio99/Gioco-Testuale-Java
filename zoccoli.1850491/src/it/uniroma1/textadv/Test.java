@@ -23,7 +23,7 @@ public class Test{
 		
 		System.out.println("-Vuoi giocare in prima persona? [digita 'si' per giocare in prima persona, altrimenti si attiverà lo script di default] ");
 		
-		if(Gioco.input().strip().toLowerCase().contains("si")) 
+		if(Gioco.input().strip().toLowerCase().equals("si")) 
 			g.play(m);
 		else
 			g.play(m, PATH_SCRIPT);
