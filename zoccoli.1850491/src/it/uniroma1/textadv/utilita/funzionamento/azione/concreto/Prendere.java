@@ -66,6 +66,9 @@ public class Prendere extends Azione{
 			new Movimento().active(prendere, daChi);
 		
 		else if(daChi.length != 0) {
+			if(Giocatore.getInstance().containsOggetto(prendere.getNome()))
+				throw new AzioneException("Già presente nel tuo zaino!");
+			
 			Inventario in = (Inventario) ((Datore) daChi[0]).dai(prendere.getNome());
 			Giocatore.getInstance().prendi(in);
 		}
